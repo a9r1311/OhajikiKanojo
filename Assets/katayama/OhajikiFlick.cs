@@ -45,7 +45,7 @@ public class OhajikiFlick3D : MonoBehaviour
         arrow.gameObject.SetActive(false);
 
         // 回転固定（転がらないように）
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionY;
     }
 
     void Update()
@@ -55,7 +55,7 @@ public class OhajikiFlick3D : MonoBehaviour
         // ===== 押した瞬間 =====
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            // ▼重要：動いてたら絶対にフリックさせない
+            // 動いてたらフリックさせない
             if (rb.linearVelocity.magnitude > stopThreshold) return;
 
             // フリック不可状態なら無視
@@ -101,7 +101,7 @@ public class OhajikiFlick3D : MonoBehaviour
             float powerPercent = dir.magnitude / maxPower;
             float length = powerPercent * arrowMaxLength;
 
-            arrow.localScale = new Vector3(0.3f, 0.3f, length);
+            arrow.localScale = new Vector3(2f, 2f, length);
 
             // ===== 矢印の位置 =====
             arrow.position = transform.position + dir.normalized * length * 0.5f;
