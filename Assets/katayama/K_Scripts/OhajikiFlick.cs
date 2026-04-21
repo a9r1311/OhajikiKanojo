@@ -1,16 +1,13 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // 新Input System
+using UnityEngine.InputSystem;
 
 public class OhajikiFlick3D : MonoBehaviour
 {
-    // ===== 物理 =====
     Rigidbody rb;
 
-    // ===== 入力位置 =====
     Vector3 startPos;   // フリック開始位置
     Vector3 currentPos; // 現在位置
 
-    // ===== 状態 =====
     bool isDragging = false; // ドラッグ中か
     bool canFlick = true;    // フリック可能か
 
@@ -29,11 +26,11 @@ public class OhajikiFlick3D : MonoBehaviour
     [Header("回数制限")]
     [SerializeField] int maxFlickCount = 5;
 
-    [Header("停止判定")]
-    [SerializeField] float stopThreshold = 0.05f; // 速度がこれ以下なら停止候補
-    [SerializeField] float stopTime = 0.3f;       // この時間止まれば完全停止
+    [Header("フリック再許可（減速判定）")]
+    [SerializeField] float flickEnableSpeed = 1.0f; // ← この速度以下で再フリック可能
+    [SerializeField] float flickCooldown = 0.2f;    // ← 連続フリック防止の待ち時間
 
-    float stopTimer = 0f; // 停止している時間
+    float flickTimer = 0f; // フリック後の経過時間
 
     int currentFlickCount = 0;
 
@@ -41,10 +38,10 @@ public class OhajikiFlick3D : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        // 矢印非表示
+        // 矢印を最初は非表示
         arrow.gameObject.SetActive(false);
 
-        // 回転固定（転がらないように）
+        // 回転とY位置を固定（転がり防止＆床固定）
         rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionY;
     }
 
@@ -52,24 +49,33 @@ public class OhajikiFlick3D : MonoBehaviour
     {
         if (Mouse.current == null) return;
 
+        // フリック後の経過時間をカウント
+        flickTimer += Time.deltaTime;
+
+        if (rb.linearVelocity.magnitude < flickEnableSpeed && flickTimer > flickCooldown)
+        {
+            canFlick = true;
+        }
+        else
+        {
+            canFlick = false;
+        }
+
         // ===== 押した瞬間 =====
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            // 動いてたらフリックさせない
-            if (rb.linearVelocity.magnitude > stopThreshold) return;
-
-            // フリック不可状態なら無視
+            // フリック不可なら何もしない
             if (!canFlick) return;
 
-            // 回数制限
+            // 回数制限チェック
             if (currentFlickCount >= maxFlickCount) return;
 
-            // 開始位置取得
+            // 開始位置を取得
             startPos = GetMouseWorldPosition();
 
             isDragging = true;
 
-            // 矢印表示
+            // 矢印を表示
             arrow.gameObject.SetActive(true);
         }
 
@@ -78,13 +84,13 @@ public class OhajikiFlick3D : MonoBehaviour
         {
             currentPos = GetMouseWorldPosition();
 
-            // 引っ張り方向
+            // 引っ張り方向（スタート → 現在）
             Vector3 dir = startPos - currentPos;
 
-            // 床だけ動くようにする
+            // Y方向は無視（床のみ移動）
             dir.y = 0;
 
-            // 距離制限
+            // 最大ドラッグ距離を制限
             dir = Vector3.ClampMagnitude(dir, maxDragDistance);
 
             // 感度調整
@@ -115,52 +121,28 @@ public class OhajikiFlick3D : MonoBehaviour
             Vector3 dir = startPos - currentPos;
             dir.y = 0;
 
-            // 同じ制限処理
+            // ドラッグ制限
             dir = Vector3.ClampMagnitude(dir, maxDragDistance);
             dir *= flickSensitivity;
             dir = Vector3.ClampMagnitude(dir, maxPower);
 
-            // 力を加える（逆方向）
+            // 力を加える（逆方向に飛ばす）
             rb.AddForce(-dir * power, ForceMode.Impulse);
 
-            // フリック回数加算
+            // フリック回数を増やす
             currentFlickCount++;
 
             // 状態リセット
             isDragging = false;
+
+            // フリック直後は一旦不可にする
             canFlick = false;
 
-            // 停止タイマーリセット（ここ重要）
-            stopTimer = 0f;
+            // クールタイムリセット
+            flickTimer = 0f;
 
-            // 矢印非表示
+            // 矢印を非表示
             arrow.gameObject.SetActive(false);
-        }
-
-        // ===== 停止判定（改良版）=====
-        if (rb.linearVelocity.magnitude < stopThreshold)
-        {
-            // 止まっている時間をカウント
-            stopTimer += Time.deltaTime;
-
-            // 一定時間止まったら完全停止
-            if (stopTimer >= stopTime)
-            {
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-
-                // フリック可能にする
-                if (!canFlick)
-                    canFlick = true;
-            }
-        }
-        else
-        {
-            // 動いている間はタイマーリセット
-            stopTimer = 0f;
-
-            // 念のためフリック不可にする（安全策）
-            canFlick = false;
         }
     }
 
@@ -171,7 +153,7 @@ public class OhajikiFlick3D : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
 
-        // Y=0の床との交点
+        // Y=0の床との交点を取得
         Plane plane = new Plane(Vector3.up, Vector3.zero);
 
         float distance;
