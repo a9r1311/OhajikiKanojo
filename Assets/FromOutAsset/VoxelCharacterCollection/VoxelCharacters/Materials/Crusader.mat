@@ -132,7 +132,7 @@ Material:
     - _RimStepSmooth: 0
     - _Segmented: 1
     - _Shades: 0.5
-    - _ShadowStep: 0.22
+    - _ShadowStep: 0.78
     - _ShadowStepSmooth: 0
     - _ShnIntense: 0
     - _ShnOverlap: 0
