@@ -1132,7 +1132,7 @@ MonoBehaviour:
   flickSensitivity: 2.5
   maxDragDistance: 2
   maxFlickCount: 1000
-  flickEnableSpeed: 10
+  flickEnableSpeed: 30
   flickCooldown: 0
 --- !u!54 &1738229700
 Rigidbody:
