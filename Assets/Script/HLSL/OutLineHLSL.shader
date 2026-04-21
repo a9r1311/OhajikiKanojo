@@ -156,9 +156,16 @@
                 float3 finalColor = lerp(_ToonShadowColor.rgb, albedo.rgb, toon);
                 
                 // ライトの色を掛ける（これで光の影響を受ける）
+                // 1. ライトの基本色を掛ける
                 finalColor *= mainLight.color;
 
-                return float4(finalColor, 1.0);
+                // 2. 輝度ブースト（ここをプロパティ化してもOK）
+                // mainLight.shadowAttenuation を計算に含んでいない場合、
+                // ここで強制的に数値を掛けるとBloomが反応しやすくなります。
+                float emissionBoost = 3; // 1.0以上で発光し始める
+                finalColor *= emissionBoost;
+
+               return float4(finalColor, 1.0);
             }
             ENDHLSL
         }
