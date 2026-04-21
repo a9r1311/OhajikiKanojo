@@ -682,6 +682,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 545518462198570840, guid: 0826bf3ce6b0a1c4b851d3453d6101ed, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 545518462198570840, guid: 0826bf3ce6b0a1c4b851d3453d6101ed, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 545518462198570840, guid: 0826bf3ce6b0a1c4b851d3453d6101ed, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 545518462198570840, guid: 0826bf3ce6b0a1c4b851d3453d6101ed, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 2375685369797477787, guid: 0826bf3ce6b0a1c4b851d3453d6101ed, type: 3}
       propertyPath: m_Material
       value: 
@@ -1111,9 +1127,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
   arrow: {fileID: 300496702}
   arrowMaxLength: 2
-  power: 15
-  maxPower: 13
-  flickSensitivity: 2
+  power: 13
+  maxPower: 11
+  flickSensitivity: 2.5
   maxDragDistance: 2
   maxFlickCount: 1000
   flickEnableSpeed: 10
