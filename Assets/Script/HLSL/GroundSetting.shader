@@ -1,4 +1,4 @@
-Shader "Custom/WorldSpaceGround"
+Shader "Custom/WorldSpaceGroundWithShadow"
 {
     Properties
     {
@@ -12,11 +12,19 @@ Shader "Custom/WorldSpaceGround"
 
         Pass
         {
+            Name "ForwardLit"
+            Tags { "LightMode" = "UniversalForward" } // ライトの影響を受ける設定
+
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            
+            // 影を有効にするためのキーワード
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _SHADOWS_SOFT
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl" // 追加：ライト計算用
 
             struct Attributes
             {
@@ -27,6 +35,7 @@ Shader "Custom/WorldSpaceGround"
             {
                 float4 positionCS : SV_POSITION;
                 float3 worldPos   : TEXCOORD0;
+                float4 shadowCoord : TEXCOORD1; // 追加：影の位置情報
             };
 
             TEXTURE2D(_MainTex);
@@ -38,34 +47,43 @@ Shader "Custom/WorldSpaceGround"
                 float4 _Color;
             CBUFFER_END
 
-            // 頂点シェーダー：座標変換を行う
             Varyings vert (Attributes input)
             {
                 Varyings output;
-                // オブジェクトのローカル座標をワールド座標に変換
                 VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
                 output.positionCS = vertexInput.positionCS;
                 output.worldPos = vertexInput.positionWS;
+                
+                // 追加：頂点から影の計算用の座標を取得
+                output.shadowCoord = GetShadowCoord(vertexInput);
                 return output;
             }
 
-            // ピクセルシェーダー：色を塗る
             half4 frag (Varyings input) : SV_Target
             {
-                // ここが魔法のロジック：
-                // 通常のUVの代わりに、世界の横(x)と奥行き(z)の座標をUVとして使う
                 float2 worldUV = input.worldPos.xz * _Tiling;
-
-                // 座標をあえて粗くする
-                float pixelSize = 600.0; // 数字が大きいほどドットが大きくなる
+                float pixelSize = 900.0;
                 float2 pixelatedUV = floor(worldUV * pixelSize) / pixelSize;
 
-                // テクスチャをサンプリング
                 half4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, pixelatedUV);
-                col.rgb = floor(col.rgb * 100) / 100;
+                col.rgb = floor(col.rgb * 100) / 170;
+
+                // --- 影の計算を追加 ---
+                // メインライトの情報を取得
+                Light mainLight = GetMainLight(input.shadowCoord);
+                // 影の濃さを取得（shadowAttenuation: 1=影なし, 0=影）
+                half shadow = mainLight.shadowAttenuation;
+                
+                // 最終的な色に影を掛け算する
+                col.rgb *= shadow;
+                // ---------------------
+
                 return col * _Color;
             }
             ENDHLSL
         }
+
+        // ShadowCaster Pass がないと、この地面自体が他のものに影を落とせませんが
+        // 今回は「地面が影を受ける」ことが目的なので上記ForwardLitの修正で影が出るはずです。
     }
 }
