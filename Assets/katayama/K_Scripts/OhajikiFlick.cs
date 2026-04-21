@@ -101,8 +101,20 @@ public class OhajikiFlick3D : MonoBehaviour
 
             // ===== 矢印の向き =====
             if (dir != Vector3.zero)
+            {
+                // 矢印の向き
                 arrow.rotation = Quaternion.LookRotation(dir);
 
+                // プレイヤーの向き（補正付き）
+                Vector3 lookDir = dir;
+                lookDir.y = 0;
+
+                // 基本の向き
+                Quaternion baseRot = Quaternion.LookRotation(lookDir);
+
+                // ★ X軸 -90度の補正を追加
+                transform.rotation = baseRot * Quaternion.Euler(-90f, -180f, 0f);
+            }
             // ===== 矢印の長さ =====
             float powerPercent = dir.magnitude / maxPower;
             float length = powerPercent * arrowMaxLength;
