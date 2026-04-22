@@ -11,7 +11,9 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private int maxHp = 1;  //最大HP
     private int currentHp;  //現在のHP
     [SerializeField] private float knockBackMultiplier = 1.0f;  //ノックバック倍率
-    [SerializeField] private GameObject target;  //追尾ターゲット
+    public GameObject target;  //追尾ターゲット
+
+    private bool knockedByEnemy = false;
 
     void Start()
     {
@@ -20,12 +22,17 @@ public class EnemyBase : MonoBehaviour
 
         //ターゲット確認
         if (target == null)
-            Debug.LogError("Targetが設定されていません");
+        {
+            target = GameObject.Find("Prince");
+
+            if (target == null)
+                Debug.LogError("Targetが設定されていません");
+        }
 
         currentMovePattern = movePattern.Walk;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         //行動パターンに応じた処理
         switch (currentMovePattern)
@@ -37,8 +44,9 @@ public class EnemyBase : MonoBehaviour
                 //ノックバックの勢いが弱まったら歩行行動に移行
                 if (rb.linearVelocity.magnitude < 0.01f)
                 {
+                    Debug.Log("ノックバック終了");
                     currentMovePattern = movePattern.Walk;
-                    //Debug.Log("Walkに移行");
+                    knockedByEnemy = false;
                 }
                 break;
 
@@ -55,8 +63,23 @@ public class EnemyBase : MonoBehaviour
         if (target != null)
         {
             transform.LookAt(target.transform);
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);  //Y軸のみ回転
             rb.linearVelocity = transform.forward * speed;
         }
+    }
+
+    private void MovePatternKnock()
+    {
+        currentHp--;  //HPを減らす
+        if (currentHp <= 0)  //HPが0未満になったら死亡処理
+        {
+            DeadEnemy();
+        }
+
+        //ノックバック行動に移行
+        currentMovePattern = movePattern.Knock;
+        //ノックバックの勢いを減衰させる
+        rb.linearVelocity *= knockBackMultiplier;
     }
 
     //hpが0未満になったときの死亡処理
@@ -72,17 +95,31 @@ public class EnemyBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            currentHp--;  //HPを減らす
-            if (currentHp < 0)  //HPが0未満になったら死亡処理
-            {
-                DeadEnemy();
-            }
+            MovePatternKnock();
+        }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            EnemyBase enemy = collision.gameObject.GetComponent<EnemyBase>();
 
-            //ノックバック行動に移行
-            currentMovePattern = movePattern.Knock;
-            //Debug.Log("Knockに移行");
-            //ノックバックの勢いを減衰させる
-            rb.linearVelocity *= knockBackMultiplier;
+            if (!knockedByEnemy && enemy.currentMovePattern == movePattern.Knock)
+            {
+                knockedByEnemy = true;
+                MovePatternKnock();
+            }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            EnemyBase enemy = collision.gameObject.GetComponent<EnemyBase>();
+
+            if (!knockedByEnemy && enemy.currentMovePattern == movePattern.Knock)
+            {
+                knockedByEnemy = true;
+                MovePatternKnock();
+            }
         }
     }
 }
