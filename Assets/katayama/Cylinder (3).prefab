@@ -39,7 +39,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 521078552099008576}
-  m_Material: {fileID: 13400000, guid: 0bdb0bd75e5abd64484cfdf16e36e21d, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -216,5 +216,5 @@ MonoBehaviour:
   flickSensitivity: 2
   maxDragDistance: 2
   maxFlickCount: 1000
-  stopThreshold: 0.05
-  stopTime: 0.3
+  flickEnableSpeed: 1
+  flickCooldown: 0.2

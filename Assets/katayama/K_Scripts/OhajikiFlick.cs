@@ -27,8 +27,8 @@ public class OhajikiFlick3D : MonoBehaviour
     [SerializeField] int maxFlickCount = 5;
 
     [Header("フリック再許可（減速判定）")]
-    [SerializeField] float flickEnableSpeed = 1.0f; // ← この速度以下で再フリック可能
-    [SerializeField] float flickCooldown = 0.2f;    // ← 連続フリック防止の待ち時間
+    [SerializeField] float flickEnableSpeed = 1.0f; // この速度以下で再フリック可能
+    [SerializeField] float flickCooldown = 0.2f;    // 連続フリック防止の待ち時間
 
     float flickTimer = 0f; // フリック後の経過時間
 
@@ -42,7 +42,7 @@ public class OhajikiFlick3D : MonoBehaviour
         arrow.gameObject.SetActive(false);
 
         // 回転とY位置を固定（転がり防止＆床固定）
-        rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionY;
+        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
     }
 
     void Update()
@@ -79,7 +79,7 @@ public class OhajikiFlick3D : MonoBehaviour
             arrow.gameObject.SetActive(true);
         }
 
-        // ===== ドラッグ中 =====
+        //  ドラッグ中
         if (isDragging)
         {
             currentPos = GetMouseWorldPosition();
@@ -99,7 +99,7 @@ public class OhajikiFlick3D : MonoBehaviour
             // 最大パワー制限
             dir = Vector3.ClampMagnitude(dir, maxPower);
 
-            // ===== 矢印の向き =====
+            //  矢印の向き
             if (dir != Vector3.zero)
             {
                 // 矢印の向き
@@ -111,21 +111,20 @@ public class OhajikiFlick3D : MonoBehaviour
 
                 // 基本の向き
                 Quaternion baseRot = Quaternion.LookRotation(lookDir);
-
-                // ★ X軸 -90度の補正を追加
+ 
                 transform.rotation = baseRot * Quaternion.Euler(-90f, -180f, 0f);
             }
-            // ===== 矢印の長さ =====
+            //  矢印の長さ 
             float powerPercent = dir.magnitude / maxPower;
             float length = powerPercent * arrowMaxLength;
 
             arrow.localScale = new Vector3(2f, 2f, length);
 
-            // ===== 矢印の位置 =====
+            //  矢印の位置 
             arrow.position = transform.position + dir.normalized * length * 0.5f;
         }
 
-        // ===== 離した瞬間 =====
+        //  離した瞬間 
         if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
         {
             currentPos = GetMouseWorldPosition();
