@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: zakozakoEnemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
       propertyPath: speed
       value: 0
@@ -179,6 +183,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 503559749}
+    - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -310,6 +318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: zakozakoEnemy (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
       propertyPath: speed
       value: 0
@@ -318,6 +330,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 30116734}
+    - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -671,6 +687,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: zakozakoEnemy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
       propertyPath: speed
       value: 0
@@ -679,6 +699,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1526164563}
+    - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -741,6 +765,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: zakozakoEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
       propertyPath: speed
       value: 0
@@ -749,6 +777,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 133898642}
+    - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -889,6 +921,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 23980643220767745, guid: 0826bf3ce6b0a1c4b851d3453d6101ed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1738229699}
+    - targetCorrespondingSourceObject: {fileID: 23980643220767745, guid: 0826bf3ce6b0a1c4b851d3453d6101ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1738229702}
   m_SourcePrefab: {fileID: 100100000, guid: 0826bf3ce6b0a1c4b851d3453d6101ed, type: 3}
 --- !u!1 &1232020875
 GameObject:
@@ -1414,6 +1449,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: zakozakoEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
       propertyPath: speed
       value: 0
@@ -1422,6 +1461,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 136131618}
+    - target: {fileID: 4328023794644840208, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1480,6 +1523,20 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &1738229702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738229697}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6819d99cbb7cec45a399fb56686bf26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reflection
+  knockbackPower: 10
+  reflectPower: 0.9
 --- !u!1001 &2085888486
 PrefabInstance:
   m_ObjectHideFlags: 0
