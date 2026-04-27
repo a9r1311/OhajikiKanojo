@@ -4,12 +4,12 @@ using System.Collections;
 
 public class EnemyBase : MonoBehaviour
 {
-    private Rigidbody rb;
+    protected Rigidbody rb;
 
     public enum movePattern { Idle, Walk, Knock };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
 
-    [SerializeField] private float speed = 1f;  //移動速度
+    [SerializeField] protected float speed = 1f;  //移動速度
     [SerializeField] private int maxHp = 1;  //最大HP
     private int currentHp;  //現在のHP
     [SerializeField] private float knockBackMultiplier = 1.0f;  //ノックバック倍率
@@ -64,12 +64,12 @@ public class EnemyBase : MonoBehaviour
     }
 
     //歩行行動
-    private void MovePatternWalk()
+    protected virtual void MovePatternWalk()
     {
         if (target != null)
         {
             transform.LookAt(target.transform);
-            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);  //Y軸のみ回転
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
             rb.linearVelocity = transform.forward * speed;
         }
     }
