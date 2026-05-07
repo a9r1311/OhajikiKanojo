@@ -1,15 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class OhajikiFlick3D : MonoBehaviour
+public class OhajikiFlick : MonoBehaviour
 {
     Rigidbody rb;
 
-    Vector3 startPos;   // フリック開始位置
-    Vector3 currentPos; // 現在位置
+    Vector3 startPos;
+    Vector3 currentPos;
 
-    bool isDragging = false; // ドラッグ中か
-    bool canFlick = true;    // フリック可能か
+    bool isDragging = false;
+    bool canFlick = true;
 
     [Header("矢印")]
     [SerializeField] Transform arrow;
@@ -26,11 +26,20 @@ public class OhajikiFlick3D : MonoBehaviour
     [Header("回数制限")]
     [SerializeField] int maxFlickCount = 5;
 
-    [Header("フリック再許可（減速判定）")]
-    [SerializeField] float flickEnableSpeed = 1.0f; // この速度以下で再フリック可能
-    [SerializeField] float flickCooldown = 0.2f;    // 連続フリック防止の待ち時間
+    [Header("フリック再許可")]
+    [SerializeField] float flickEnableSpeed = 1.0f;
+    [SerializeField] float flickCooldown = 0.2f;
 
-    float flickTimer = 0f; // フリック後の経過時間
+    [Header("キャンセル判定")]
+    [SerializeField] float cancelDistance = 0.2f;
+
+    [Header("ためショット")]
+    [SerializeField] float maxChargeTime = 2f;
+    [SerializeField] float chargeMultiplier = 2f;
+
+    float chargeTime = 0f;
+
+    float flickTimer = 0f;
 
     int currentFlickCount = 0;
 
@@ -41,18 +50,22 @@ public class OhajikiFlick3D : MonoBehaviour
         // 矢印を最初は非表示
         arrow.gameObject.SetActive(false);
 
-        // 回転とY位置を固定（転がり防止＆床固定）
-        rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+        // 回転固定
+        rb.constraints =
+            RigidbodyConstraints.FreezeRotation |
+            RigidbodyConstraints.FreezePositionY;
     }
 
     void Update()
     {
         if (Mouse.current == null) return;
 
-        // フリック後の経過時間をカウント
+        // クールタイム
         flickTimer += Time.deltaTime;
 
-        if (rb.linearVelocity.magnitude < flickEnableSpeed && flickTimer > flickCooldown)
+        // 減速したら再フリック可能
+        if (rb.linearVelocity.magnitude < flickEnableSpeed &&
+            flickTimer > flickCooldown)
         {
             canFlick = true;
         }
@@ -61,111 +74,215 @@ public class OhajikiFlick3D : MonoBehaviour
             canFlick = false;
         }
 
-        // ===== 押した瞬間 =====
+        // =========================
+        // 押した瞬間
+        // =========================
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            // フリック不可なら何もしない
             if (!canFlick) return;
 
-            // 回数制限チェック
             if (currentFlickCount >= maxFlickCount) return;
 
-            // 開始位置を取得
+            // 開始位置
             startPos = GetMouseWorldPosition();
 
             isDragging = true;
 
-            // 矢印を表示
+            // ため時間リセット
+            chargeTime = 0f;
+
+            // 矢印表示
             arrow.gameObject.SetActive(true);
         }
 
-        //  ドラッグ中
+        // =========================
+        // ドラッグ中
+        // =========================
         if (isDragging)
         {
+            // ため時間加算
+            chargeTime += Time.deltaTime;
+
+            // 最大値制限
+            chargeTime = Mathf.Clamp(
+                chargeTime,
+                0f,
+                maxChargeTime
+            );
+
             currentPos = GetMouseWorldPosition();
 
-            // 引っ張り方向（スタート → 現在）
+            // 引っ張り方向
             Vector3 dir = startPos - currentPos;
 
-            // Y方向は無視（床のみ移動）
+            // Y無視
             dir.y = 0;
 
-            // 最大ドラッグ距離を制限
-            dir = Vector3.ClampMagnitude(dir, maxDragDistance);
+            // 距離制限
+            dir = Vector3.ClampMagnitude(
+                dir,
+                maxDragDistance
+            );
 
-            // 感度調整
+            // 感度
             dir *= flickSensitivity;
 
-            // 最大パワー制限
-            dir = Vector3.ClampMagnitude(dir, maxPower);
+            // 最大パワー
+            dir = Vector3.ClampMagnitude(
+                dir,
+                maxPower
+            );
 
-            //  矢印の向き
+            // =========================
+            // キャンセル判定
+            // =========================
+            bool isCanceling =
+                dir.magnitude < cancelDistance;
+
+            // 矢印表示切替
+            arrow.gameObject.SetActive(!isCanceling);
+
+            // =========================
+            // 向き
+            // =========================
             if (dir != Vector3.zero)
             {
-                // 矢印の向き
-                arrow.rotation = Quaternion.LookRotation(dir);
+                // 矢印方向
+                arrow.rotation =
+                    Quaternion.LookRotation(dir);
 
-                // プレイヤーの向き（補正付き）
+                // プレイヤー方向
                 Vector3 lookDir = dir;
                 lookDir.y = 0;
 
-                // 基本の向き
-                Quaternion baseRot = Quaternion.LookRotation(lookDir);
- 
-                transform.rotation = baseRot * Quaternion.Euler(-90f, -180f, 0f);
+                Quaternion baseRot =
+                    Quaternion.LookRotation(lookDir);
+
+                transform.rotation =
+                    baseRot *
+                    Quaternion.Euler(-90f, -180f, 0f);
             }
-            //  矢印の長さ 
-            float powerPercent = dir.magnitude / maxPower;
-            float length = powerPercent * arrowMaxLength;
 
-            arrow.localScale = new Vector3(2f, 2f, length);
+            // =========================
+            // 矢印サイズ
+            // =========================
+            float powerPercent =
+                dir.magnitude / maxPower;
 
-            //  矢印の位置 
-            arrow.position = transform.position + dir.normalized * length * 0.5f;
+            float length =
+                powerPercent * arrowMaxLength;
+
+            // ため倍率
+            float chargeRate =
+                chargeTime / maxChargeTime;
+
+            // ためるほど伸びる
+            arrow.localScale = new Vector3(
+                2f,
+                2f,
+                length * (1f + chargeRate)
+            );
+
+            // =========================
+            // 矢印位置
+            // =========================
+            if (dir != Vector3.zero)
+            {
+                arrow.position =
+                    transform.position +
+                    dir.normalized *
+                    length *
+                    0.5f;
+            }
         }
 
-        //  離した瞬間 
-        if (Mouse.current.leftButton.wasReleasedThisFrame && isDragging)
+        // =========================
+        // 離した瞬間
+        // =========================
+        if (Mouse.current.leftButton.wasReleasedThisFrame &&
+            isDragging)
         {
             currentPos = GetMouseWorldPosition();
 
             Vector3 dir = startPos - currentPos;
+
             dir.y = 0;
 
-            // ドラッグ制限
-            dir = Vector3.ClampMagnitude(dir, maxDragDistance);
+            dir = Vector3.ClampMagnitude(
+                dir,
+                maxDragDistance
+            );
+
             dir *= flickSensitivity;
-            dir = Vector3.ClampMagnitude(dir, maxPower);
 
-            // 力を加える（逆方向に飛ばす）
-            rb.AddForce(-dir * power, ForceMode.Impulse);
+            dir = Vector3.ClampMagnitude(
+                dir,
+                maxPower
+            );
 
-            // フリック回数を増やす
+            // =========================
+            // キャンセル
+            // =========================
+            if (dir.magnitude < cancelDistance)
+            {
+                isDragging = false;
+
+                arrow.gameObject.SetActive(false);
+
+                return;
+            }
+
+            // =========================
+            // ため倍率
+            // =========================
+            float chargeRate =
+                chargeTime / maxChargeTime;
+
+            float chargePower =
+                Mathf.Lerp(
+                    1f,
+                    chargeMultiplier,
+                    chargeRate
+                );
+
+            // 最終威力
+            float finalPower =
+                power * chargePower;
+
+            // 発射（逆方向）
+            rb.AddForce(
+                -dir.normalized * finalPower,
+                ForceMode.Impulse
+            );
+
+            // 回数加算
             currentFlickCount++;
 
             // 状態リセット
             isDragging = false;
-
-            // フリック直後は一旦不可にする
             canFlick = false;
 
             // クールタイムリセット
             flickTimer = 0f;
 
-            // 矢印を非表示
+            // 矢印非表示
             arrow.gameObject.SetActive(false);
         }
     }
 
-    // ===== マウス位置 → ワールド座標（床）=====
+    // =========================
+    // マウス位置 → ワールド座標
+    // =========================
     Vector3 GetMouseWorldPosition()
     {
-        Vector2 mousePos = Mouse.current.position.ReadValue();
+        Vector2 mousePos =
+            Mouse.current.position.ReadValue();
 
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        Ray ray =
+            Camera.main.ScreenPointToRay(mousePos);
 
-        // Y=0の床との交点を取得
-        Plane plane = new Plane(Vector3.up, Vector3.zero);
+        Plane plane =
+            new Plane(Vector3.up, Vector3.zero);
 
         float distance;
 

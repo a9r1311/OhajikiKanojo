@@ -1132,6 +1132,9 @@ MonoBehaviour:
   maxFlickCount: 1000
   flickEnableSpeed: 1
   flickCooldown: 0.2
+  cancelDistance: 0.2
+  maxChargeTime: 2
+  chargeMultiplier: 2
 --- !u!1 &1574596615
 GameObject:
   m_ObjectHideFlags: 0
@@ -1278,13 +1281,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
   arrow: {fileID: 300496702}
   arrowMaxLength: 2
-  power: 13
-  maxPower: 11
-  flickSensitivity: 2.5
-  maxDragDistance: 2
+  power: 25
+  maxPower: 25
+  flickSensitivity: 2
+  maxDragDistance: 3
   maxFlickCount: 1000
   flickEnableSpeed: 30
   flickCooldown: 0
+  cancelDistance: 1
+  maxChargeTime: 0.5
+  chargeMultiplier: 5
 --- !u!54 &1738229700
 Rigidbody:
   m_ObjectHideFlags: 0
