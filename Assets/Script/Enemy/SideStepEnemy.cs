@@ -32,4 +32,13 @@ public class SideStepEnemy : EnemyBase
             sideStepTimer = 0f;
         }
     }
+
+    //初期化
+    protected override void Reset()
+    {
+        moveState = movePattern.Idle;  //行動パターンを待機にする
+        rb.linearVelocity = Vector3.zero;  //速度を0にする
+        currentHp = maxHp;  //HPを最大HPに戻す
+        sideStepTimer = 0f;  //チャージタイマーをリセット
+    }
 }
