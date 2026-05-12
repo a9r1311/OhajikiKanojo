@@ -165,6 +165,9 @@ MonoBehaviour:
   maxFlickCount: 1000
   flickEnableSpeed: 1
   flickCooldown: 0.2
+  cancelDistance: 0.2
+  maxChargeTime: 2
+  chargeMultiplier: 2
 --- !u!114 &144244631070067118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +198,7 @@ GameObject:
   - component: {fileID: 155908038404971042}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

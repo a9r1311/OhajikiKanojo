@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ChargeEnemy : EnemyBase
 {
@@ -14,10 +15,9 @@ public class ChargeEnemy : EnemyBase
         transform.LookAt(target.transform);
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
-        chargeTimer += Time.deltaTime;
         if (chargeTimer < chargeTimeLimit)  //チャージ中
         {
-             　
+            chargeTimer += Time.deltaTime;
         }
         else  //チャージ解放
         {
@@ -25,5 +25,14 @@ public class ChargeEnemy : EnemyBase
             currentSpeed = currentSpeed + chargeMoveSpeed;
             rb.linearVelocity = transform.forward * currentSpeed;
         }
+    }
+
+    //初期化
+    protected override void Reset()
+    {
+        moveState = movePattern.Idle;  //行動パターンを待機にする
+        rb.linearVelocity = Vector3.zero;  //速度を0にする
+        currentHp = maxHp;  //HPを最大HPに戻す
+        chargeTimer = 0f;  //チャージタイマーをリセット
     }
 }

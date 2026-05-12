@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5768813584765705913}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 1119997116510438297}
   - component: {fileID: 4328023794644840208}
   m_Layer: 0
-  m_Name: ZakoZakoEnemy
+  m_Name: zakozakoEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -219,6 +219,9 @@ MonoBehaviour:
   maxFlickCount: 1000
   flickEnableSpeed: 1
   flickCooldown: 0.2
+  cancelDistance: 0.2
+  maxChargeTime: 2
+  chargeMultiplier: 2
 --- !u!114 &4328023794644840208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,8 +234,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a0f96926e8a3644b90560922d17ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  currentMovePattern: 0
+  moveState: 0
   speed: 1
-  maxHp: 2
+  maxHp: 1
   knockBackMultiplier: 1
   target: {fileID: 0}
+  enemyIndex: 0
