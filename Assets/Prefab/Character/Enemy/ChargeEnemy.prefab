@@ -212,5 +212,7 @@ MonoBehaviour:
   moveState: 0
   speed: 1
   maxHp: 1
+  power: 50
   knockBackMultiplier: 1
   target: {fileID: 0}
+  enemyIndex: 0

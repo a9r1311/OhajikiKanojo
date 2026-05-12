@@ -9,9 +9,8 @@ public class EnemySpawnDirector : MonoBehaviour
     private List<Queue<GameObject>> waitingEnemys;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
 
-    private float spawnInterval = 2f;  //スポーン間隔
+    private float spawnInterval = 2.5f;  //スポーン間隔
     private float spawnTimer = 0f;  //スポーンタイマー
-
 
     void Start()
     {
@@ -27,7 +26,8 @@ public class EnemySpawnDirector : MonoBehaviour
         waitingEnemys = new List<Queue<GameObject>>();  //初期化
         Vector3 waitingPos = new Vector3(100f, 0f, 100f);  //初期待機位置
 
-        for (int i = 0; i < spawnEnemy.Count; i++) {
+        for (int i = 0; i < spawnEnemy.Count; i++) 
+        {
             //敵の種類ごとにオブジェクトプール用のキューを作成
             waitingEnemys.Add(new Queue<GameObject>());
             for (int j = 0; j < poolCount; j++)
@@ -36,10 +36,8 @@ public class EnemySpawnDirector : MonoBehaviour
                 GameObject enemy = Instantiate(spawnEnemy[i], waitingPos, Quaternion.identity);
                 //スポーンした敵のターゲットを設定
                 enemy.GetComponent<EnemyBase>().target = target;
-                //敵の種類を識別するためのインデックスを設定
-                enemy.GetComponent<EnemyBase>().enemyIndex = i;
                 //敵を非アクティブにして待機キューに追加
-                waitingEnemys[i].Enqueue(enemy);
+                waitingEnemys[enemy.GetComponent<EnemyBase>().id].Enqueue(enemy);
                 enemy.SetActive(false);
             }
         }
@@ -52,6 +50,8 @@ public class EnemySpawnDirector : MonoBehaviour
         if (spawnTimer >= spawnInterval)
         {
             spawnTimer = 0f;
+            if(spawnInterval > 1.0f)
+                spawnInterval -= 0.02f;  //スポーン間隔を徐々に短くする
             //敵をスポーン
             SpawnEnemy();
         }
@@ -65,7 +65,7 @@ public class EnemySpawnDirector : MonoBehaviour
             //出現させる敵をランダムに選択
             int index = Random.Range(0, spawnEnemy.Count);
             //出現座標をランダムに決定
-            Vector3 spawnPos = GetSpawnPosition();
+            Vector3 spawnPos = GetSpawnPosition(index);
             //敵をスポーン
             if (waitingEnemys[index].Count <= 0)  //オブジェクトプールが足りない場合は新たにスポーン
             {
@@ -73,8 +73,6 @@ public class EnemySpawnDirector : MonoBehaviour
                 GameObject enemy = Instantiate(spawnEnemy[index], spawnPos, Quaternion.identity);
                 //スポーンした敵のターゲットを設定
                 enemy.GetComponent<EnemyBase>().target = target;
-                //敵の種類を識別するためのインデックスを設定
-                enemy.GetComponent<EnemyBase>().enemyIndex = index;
             }
             else  //オブジェクトプールから敵を出してスポーン
             {
@@ -87,21 +85,23 @@ public class EnemySpawnDirector : MonoBehaviour
     }
 
     //スポーン位置をランダムに決定
-    private Vector3 GetSpawnPosition()
+    private Vector3 GetSpawnPosition(int id)
     {
-        float targetRadius = 5f;  //ターゲットを中心とした半径
-        float width = 13f;        //スポーン位置の横幅
-        float height = 7f;        //スポーン位置の奥行き
+        float targetRadius = 6f;  //ターゲットを中心とした半径
+        float width = 17f;        //スポーン位置の横幅
+        float height = 10f;       //スポーン位置の奥行き
+        Vector3 targetPos = target.transform.position;  //ターゲットの位置
         Vector3 spawnPos = Vector3.zero;
 
         do
         {
-            float x = Random.Range(-width / 2f, width / 2f);
-            float z = Random.Range(-height / 2f, height / 2f);
+            float x = Random.Range(targetPos.x - width / 2f, targetPos.x + width / 2f);
+            float z = Random.Range(targetPos.z - height / 2f, targetPos.z + height / 2f) + 3f;
 
             spawnPos = new Vector3(x, 1f, z);
 
-        } while (Vector3.Distance(spawnPos, target.transform.position) < targetRadius);  //ターゲットから一定距離以上の位置なら通す
+        } while (Vector3.Distance(spawnPos, targetPos) < targetRadius
+                 && (id != 3 || spawnPos.z > targetPos.z));  //ターゲットから一定距離以上の位置かつ、id3はターゲットより前方なら通す
 
         return spawnPos;
     }
