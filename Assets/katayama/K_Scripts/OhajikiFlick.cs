@@ -35,7 +35,7 @@ public class OhajikiFlick : MonoBehaviour
 
     [Header("ためショット")]
     [SerializeField] float maxChargeTime = 2f;
-    [SerializeField] float chargeMultiplier = 2f;
+    [SerializeField] float chargeMultiplier;
 
     float chargeTime = 0f;
 
@@ -248,6 +248,8 @@ public class OhajikiFlick : MonoBehaviour
             // 最終威力
             float finalPower =
                 power * chargePower;
+            Debug.Log(finalPower);
+            Debug.Log(chargePower);
 
             // 発射（逆方向）
             rb.AddForce(
