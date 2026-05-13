@@ -59,6 +59,11 @@ public class EnemyBase : MonoBehaviour
                     hitEnemies.Clear();
                     //knockedByEnemy = false;
                 }
+                else
+                {
+                    //ノックバックの勢いを減衰させる
+                    rb.linearVelocity *= knockBackMultiplier;
+                }
                 break;
 
             case movePattern.Walk:  //歩行行動
@@ -131,6 +136,8 @@ public class EnemyBase : MonoBehaviour
             //Debug.Log("くぉ～ぶつかる！！");
             knockbyPlayer = true;
             MovePatternKnock();
+
+            //rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {

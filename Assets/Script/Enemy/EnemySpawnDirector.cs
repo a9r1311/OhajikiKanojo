@@ -6,7 +6,7 @@ public class EnemySpawnDirector : MonoBehaviour
     [SerializeField] private List<GameObject> spawnEnemy = new List<GameObject>();  //スポーンする敵のリスト
     [SerializeField] private GameObject target;  //敵の追尾ターゲット
 
-    private List<Queue<GameObject>> waitingEnemys;  //オブジェクトプール用の待機中の敵のキューリスト
+    private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
 
     private float spawnInterval = 2.5f;  //スポーン間隔
@@ -23,13 +23,13 @@ public class EnemySpawnDirector : MonoBehaviour
                 Debug.LogError("Targetが設定されていません");
         }
 
-        waitingEnemys = new List<Queue<GameObject>>();  //初期化
+        waitingEnemies = new List<Queue<GameObject>>();  //初期化
         Vector3 waitingPos = new Vector3(100f, 0f, 100f);  //初期待機位置
 
         for (int i = 0; i < spawnEnemy.Count; i++) 
         {
             //敵の種類ごとにオブジェクトプール用のキューを作成
-            waitingEnemys.Add(new Queue<GameObject>());
+            waitingEnemies.Add(new Queue<GameObject>());
             for (int j = 0; j < poolCount; j++)
             {
                 //敵をスポーン
@@ -37,7 +37,7 @@ public class EnemySpawnDirector : MonoBehaviour
                 //スポーンした敵のターゲットを設定
                 enemy.GetComponent<EnemyBase>().target = target;
                 //敵を非アクティブにして待機キューに追加
-                waitingEnemys[enemy.GetComponent<EnemyBase>().id].Enqueue(enemy);
+                waitingEnemies[enemy.GetComponent<EnemyBase>().id].Enqueue(enemy);
                 enemy.SetActive(false);
             }
         }
@@ -67,7 +67,7 @@ public class EnemySpawnDirector : MonoBehaviour
             //出現座標をランダムに決定
             Vector3 spawnPos = GetSpawnPosition(index);
             //敵をスポーン
-            if (waitingEnemys[index].Count <= 0)  //オブジェクトプールが足りない場合は新たにスポーン
+            if (waitingEnemies[index].Count <= 0)  //オブジェクトプールが足りない場合は新たにスポーン
             {
                 Debug.LogWarning("オブジェクトプールが足りません！");
                 GameObject enemy = Instantiate(spawnEnemy[index], spawnPos, Quaternion.identity);
@@ -76,7 +76,7 @@ public class EnemySpawnDirector : MonoBehaviour
             }
             else  //オブジェクトプールから敵を出してスポーン
             {
-                GameObject enemy = waitingEnemys[index].Dequeue();
+                GameObject enemy = waitingEnemies[index].Dequeue();
                 enemy.transform.position = spawnPos;
                 enemy.SetActive(true);
                 enemy.GetComponent<EnemyBase>().moveState = EnemyBase.movePattern.Walk;  //行動パターンを歩きにする
@@ -88,8 +88,8 @@ public class EnemySpawnDirector : MonoBehaviour
     private Vector3 GetSpawnPosition(int id)
     {
         float targetRadius = 6f;  //ターゲットを中心とした半径
-        float width = 17f;        //スポーン位置の横幅
-        float height = 10f;       //スポーン位置の奥行き
+        float width = 20f;        //スポーン位置の横幅
+        float height = 13f;       //スポーン位置の奥行き
         Vector3 targetPos = target.transform.position;  //ターゲットの位置
         Vector3 spawnPos = Vector3.zero;
 
@@ -101,14 +101,15 @@ public class EnemySpawnDirector : MonoBehaviour
             spawnPos = new Vector3(x, 1f, z);
 
         } while (Vector3.Distance(spawnPos, targetPos) < targetRadius
-                 && (id != 3 || spawnPos.z > targetPos.z));  //ターゲットから一定距離以上の位置かつ、id3はターゲットより前方なら通す
+                 || (id == 3 && spawnPos.z < targetPos.z));  //ターゲットから一定距離以上の位置かつ、id3はターゲットより前方なら通す
 
         return spawnPos;
     }
 
+    //敵をオブジェクトプールに戻す
     public void ReturnEnemyToPool(GameObject enemy, int index)
     {
         enemy.SetActive(false);
-        waitingEnemys[index].Enqueue(enemy);
+        waitingEnemies[index].Enqueue(enemy);
     }
 }

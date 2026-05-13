@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SideStepEnemy
   moveState: 0
   id: 0
-  speed: 5.5
+  speed: 5.2
   maxHp: 1
   power: 30
   knockBackMultiplier: 1
