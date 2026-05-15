@@ -8,6 +8,14 @@ public class SideStepEnemy : EnemyBase
     private float stepSpeed = 10f;  //サイドステップの速度
     [SerializeField] private bool rightSideStep = true;  //サイドステップの方向(右:true, 左:false)
 
+    void Awake()
+    {
+        if(rightSideStep)
+            id = 1;  //右サイドステップのID
+        else
+            id = 2;  //左サイドステップのID
+    }
+
     protected override void MovePatternWalk()
     {
         if (target == null) return;

@@ -2,14 +2,21 @@ using UnityEngine;
 
 public class TargetToProtect : MonoBehaviour
 {
-    [SerializeField] private int hp = 3;  //ターゲットのHP
+    [SerializeField] private int maxHp = 100;  //ターゲットのHP
+    private int currentHp;  //現在のHP
+
+    void Start()
+    {
+        currentHp = maxHp;  //初期HPを設定
+    }
 
     //ターゲットが攻撃されたときの処理
-    private void Damage()
+    private void Damage(int damage)
     {
-        Debug.Log("ターゲットが攻撃されました！");
+        Debug.Log(damage + "ダメージ");
+        Debug.Log("HP: " + (currentHp - damage));
         //HPを減らす
-        if (--hp <= 0)
+        if ((currentHp -= damage) <= 0)
         {
             Debug.Log("お前が殺した");
         }
@@ -20,7 +27,7 @@ public class TargetToProtect : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             //敵がターゲットに接触したときの処理
-            Damage();
+            Damage(other.transform.parent.gameObject.GetComponent<EnemyBase>().power);
             //敵を破壊する
             Destroy(other.transform.parent.gameObject);
         }

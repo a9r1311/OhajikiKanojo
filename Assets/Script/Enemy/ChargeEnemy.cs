@@ -8,6 +8,11 @@ public class ChargeEnemy : EnemyBase
     private float chargeMoveSpeed = 0.2f;  //チャージ後の加速度
     private float currentSpeed = 0.1f;  //現在の速度
 
+    void Awake()
+    {
+        id = 3;  //チャージのID
+    }
+
     protected override void MovePatternWalk()
     {
         if (target == null) return;

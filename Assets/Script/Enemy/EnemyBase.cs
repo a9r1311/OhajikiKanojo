@@ -11,17 +11,17 @@ public class EnemyBase : MonoBehaviour
     public enum movePattern { Idle, Walk, Knock };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
 
+    public int id = 0;  //敵のID（種類を識別するためのもの）
     [SerializeField] protected float speed = 1f;  //移動速度
     [SerializeField] protected int maxHp = 1;  //最大HP
     protected int currentHp;  //現在のHP
+    public int power = 30;  //ノックバックの力
     [SerializeField] private float knockBackMultiplier = 1.0f;  //ノックバック倍率
     public GameObject target;  //追尾ターゲット
 
     private bool knockbyPlayer = false;  //プレイヤーによるノックバックを受けたかどうか
     private HashSet<EnemyBase> hitEnemies = new HashSet<EnemyBase>();  //ノックバックを受けた敵のリスト
     private bool knockRock = false;  //ノックバックのクールダウン中かどうか
-
-    public int enemyIndex;  //敵の種類を識別するためのインデックス
 
     void Start()
     {
@@ -58,6 +58,11 @@ public class EnemyBase : MonoBehaviour
                     moveState = movePattern.Walk;
                     hitEnemies.Clear();
                     //knockedByEnemy = false;
+                }
+                else
+                {
+                    //ノックバックの勢いを減衰させる
+                    rb.linearVelocity *= knockBackMultiplier;
                 }
                 break;
 
@@ -114,7 +119,7 @@ public class EnemyBase : MonoBehaviour
         Reset();
 
         //スポーンディレクターに敵をオブジェクトプールに返すように指示
-        spawnDirector.ReturnEnemyToPool(this.gameObject, enemyIndex);
+        spawnDirector.ReturnEnemyToPool(this.gameObject, id);
     }
 
     protected virtual void Reset()
@@ -131,6 +136,8 @@ public class EnemyBase : MonoBehaviour
             //Debug.Log("くぉ～ぶつかる！！");
             knockbyPlayer = true;
             MovePatternKnock();
+
+            //rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
