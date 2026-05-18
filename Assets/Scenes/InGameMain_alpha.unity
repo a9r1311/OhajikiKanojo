@@ -172,6 +172,18 @@ PrefabInstance:
       value: Prince
       objectReference: {fileID: 0}
     - target: {fileID: 5884741957376148051, guid: 7252de1403932e0438bd865743926553, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884741957376148051, guid: 7252de1403932e0438bd865743926553, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884741957376148051, guid: 7252de1403932e0438bd865743926553, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884741957376148051, guid: 7252de1403932e0438bd865743926553, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -183,6 +195,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5884741957376148051, guid: 7252de1403932e0438bd865743926553, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8895322521340096787, guid: 7252de1403932e0438bd865743926553, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
@@ -191,9 +207,24 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2128758036}
+    - targetCorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2128758035}
+    - targetCorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2128758034}
     - targetCorrespondingSourceObject: {fileID: 1573508828944699068, guid: 7252de1403932e0438bd865743926553, type: 3}
       insertIndex: -1
       addedObject: {fileID: 625733063}
+    - targetCorrespondingSourceObject: {fileID: 1573508828944699068, guid: 7252de1403932e0438bd865743926553, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 625733066}
+    - targetCorrespondingSourceObject: {fileID: 1573508828944699068, guid: 7252de1403932e0438bd865743926553, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 625733065}
   m_SourcePrefab: {fileID: 100100000, guid: 7252de1403932e0438bd865743926553, type: 3}
 --- !u!1001 &91217291
 PrefabInstance:
@@ -269,11 +300,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4102040793879236605, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.80824
+      value: 1.60824
       objectReference: {fileID: 0}
     - target: {fileID: 4102040793879236605, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.950004
+      value: 10.000004
       objectReference: {fileID: 0}
     - target: {fileID: 4102040793879236605, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.z
@@ -321,11 +352,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.80824
+      value: 1.60824
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.950004
+      value: 10.000004
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.z
@@ -701,14 +732,50 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625733061}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdf4d063bc23d8d4290f03ba96e58f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Princess_Move
   coordinate: 455
-  speed: 0
+  speed: 2.5
   nextSceneName: SampleScene
+--- !u!114 &625733065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625733061}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9687abd8a477aab408e4a2c7bbd210d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetToProtect
+  maxHp: 100
+--- !u!136 &625733066
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625733061}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.04
+  m_Height: 0.15
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.02, z: 0.06}
 --- !u!1001 &757888900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1079,6 +1146,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: power
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: maxPower
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: maxChargeTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: chargeMultiplier
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6459062287576566743, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: m_Name
       value: Player_notusing
@@ -1319,6 +1402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
+  canFlick: 1
   arrow: {fileID: 0}
   arrowMaxLength: 0.6
   power: 5
@@ -1666,7 +1750,9 @@ MonoBehaviour:
   - {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
   - {fileID: 9111659187339402544, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
   - {fileID: 953586157583803240, guid: 87853f3063e190143a965e2933e32521, type: 3}
+  - {fileID: 6511203756376054620, guid: db0adc7bb9af95f45945aacbe16e7980, type: 3}
   target: {fileID: 625733061}
+  isLongDistanceSpawn: 0
 --- !u!4 &1822324202
 Transform:
   m_ObjectHideFlags: 0
@@ -1723,6 +1809,62 @@ MonoBehaviour:
   speedTolerance: 5
   hitStopDuration: 0.2
   sameEnemyCooldown: 1
+--- !u!1 &2128758029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
+  m_PrefabInstance: {fileID: 63152342}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &2128758034
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128758029}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.04
+  m_Height: 0.15
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.02, z: 0.06}
+--- !u!114 &2128758035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128758029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9687abd8a477aab408e4a2c7bbd210d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetToProtect
+  maxHp: 100
+--- !u!114 &2128758036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128758029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf4d063bc23d8d4290f03ba96e58f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Princess_Move
+  coordinate: 455
+  speed: 2
+  nextSceneName: SampleScene
 --- !u!1001 &3666229245717536018
 PrefabInstance:
   m_ObjectHideFlags: 0

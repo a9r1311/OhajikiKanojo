@@ -18,7 +18,7 @@ public class TargetToProtect : MonoBehaviour
         //HPを減らす
         if ((currentHp -= damage) <= 0)
         {
-            Debug.Log("お前が殺した");
+            //Debug.Log("お前が殺した");
         }
     }
 

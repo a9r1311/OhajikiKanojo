@@ -4,7 +4,7 @@ using System.Collections;
 public class ChargeEnemy : EnemyBase
 {
     private float chargeTimer = 0f;  //チャージのタイマー
-    private float chargeTimeLimit = 3f;  //チャージのタイムリミット
+    private float chargeTimeLimit = 4f;  //チャージのタイムリミット
     private float chargeMoveSpeed = 0.2f;  //チャージ後の加速度
     private float currentSpeed = 0.1f;  //現在の速度
 
@@ -39,5 +39,6 @@ public class ChargeEnemy : EnemyBase
         rb.linearVelocity = Vector3.zero;  //速度を0にする
         currentHp = maxHp;  //HPを最大HPに戻す
         chargeTimer = 0f;  //チャージタイマーをリセット
+        currentSpeed = 0.1f;  //現在の速度を初期値に戻す
     }
 }

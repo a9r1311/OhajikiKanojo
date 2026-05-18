@@ -3,9 +3,9 @@ using UnityEngine;
 public class SideStepEnemy : EnemyBase
 {
     private float sideStepTimer = 0f;  //サイドステップのタイマー
-    private float sideStepInterval = 0.15f;  //サイドステップの間隔
-    private float normalInterval = 1.7f;  //通常移動の間隔
-    private float stepSpeed = 10f;  //サイドステップの速度
+    private float sideStepInterval = 0.2f;  //サイドステップの間隔
+    private float normalInterval = 1.1f;  //通常移動の間隔
+    private float stepSpeed = 17f;  //サイドステップの速度
     [SerializeField] private bool rightSideStep = true;  //サイドステップの方向(右:true, 左:false)
 
     void Awake()

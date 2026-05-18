@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 687782232336432438}
   - component: {fileID: 8080986398361108413}
+  - component: {fileID: 9096941140359749857}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Enemy
@@ -49,11 +50,34 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!136 &9096941140359749857
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348670830072011933}
+  m_Material: {fileID: 13400000, guid: 0bdb0bd75e5abd64484cfdf16e36e21d, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 3.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6511203756376054620
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +238,7 @@ MonoBehaviour:
   id: 0
   speed: 1
   maxHp: 1
-  power: 50
+  power: 15
   knockBackMultiplier: 1
   target: {fileID: 0}
 --- !u!1001 &3420935832308241586

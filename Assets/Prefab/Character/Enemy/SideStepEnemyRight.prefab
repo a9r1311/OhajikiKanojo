@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7682766376400734350}
   - component: {fileID: 26536665473777486}
+  - component: {fileID: 2803341099538037104}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Enemy
@@ -26,9 +27,9 @@ Transform:
   m_GameObject: {fileID: 3434933469872570039}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.012, y: 0.5, z: -0.158}
-  m_LocalScale: {x: 1.36, y: 0.68, z: 1.36}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: -0.005, y: 0.5, z: -0.158}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6380342197116863231}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49,11 +50,34 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!136 &2803341099538037104
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3434933469872570039}
+  m_Material: {fileID: 13400000, guid: 0bdb0bd75e5abd64484cfdf16e36e21d, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.64
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9111659187339402544
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
+  canFlick: 1
   arrow: {fileID: 0}
   arrowMaxLength: 0.6
   power: 5
@@ -237,9 +262,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SideStepEnemy
   moveState: 0
   id: 0
-  speed: 5.2
+  speed: 6
   maxHp: 1
-  power: 30
+  power: 10
   knockBackMultiplier: 1
   target: {fileID: 0}
   rightSideStep: 1

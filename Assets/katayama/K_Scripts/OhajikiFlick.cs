@@ -9,7 +9,7 @@ public class OhajikiFlick : MonoBehaviour
     Vector3 currentPos;
 
     bool isDragging = false;
-    bool canFlick = true;
+    public bool canFlick = true;
 
     [Header("–îˆó")]
     [SerializeField] Transform arrow;
