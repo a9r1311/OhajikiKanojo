@@ -66,7 +66,7 @@ Shader "Custom/WorldSpaceGroundWithShadow"
                 float2 pixelatedUV = floor(worldUV * pixelSize) / pixelSize;
 
                 half4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, pixelatedUV);
-                col.rgb = floor(col.rgb * 100) / 170;
+                col.rgb = floor(col.rgb * 100) / 190;
 
                 // --- 影の計算を追加 ---
                 // メインライトの情報を取得
