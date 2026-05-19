@@ -21,6 +21,10 @@ public class Reflection : MonoBehaviour
     [Range(0f, 89f)]
     [SerializeField] private float minimumReflectAngle = 30f;
 
+    [Header("’â~”»’è")]
+    [Tooltip("‚±‚Ì‘¬“x–¢–‚È‚ç’â~’†‚Æ‚İ‚È‚µ‚Ä”½Ë‚µ‚È‚¢")]
+    [SerializeField] private float stopThreshold = 0.1f;
+
     private Rigidbody myRb;
     private float remainingDistance = 0f;
     private Vector3 reflectDirection;
@@ -33,17 +37,24 @@ public class Reflection : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
-
         if (myRb == null) return;
         if (collision.contactCount == 0) return;
 
+        // =========================
+        // ƒvƒŒƒCƒ„[‚ª~‚Ü‚Á‚Ä‚¢‚é‚Æ‚«‚Í”½Ë‚µ‚È‚¢
+        // =========================
+        if (myRb.linearVelocity.magnitude < stopThreshold)
+        {
+            return;
+        }
+
+        Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
         Vector3 normal = collision.contacts[0].normal;
 
         // =========================
         // “G‚ğ‚Á”ò‚Î‚·
         // =========================
-        if (enemyRb != null && myRb.linearVelocity.sqrMagnitude > 0.01f)
+        if (enemyRb != null)
         {
             enemyRb.AddForce(
                 myRb.linearVelocity.normalized * knockbackPower,
@@ -55,8 +66,6 @@ public class Reflection : MonoBehaviour
         // ©•ª‚ğ”½Ë‚³‚¹‚é
         // =========================
         Vector3 incoming = myRb.linearVelocity;
-
-        if (incoming.sqrMagnitude < 0.01f) return;
 
         // ’Êí‚Ì”½Ë•ûŒü
         Vector3 reflected = Vector3.Reflect(incoming.normalized, normal);
