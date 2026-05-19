@@ -133,11 +133,21 @@ public class EnemyBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && !knockbyPlayer && moveState != movePattern.Knock)
         {
-            //Debug.Log("くぉ～ぶつかる！！");
-            knockbyPlayer = true;
-            MovePatternKnock();
+            //プレイヤーがアタック中の場合、敵はノックバックを受ける
+            if (!collision.gameObject.GetComponent<OhajikiFlick>().canFlick)
+            {
+                //Debug.Log("くぉ～ぶつかる！！");
+                knockbyPlayer = true;
+                MovePatternKnock();
+            }
+            else  //プレイヤーがアタック中ではない場合、プレイヤーはノックバックを受ける
+            {
+                Debug.Log("インド人を右に！！");
+                Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
 
-            //rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
+                Debug.Log(playerRb.linearVelocity);
+                rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
+            }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawnDirector : MonoBehaviour
@@ -10,7 +11,10 @@ public class EnemySpawnDirector : MonoBehaviour
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
 
     private float spawnInterval = 2.5f;  //スポーン間隔
+    private float minSpawnInterval = 0.6f;  //スポーン間隔の最小値
+    private float spawnIntervalDecreaseRate = 0.01f;  //スポーン間隔の減少率
     private float spawnTimer = 0f;  //スポーンタイマー
+    [SerializeField] private bool isLongDistanceSpawn = false;  //遠距離スポーンフラグ
 
     void Start()
     {
@@ -50,22 +54,32 @@ public class EnemySpawnDirector : MonoBehaviour
         if (spawnTimer >= spawnInterval)
         {
             spawnTimer = 0f;
-            if(spawnInterval > 1.0f)
-                spawnInterval -= 0.02f;  //スポーン間隔を徐々に短くする
+            if(spawnInterval > minSpawnInterval)
+                spawnInterval -= spawnIntervalDecreaseRate;  //スポーン間隔を徐々に短くする
+
             //敵をスポーン
-            SpawnEnemy();
+            SpawnEnemy(false);
+            //遠距離スポーンの処理
+            if (isLongDistanceSpawn)
+            {
+                SpawnEnemy(true);
+            }
         }
     }
 
     //敵をスポーンさせる
-    private void SpawnEnemy()
+    private void SpawnEnemy(bool longDistance)
     {
         if (spawnEnemy.Count > 0)
         {
+            int index;
             //出現させる敵をランダムに選択
-            int index = Random.Range(0, spawnEnemy.Count);
+            if (!longDistance)
+                index = Random.Range(0, spawnEnemy.Count);
+            else
+                index = Random.Range(0, spawnEnemy.Count - 1);  //遠距離スポーンは最後の敵を出さない
             //出現座標をランダムに決定
-            Vector3 spawnPos = GetSpawnPosition(index);
+            Vector3 spawnPos = GetSpawnPosition(index, longDistance);
             //敵をスポーン
             if (waitingEnemies[index].Count <= 0)  //オブジェクトプールが足りない場合は新たにスポーン
             {
@@ -85,22 +99,29 @@ public class EnemySpawnDirector : MonoBehaviour
     }
 
     //スポーン位置をランダムに決定
-    private Vector3 GetSpawnPosition(int id)
+    private Vector3 GetSpawnPosition(int id, bool longDistance)
     {
-        float targetRadius = 6f;  //ターゲットを中心とした半径
-        float width = 20f;        //スポーン位置の横幅
-        float height = 13f;       //スポーン位置の奥行き
+        float targetRadius = 9f;  //ターゲットを中心とした半径
+        float width = 25f;        //スポーン位置の横幅
+        float height = 18f;       //スポーン位置の奥行き
         Vector3 targetPos = target.transform.position;  //ターゲットの位置
         Vector3 spawnPos = Vector3.zero;
+
+        if (longDistance)
+        {
+            targetRadius = 20f;  //ターゲットを中心とした半径
+            width = 28f;        //スポーン位置の横幅
+            height = 35f;       //スポーン位置の奥行き
+        }
 
         do
         {
             float x = Random.Range(targetPos.x - width / 2f, targetPos.x + width / 2f);
-            float z = Random.Range(targetPos.z - height / 2f, targetPos.z + height / 2f) + 3f;
+            float z = Random.Range(targetPos.z - height / 2f, targetPos.z + height / 2f) + 6f;
 
             spawnPos = new Vector3(x, 1f, z);
 
-        } while (Vector3.Distance(spawnPos, targetPos) < targetRadius
+        } while (Vector3.Distance(spawnPos, targetPos + new Vector3(0f, 0f, 2f)) < targetRadius
                  || (id == 3 && spawnPos.z < targetPos.z));  //ターゲットから一定距離以上の位置かつ、id3はターゲットより前方なら通す
 
         return spawnPos;
