@@ -6,7 +6,8 @@ using UnityEditor.PackageManager.Requests;
 public class EnemyBase : MonoBehaviour
 {
     protected Rigidbody rb;
-    private EnemySpawnDirector spawnDirector;  //スポーンディレクターへの参照
+    public EnemySpawnDirector spawnDirector;  //スポーンディレクターへの参照
+    public ScoreDirector scoreDirector;  //スコアディレクターへの参照
 
     public enum movePattern { Idle, Walk, Knock };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
@@ -23,6 +24,8 @@ public class EnemyBase : MonoBehaviour
     private HashSet<EnemyBase> hitEnemies = new HashSet<EnemyBase>();  //ノックバックを受けた敵のリスト
     private bool knockRock = false;  //ノックバックのクールダウン中かどうか
 
+    private int knockScore = 0;  //この敵のスコア
+
     void Start()
     {
         currentHp = maxHp;  //現在のHPを最大HPで初期化
@@ -37,7 +40,14 @@ public class EnemyBase : MonoBehaviour
                 Debug.LogError("Targetが設定されていません");
         }
 
-        spawnDirector = GameObject.Find("EnemySpawnDirector").GetComponent<EnemySpawnDirector>();  //スポーンディレクターへの参照を取得
+        if (spawnDirector == null)
+        {
+            spawnDirector = GameObject.Find("StageDirector").GetComponent<EnemySpawnDirector>();  //スポーンディレクターへの参照を取得
+        }
+        if (scoreDirector == null)
+        {
+            scoreDirector = GameObject.Find("StageDirector").GetComponent<ScoreDirector>();  //スコアディレクターへの参照を取得
+        }
 
         moveState = movePattern.Walk;
     }
@@ -134,20 +144,22 @@ public class EnemyBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !knockbyPlayer && moveState != movePattern.Knock)
         {
             //プレイヤーがアタック中の場合、敵はノックバックを受ける
-            if (!collision.gameObject.GetComponent<OhajikiFlick>().canFlick)
-            {
+            //if (!collision.gameObject.GetComponent<OhajikiFlick>().canFlick)
+            //{
                 //Debug.Log("くぉ～ぶつかる！！");
                 knockbyPlayer = true;
                 MovePatternKnock();
-            }
-            else  //プレイヤーがアタック中ではない場合、プレイヤーはノックバックを受ける
-            {
-                Debug.Log("インド人を右に！！");
-                Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
+            //スコアを加算
+            knockScore = scoreDirector.AddScore(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude);
+            //}
+            //else  //プレイヤーがアタック中ではない場合、プレイヤーはノックバックを受ける
+            //{
+            //    Debug.Log("インド人を右に！！");
+            //    Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
 
-                Debug.Log(playerRb.linearVelocity);
-                rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
-            }
+            //    Debug.Log(playerRb.linearVelocity);
+            //    rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
+            //}
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -160,6 +172,8 @@ public class EnemyBase : MonoBehaviour
                 //ノックバックを受けた敵がリストにない場合、リストに追加
                 hitEnemies.Add(enemy);
                 MovePatternKnock();
+                //ノックバックを受けた敵のスコアを加算
+                knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore);
             }
         }
     }
@@ -176,6 +190,7 @@ public class EnemyBase : MonoBehaviour
                 //ノックバックを受けた敵がリストにない場合、リストに追加
                 hitEnemies.Add(enemy);
                 MovePatternKnock();
+                knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore);
             }
         }
     }

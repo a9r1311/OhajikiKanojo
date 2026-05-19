@@ -558,6 +558,7 @@ MonoBehaviour:
   - {fileID: 953586157583803240, guid: 87853f3063e190143a965e2933e32521, type: 3}
   - {fileID: 6511203756376054620, guid: db0adc7bb9af95f45945aacbe16e7980, type: 3}
   target: {fileID: 329182058}
+  isLongDistanceSpawn: 0
 --- !u!4 &316840315
 Transform:
   m_ObjectHideFlags: 0
@@ -951,8 +952,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1492309600}
   - component: {fileID: 1492309599}
+  - component: {fileID: 1492309601}
   m_Layer: 0
-  m_Name: ScoreDirector
+  m_Name: StageDirector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -986,6 +988,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1492309601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492309598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af921516637914948839b36282cd0a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreDirector
+  score: 0
 --- !u!1 &1574596615
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,6 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
+  canFlick: 1
   arrow: {fileID: 300496702}
   arrowMaxLength: 2
   power: 5
@@ -1182,7 +1198,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Reflection
   knockbackPower: 10
-  reflectPower: 0.9
+  reflectSpeed: 10
+  reflectDistance: 5
+  reflectRate: 0.9
+  minimumReflectAngle: 30
 --- !u!136 &1738229704
 CapsuleCollider:
   m_ObjectHideFlags: 0
