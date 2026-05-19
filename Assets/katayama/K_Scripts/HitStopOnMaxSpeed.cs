@@ -26,6 +26,10 @@ public class HitStopOnMaxSpeed : MonoBehaviour
     [Header("同じ敵への再ヒット待機時間")]
     [SerializeField] float sameEnemyCooldown = 1.0f;
 
+    [Header("ヒットエフェクト")]
+    [SerializeField] GameObject hitEffectPrefab;
+    [SerializeField] float effectDestroyTime = 2.0f;
+
     // 現在ヒットストップ中か
     bool isHitStopping = false;
 
@@ -88,59 +92,110 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         // 最後のヒット時刻を記録
         lastHitTimes[enemy] = Time.time;
 
+        // =========================
+        // エフェクト再生
+        // =========================
+        if (hitEffectPrefab != null &&
+            collision.contactCount > 0)
+        {
+            // 衝突地点
+            Vector3 hitPoint =
+                collision.contacts[0].point;
+
+            // 衝突面の法線方向に向ける
+            Quaternion hitRotation =
+                Quaternion.LookRotation(
+                    collision.contacts[0].normal
+                );
+
+            // エフェクト生成
+            GameObject effect =
+                Instantiate(
+                    hitEffectPrefab,
+                    hitPoint,
+                    hitRotation
+                );
+
+            // 一定時間後に削除
+            Destroy(effect, effectDestroyTime);
+        }
+
         // カメラシェイク
         if (cameraDirection != null)
         {
             Debug.Log("カメラシェイク確認");
-            cameraDirection.Shake(shakePower, shakeTime);
+            cameraDirection.Shake(
+                shakePower,
+                shakeTime
+            );
         }
 
         // ヒットストップ
         if (!isHitStopping)
         {
             Debug.Log("ヒットストップ確認");
-            Rigidbody enemyRb = collision.rigidbody;
-            StartCoroutine(HitStop(playerRb, enemyRb));
+            Rigidbody enemyRb =
+                collision.rigidbody;
+
+            StartCoroutine(
+                HitStop(
+                    playerRb,
+                    enemyRb
+                )
+            );
         }
     }
 
-    IEnumerator HitStop(Rigidbody player, Rigidbody enemy)
+    IEnumerator HitStop(
+        Rigidbody player,
+        Rigidbody enemy
+    )
     {
         isHitStopping = true;
 
         Vector3 playerVelocity =
-            player != null ? player.linearVelocity : Vector3.zero;
+            player != null
+            ? player.linearVelocity
+            : Vector3.zero;
 
         Vector3 enemyVelocity =
-            enemy != null ? enemy.linearVelocity : Vector3.zero;
+            enemy != null
+            ? enemy.linearVelocity
+            : Vector3.zero;
 
         // 停止
         if (player != null)
         {
-            player.linearVelocity = Vector3.zero;
+            player.linearVelocity =
+                Vector3.zero;
             player.isKinematic = true;
         }
 
         if (enemy != null)
         {
-            enemy.linearVelocity = Vector3.zero;
+            enemy.linearVelocity =
+                Vector3.zero;
             enemy.isKinematic = true;
         }
 
         // 実時間で待機
-        yield return new WaitForSecondsRealtime(hitStopDuration);
+        yield return new WaitForSecondsRealtime(
+            hitStopDuration
+        );
 
         // 復帰
         if (player != null)
         {
             player.isKinematic = false;
-            player.linearVelocity = playerVelocity;
+            player.linearVelocity =
+                playerVelocity;
         }
 
         if (enemy != null)
         {
             enemy.isKinematic = false;
-            enemy.linearVelocity = enemyVelocity;
+            enemy.linearVelocity =
+                enemyVelocity;
         }
 
         isHitStopping = false;
