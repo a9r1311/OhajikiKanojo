@@ -13,7 +13,7 @@ public class TargetToProtect : MonoBehaviour
     //ターゲットが攻撃されたときの処理
     private void Damage(int damage)
     {
-        Debug.Log(damage + "ダメージ");
+        //Debug.Log(damage + "ダメージ");
         Debug.Log("HP: " + (currentHp - damage));
         //HPを減らす
         if ((currentHp -= damage) <= 0)

@@ -62,7 +62,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348670830072011933}
-  m_Material: {fileID: 13400000, guid: 0bdb0bd75e5abd64484cfdf16e36e21d, type: 2}
+  m_Material: {fileID: 13400000, guid: 1e83a662742602346be66e362946bcfc, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -234,6 +234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933052e713d548a42b9a2c482f86a547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChargeEnemy
+  spawnDirector: {fileID: 0}
+  scoreDirector: {fileID: 0}
   moveState: 0
   id: 0
   speed: 1
