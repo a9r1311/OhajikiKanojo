@@ -6,7 +6,8 @@ using UnityEditor.PackageManager.Requests;
 public class EnemyBase : MonoBehaviour
 {
     protected Rigidbody rb;
-    private EnemySpawnDirector spawnDirector;  //スポーンディレクターへの参照
+    public EnemySpawnDirector spawnDirector;  //スポーンディレクターへの参照
+    public ScoreDirector scoreDirector;  //スコアディレクターへの参照
 
     public enum movePattern { Idle, Walk, Knock };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
@@ -19,9 +20,11 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float knockBackMultiplier = 1.0f;  //ノックバック倍率
     public GameObject target;  //追尾ターゲット
 
-    private bool knockbyPlayer = false;  //プレイヤーによるノックバックを受けたかどうか
-    private HashSet<EnemyBase> hitEnemies = new HashSet<EnemyBase>();  //ノックバックを受けた敵のリスト
-    private bool knockRock = false;  //ノックバックのクールダウン中かどうか
+    protected bool knockbyPlayer = false;  //プレイヤーによるノックバックを受けたかどうか
+    protected HashSet<EnemyBase> hitEnemies = new HashSet<EnemyBase>();  //ノックバックを受けた敵のリスト
+    protected bool knockRock = false;  //ノックバックのクールダウン中かどうか
+
+    protected int knockScore = 0;  //この敵のスコア
 
     void Start()
     {
@@ -37,7 +40,14 @@ public class EnemyBase : MonoBehaviour
                 Debug.LogError("Targetが設定されていません");
         }
 
-        spawnDirector = GameObject.Find("EnemySpawnDirector").GetComponent<EnemySpawnDirector>();  //スポーンディレクターへの参照を取得
+        if (spawnDirector == null)
+        {
+            spawnDirector = GameObject.Find("StageDirector").GetComponent<EnemySpawnDirector>();  //スポーンディレクターへの参照を取得
+        }
+        if (scoreDirector == null)
+        {
+            scoreDirector = GameObject.FindWithTag("Player").transform.GetChild(0).GetComponent<ScoreDirector>();  //スコアディレクターへの参照を取得
+        }
 
         moveState = movePattern.Walk;
     }
@@ -127,6 +137,10 @@ public class EnemyBase : MonoBehaviour
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする
         currentHp = maxHp;  //HPを最大HPに戻す
+        knockScore = 0;  //スコアをリセット
+        knockbyPlayer = false;  //プレイヤーによるノックバックを受けた状態をリセット
+        knockRock = false;  //ノックバックのクールダウン状態をリセット
+        hitEnemies.Clear();  //ノックバックを受けた敵のリストをクリア
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -134,20 +148,22 @@ public class EnemyBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && !knockbyPlayer && moveState != movePattern.Knock)
         {
             //プレイヤーがアタック中の場合、敵はノックバックを受ける
-            if (!collision.gameObject.GetComponent<OhajikiFlick>().canFlick)
-            {
+            //if (!collision.gameObject.GetComponent<OhajikiFlick>().canFlick)
+            //{
                 //Debug.Log("くぉ～ぶつかる！！");
                 knockbyPlayer = true;
                 MovePatternKnock();
-            }
-            else  //プレイヤーがアタック中ではない場合、プレイヤーはノックバックを受ける
-            {
-                Debug.Log("インド人を右に！！");
-                Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
+            //スコアを加算
+            knockScore = collision.gameObject.GetComponent<ScoreDirector>().AddScore();
+            //}
+            //else  //プレイヤーがアタック中ではない場合、プレイヤーはノックバックを受ける
+            //{
+            //    Debug.Log("インド人を右に！！");
+            //    Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
 
-                Debug.Log(playerRb.linearVelocity);
-                rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
-            }
+            //    Debug.Log(playerRb.linearVelocity);
+            //    rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
+            //}
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -159,6 +175,10 @@ public class EnemyBase : MonoBehaviour
                 //Debug.Log("ノックバックを受ける");
                 //ノックバックを受けた敵がリストにない場合、リストに追加
                 hitEnemies.Add(enemy);
+                //連鎖スコアを加算
+                if (knockScore == 0)
+                    knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore);
+
                 MovePatternKnock();
             }
         }
@@ -175,6 +195,10 @@ public class EnemyBase : MonoBehaviour
             {
                 //ノックバックを受けた敵がリストにない場合、リストに追加
                 hitEnemies.Add(enemy);
+                //連鎖スコアを加算
+                if (knockScore == 0)
+                    knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore);
+
                 MovePatternKnock();
             }
         }

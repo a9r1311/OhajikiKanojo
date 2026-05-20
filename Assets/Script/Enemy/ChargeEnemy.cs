@@ -17,12 +17,14 @@ public class ChargeEnemy : EnemyBase
     {
         if (target == null) return;
 
+        //ターゲットの方向を向く
         transform.LookAt(target.transform);
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
         if (chargeTimer < chargeTimeLimit)  //チャージ中
         {
             chargeTimer += Time.deltaTime;
+            rb.linearVelocity = Vector3.zero;
         }
         else  //チャージ解放
         {
@@ -38,6 +40,10 @@ public class ChargeEnemy : EnemyBase
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする
         currentHp = maxHp;  //HPを最大HPに戻す
+        knockScore = 0;  //スコアをリセット
+        knockbyPlayer = false;  //プレイヤーによるノックバックを受けた状態をリセット
+        knockRock = false;  //ノックバックのクールダウン状態をリセット
+        hitEnemies.Clear();  //ノックバックを受けた敵のリストをクリア
         chargeTimer = 0f;  //チャージタイマーをリセット
         currentSpeed = 0.1f;  //現在の速度を初期値に戻す
     }

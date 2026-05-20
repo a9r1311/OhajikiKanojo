@@ -3,8 +3,8 @@ using UnityEngine;
 public class SideStepEnemy : EnemyBase
 {
     private float sideStepTimer = 0f;  //サイドステップのタイマー
-    private float sideStepInterval = 0.2f;  //サイドステップの間隔
-    private float normalInterval = 1.1f;  //通常移動の間隔
+    private float sideStepInterval = 0.19f;  //サイドステップの間隔
+    private float normalInterval = 1.5f;  //通常移動の間隔
     private float stepSpeed = 17f;  //サイドステップの速度
     [SerializeField] private bool rightSideStep = true;  //サイドステップの方向(右:true, 左:false)
 
@@ -13,7 +13,14 @@ public class SideStepEnemy : EnemyBase
         if(rightSideStep)
             id = 1;  //右サイドステップのID
         else
+        {
             id = 2;  //左サイドステップのID
+
+            //左サイドステップのパラメータを調整
+            normalInterval = 1f;
+            sideStepInterval = 0.15f;
+            stepSpeed = 17f;
+        }
     }
 
     protected override void MovePatternWalk()
@@ -47,6 +54,10 @@ public class SideStepEnemy : EnemyBase
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする
         currentHp = maxHp;  //HPを最大HPに戻す
+        knockScore = 0;  //スコアをリセット
+        knockbyPlayer = false;  //プレイヤーによるノックバックを受けた状態をリセット
+        knockRock = false;  //ノックバックのクールダウン状態をリセット
+        hitEnemies.Clear();  //ノックバックを受けた敵のリストをクリア
         sideStepTimer = 0f;  //チャージタイマーをリセット
     }
 }

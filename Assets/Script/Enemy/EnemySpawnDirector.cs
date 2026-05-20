@@ -6,6 +6,7 @@ public class EnemySpawnDirector : MonoBehaviour
 {
     [SerializeField] private List<GameObject> spawnEnemy = new List<GameObject>();  //スポーンする敵のリスト
     [SerializeField] private GameObject target;  //敵の追尾ターゲット
+    private ScoreDirector scoreDirector;  //スコアディレクター
 
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
@@ -27,6 +28,9 @@ public class EnemySpawnDirector : MonoBehaviour
                 Debug.LogError("Targetが設定されていません");
         }
 
+        //スコアディレクター確認
+        scoreDirector = gameObject.GetComponent<ScoreDirector>();
+
         waitingEnemies = new List<Queue<GameObject>>();  //初期化
         Vector3 waitingPos = new Vector3(100f, 0f, 100f);  //初期待機位置
 
@@ -38,8 +42,10 @@ public class EnemySpawnDirector : MonoBehaviour
             {
                 //敵をスポーン
                 GameObject enemy = Instantiate(spawnEnemy[i], waitingPos, Quaternion.identity);
-                //スポーンした敵のターゲットを設定
+                //スポーンした敵に色々設定
                 enemy.GetComponent<EnemyBase>().target = target;
+                enemy.GetComponent<EnemyBase>().spawnDirector = this;
+                enemy.GetComponent<EnemyBase>().scoreDirector = scoreDirector;
                 //敵を非アクティブにして待機キューに追加
                 waitingEnemies[enemy.GetComponent<EnemyBase>().id].Enqueue(enemy);
                 enemy.SetActive(false);
@@ -85,8 +91,10 @@ public class EnemySpawnDirector : MonoBehaviour
             {
                 Debug.LogWarning("オブジェクトプールが足りません！");
                 GameObject enemy = Instantiate(spawnEnemy[index], spawnPos, Quaternion.identity);
-                //スポーンした敵のターゲットを設定
+                //スポーンした敵に色々設定
                 enemy.GetComponent<EnemyBase>().target = target;
+                enemy.GetComponent<EnemyBase>().spawnDirector = this;
+                enemy.GetComponent<EnemyBase>().scoreDirector = scoreDirector;
             }
             else  //オブジェクトプールから敵を出してスポーン
             {
