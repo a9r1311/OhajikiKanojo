@@ -10,16 +10,16 @@ public class SideStepEnemy : EnemyBase
 
     void Awake()
     {
-        if(rightSideStep)
+        if(!rightSideStep)
             id = 1;  //右サイドステップのID
         else
         {
             id = 2;  //左サイドステップのID
 
             //左サイドステップのパラメータを調整
-            normalInterval = 1f;
+            normalInterval = 0.3f;
             sideStepInterval = 0.15f;
-            stepSpeed = 17f;
+            stepSpeed = 9f;
         }
     }
 
@@ -49,7 +49,7 @@ public class SideStepEnemy : EnemyBase
     }
 
     //初期化
-    protected override void Reset()
+    public override void ResetState()
     {
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする

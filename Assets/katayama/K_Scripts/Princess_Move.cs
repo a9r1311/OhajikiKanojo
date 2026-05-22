@@ -12,6 +12,8 @@ public class Princess_Move : MonoBehaviour
     [Header("遷移するシーン名")]
     [SerializeField] string nextSceneName = "GameClear";
 
+    [SerializeField] private ScoreDirector scoreDirector;  // スコアデータの参照
+
     // シーン遷移を1回だけ行うため
     bool hasChangedScene = false;
 
@@ -30,6 +32,9 @@ public class Princess_Move : MonoBehaviour
         if (!hasChangedScene &&
             Vector3.Distance(transform.position, targetPosition) < 0.01f)
         {
+            //スコアを保存
+            ScoreData.FinalScore = scoreDirector.GetScore();
+
             hasChangedScene = true;
             SceneManager.LoadScene(nextSceneName);
         }

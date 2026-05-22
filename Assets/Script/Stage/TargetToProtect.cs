@@ -26,10 +26,14 @@ public class TargetToProtect : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            EnemyBase enemyBase = other.transform.parent.gameObject.GetComponent<EnemyBase>();
+
             //敵がターゲットに接触したときの処理
-            Damage(other.transform.parent.gameObject.GetComponent<EnemyBase>().power);
-            //敵を破壊する
-            Destroy(other.transform.parent.gameObject);
+            Damage(enemyBase.power);
+            //敵の状態をリセット
+            enemyBase.ResetState();
+            //敵をオブジェクトプールに返す
+            enemyBase.spawnDirector.ReturnEnemyToPool(other.transform.parent.gameObject, enemyBase.id);
         }
     }
 }

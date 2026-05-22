@@ -44,4 +44,9 @@ public class ScoreDirector : MonoBehaviour
 
         return enemyScore * 2;
     }
+
+    public int GetScore()
+    {
+        return score;
+    }
 }

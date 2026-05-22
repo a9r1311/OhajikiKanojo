@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-using UnityEditor.PackageManager.Requests;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -126,13 +125,13 @@ public class EnemyBase : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         //初期化
-        Reset();
+        ResetState();
 
-        //スポーンディレクターに敵をオブジェクトプールに返すように指示
+        //スポーンディレクターに敵をオブジェクトプールに返す
         spawnDirector.ReturnEnemyToPool(this.gameObject, id);
     }
 
-    protected virtual void Reset()
+    public virtual void ResetState()
     {
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする

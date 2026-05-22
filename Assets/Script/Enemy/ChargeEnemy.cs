@@ -35,7 +35,7 @@ public class ChargeEnemy : EnemyBase
     }
 
     //初期化
-    protected override void Reset()
+    public override void ResetState()
     {
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする

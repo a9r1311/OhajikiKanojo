@@ -10,12 +10,16 @@ public class EnemySpawnDirector : MonoBehaviour
 
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
-
+    
     private float spawnInterval = 2.5f;  //スポーン間隔
     private float minSpawnInterval = 0.6f;  //スポーン間隔の最小値
     private float spawnIntervalDecreaseRate = 0.01f;  //スポーン間隔の減少率
     private float spawnTimer = 0f;  //スポーンタイマー
+
     [SerializeField] private bool isLongDistanceSpawn = false;  //遠距離スポーンフラグ
+    [SerializeField] private int spawnTypeCount = 1;  //スポーンさせる敵の種類数
+    private int increaseSpawnTypeInterval = 7;  //スポーンさせる敵の種類を増やす間隔
+    private int spawnCounter = 0;  //スポーンカウンター
 
     void Start()
     {
@@ -38,16 +42,18 @@ public class EnemySpawnDirector : MonoBehaviour
         {
             //敵の種類ごとにオブジェクトプール用のキューを作成
             waitingEnemies.Add(new Queue<GameObject>());
+
             for (int j = 0; j < poolCount; j++)
             {
                 //敵をスポーン
                 GameObject enemy = Instantiate(spawnEnemy[i], waitingPos, Quaternion.identity);
+                EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
                 //スポーンした敵に色々設定
-                enemy.GetComponent<EnemyBase>().target = target;
-                enemy.GetComponent<EnemyBase>().spawnDirector = this;
-                enemy.GetComponent<EnemyBase>().scoreDirector = scoreDirector;
+                enemyBase.target = target;
+                enemyBase.spawnDirector = this;
+                enemyBase.scoreDirector = scoreDirector;
                 //敵を非アクティブにして待機キューに追加
-                waitingEnemies[enemy.GetComponent<EnemyBase>().id].Enqueue(enemy);
+                waitingEnemies[enemyBase.id].Enqueue(enemy);
                 enemy.SetActive(false);
             }
         }
@@ -60,11 +66,23 @@ public class EnemySpawnDirector : MonoBehaviour
         if (spawnTimer >= spawnInterval)
         {
             spawnTimer = 0f;
+
             if(spawnInterval > minSpawnInterval)
                 spawnInterval -= spawnIntervalDecreaseRate;  //スポーン間隔を徐々に短くする
 
+            if(spawnCounter >= increaseSpawnTypeInterval && spawnTypeCount < spawnEnemy.Count)
+            {
+                spawnCounter = 0;
+                spawnTypeCount++;  //スポーンさせる敵の種類を増やす
+            }
+            else
+            {
+                spawnCounter++;
+            }
+
             //敵をスポーン
             SpawnEnemy(false);
+
             //遠距離スポーンの処理
             if (isLongDistanceSpawn)
             {
@@ -81,20 +99,27 @@ public class EnemySpawnDirector : MonoBehaviour
             int index;
             //出現させる敵をランダムに選択
             if (!longDistance)
-                index = Random.Range(0, spawnEnemy.Count);
+                index = Random.Range(0, spawnTypeCount);
             else
-                index = Random.Range(0, spawnEnemy.Count - 1);  //遠距離スポーンは最後の敵を出さない
+                //遠距離スポーンは特定の敵しか出さないようにする
+                do
+                    index = Random.Range(0, spawnTypeCount);
+                while (index == spawnEnemy.Count - 1);  //遠距離スポーンは最後の敵を出さない
+            
+
             //出現座標をランダムに決定
             Vector3 spawnPos = GetSpawnPosition(index, longDistance);
+
             //敵をスポーン
             if (waitingEnemies[index].Count <= 0)  //オブジェクトプールが足りない場合は新たにスポーン
             {
-                Debug.LogWarning("オブジェクトプールが足りません！");
+                //敵を生成
                 GameObject enemy = Instantiate(spawnEnemy[index], spawnPos, Quaternion.identity);
+                EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
                 //スポーンした敵に色々設定
-                enemy.GetComponent<EnemyBase>().target = target;
-                enemy.GetComponent<EnemyBase>().spawnDirector = this;
-                enemy.GetComponent<EnemyBase>().scoreDirector = scoreDirector;
+                enemyBase.target = target;
+                enemyBase.spawnDirector = this;
+                enemyBase.scoreDirector = scoreDirector;
             }
             else  //オブジェクトプールから敵を出してスポーン
             {
@@ -118,8 +143,8 @@ public class EnemySpawnDirector : MonoBehaviour
         if (longDistance)
         {
             targetRadius = 20f;  //ターゲットを中心とした半径
-            width = 28f;        //スポーン位置の横幅
-            height = 35f;       //スポーン位置の奥行き
+            width = 28f;         //スポーン位置の横幅
+            height = 35f;        //スポーン位置の奥行き
         }
 
         do

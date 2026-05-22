@@ -969,11 +969,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnDirector
   spawnEnemy:
   - {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
-  - {fileID: 9111659187339402544, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
   - {fileID: 953586157583803240, guid: 87853f3063e190143a965e2933e32521, type: 3}
+  - {fileID: 9111659187339402544, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
   - {fileID: 6511203756376054620, guid: db0adc7bb9af95f45945aacbe16e7980, type: 3}
   target: {fileID: 329182058}
   isLongDistanceSpawn: 0
+  spawnTypeCount: 1
 --- !u!1 &1574596615
 GameObject:
   m_ObjectHideFlags: 0
