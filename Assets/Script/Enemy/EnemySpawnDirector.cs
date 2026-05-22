@@ -7,6 +7,7 @@ public class EnemySpawnDirector : MonoBehaviour
     [SerializeField] private List<GameObject> spawnEnemy = new List<GameObject>();  //スポーンする敵のリスト
     [SerializeField] private GameObject target;  //敵の追尾ターゲット
     private ScoreDirector scoreDirector;  //スコアディレクター
+    [SerializeField] private GameStop gameStop;  //ゲームストップの参照
 
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
@@ -61,6 +62,10 @@ public class EnemySpawnDirector : MonoBehaviour
 
     void Update()
     {
+        //ゲームストップ中はスポーンさせない
+        //if (gameStop.isGameStop)
+        //    return;
+
         //スポーンタイマー
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= spawnInterval)
