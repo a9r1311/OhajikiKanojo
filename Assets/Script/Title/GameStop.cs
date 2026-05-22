@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameStop : MonoBehaviour
 {
-    public bool isGameStop { get;private set value } = true;
+    public bool isGameStop { get; private set; } = true;
 
     public void StopGame()
     {
