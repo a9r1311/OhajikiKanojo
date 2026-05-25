@@ -66,8 +66,8 @@ public class EnemySpawnDirector : MonoBehaviour
     {
         //ゲームストップ中はスポーンさせない
         //if (gameStop.isGameStop)
-        if (gameDirector.gameFinish)
-        return;
+        //if (gameDirector.gameFinish)
+        //return;
 
         //スポーンタイマー
         spawnTimer += Time.deltaTime;
