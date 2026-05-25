@@ -248,6 +248,7 @@ MonoBehaviour:
   cancelDistance: 0.2
   maxChargeTime: 2
   chargeMultiplier: 2
+  modelRotationOffset: {x: -90, y: -180, z: 0}
 --- !u!114 &4328023794644840208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42a0f96926e8a3644b90560922d17ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
+  spawnDirector: {fileID: 0}
+  scoreDirector: {fileID: 0}
   moveState: 0
   id: 0
   speed: 6

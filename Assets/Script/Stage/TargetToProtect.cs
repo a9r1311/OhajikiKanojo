@@ -3,7 +3,7 @@ using UnityEngine;
 public class TargetToProtect : MonoBehaviour
 {
     [SerializeField] private int maxHp = 100;  //ターゲットのHP
-    private int currentHp;  //現在のHP
+    public int currentHp;  //現在のHP
 
     void Start()
     {
