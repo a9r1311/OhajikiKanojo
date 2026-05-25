@@ -28,7 +28,20 @@ public class HitStopOnMaxSpeed : MonoBehaviour
 
     [Header("ヒットエフェクト")]
     [SerializeField] GameObject hitEffectPrefab;
+
     [SerializeField] float effectDestroyTime = 2.0f;
+
+    [Header("初期エフェクト数")]
+    [SerializeField] int startEffectCount = 1;
+
+    [Header("連鎖終了までの時間")]
+    [SerializeField] float comboResetTime = 2f;
+
+    // 現在のエフェクト数
+    int currentEffectCount;
+
+    // 最後にヒットした時間
+    float lastHitTime = 0f;
 
     // 現在ヒットストップ中か
     bool isHitStopping = false;
@@ -49,8 +62,13 @@ public class HitStopOnMaxSpeed : MonoBehaviour
 
         if (cameraDirection == null)
         {
-            cameraDirection = FindAnyObjectByType<CameraDirection>();
+            cameraDirection =
+                FindAnyObjectByType<CameraDirection>();
         }
+
+        // 初期化
+        currentEffectCount =
+            startEffectCount;
     }
 
     void Update()
@@ -58,7 +76,18 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         // 毎フレーム、衝突直前の速度を保存
         if (playerRb != null)
         {
-            previousSpeed = playerRb.linearVelocity.magnitude;
+            previousSpeed =
+                playerRb.linearVelocity.magnitude;
+        }
+
+        // =========================
+        // 連鎖終了判定
+        // =========================
+        if (Time.time - lastHitTime >
+            comboResetTime)
+        {
+            currentEffectCount =
+                startEffectCount;
         }
     }
 
@@ -71,69 +100,123 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         if (playerRb == null)
             return;
 
-        GameObject enemy = collision.gameObject;
+        GameObject enemy =
+            collision.gameObject;
 
-        // 同じ敵への連続ヒットを防止
+        // 同じ敵への連続ヒット防止
         if (lastHitTimes.ContainsKey(enemy))
         {
-            if (Time.time - lastHitTimes[enemy] < sameEnemyCooldown)
+            if (Time.time -
+                lastHitTimes[enemy]
+                < sameEnemyCooldown)
             {
                 return;
             }
         }
 
-        // 衝突直前の速度で判定
-        float currentSpeed = previousSpeed;
+        // 衝突直前の速度
+        float currentSpeed =
+            previousSpeed;
 
-        // 最高速度付近で衝突した場合のみ発動
-        if (currentSpeed < maxSpeed - speedTolerance)
+        // 最高速度付近のみ発動
+        if (currentSpeed <
+            maxSpeed - speedTolerance)
             return;
 
-        // 最後のヒット時刻を記録
-        lastHitTimes[enemy] = Time.time;
+        // 最後のヒット時刻記録
+        lastHitTimes[enemy] =
+            Time.time;
+
+        lastHitTime =
+            Time.time;
 
         // =========================
-        // エフェクト再生
+        // エフェクト生成
         // =========================
         if (hitEffectPrefab != null &&
             collision.contactCount > 0)
         {
-            // 衝突地点
             Vector3 hitPoint =
                 collision.contacts[0].point;
 
-            // 衝突面の法線方向に向ける
-            Quaternion hitRotation =
-                Quaternion.LookRotation(
-                    collision.contacts[0].normal
-                );
-
-            // エフェクト生成
-            GameObject effect =
+            // =========================
+            // 必ず1個は衝突地点
+            // =========================
+            GameObject hitEffect =
                 Instantiate(
                     hitEffectPrefab,
                     hitPoint,
-                    hitRotation
+                    Random.rotation
                 );
 
-            // 一定時間後に削除
-            Destroy(effect, effectDestroyTime);
+            Destroy(
+                hitEffect,
+                effectDestroyTime
+            );
+
+            // =========================
+            // 追加エフェクト
+            // =========================
+            int extraEffectCount =
+                currentEffectCount - 1;
+
+            for (int i = 0;
+                 i < extraEffectCount;
+                 i++)
+            {
+                Camera cam =
+                    Camera.main;
+
+                Vector3 viewportPos =
+                    new Vector3(
+                        Random.Range(0.25f, 0.75f),
+                        Random.Range(0.25f, 0.75f),
+                        10f
+                    );
+
+                Vector3 spawnPos =
+                    cam.ViewportToWorldPoint(
+                        viewportPos
+                    );
+
+                Quaternion randomRot =
+                    Random.rotation;
+
+                GameObject effect =
+                    Instantiate(
+                        hitEffectPrefab,
+                        spawnPos,
+                        randomRot
+                    );
+
+                Destroy(
+                    effect,
+                    effectDestroyTime
+                );
+            }
+
+            // =========================
+            // 連鎖する度に増える
+            // =========================
+            currentEffectCount++;
         }
 
+        // =========================
         // カメラシェイク
+        // =========================
         if (cameraDirection != null)
         {
-            Debug.Log("カメラシェイク確認");
             cameraDirection.Shake(
                 shakePower,
                 shakeTime
             );
         }
 
+        // =========================
         // ヒットストップ
+        // =========================
         if (!isHitStopping)
         {
-            Debug.Log("ヒットストップ確認");
             Rigidbody enemyRb =
                 collision.rigidbody;
 
@@ -168,6 +251,7 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         {
             player.linearVelocity =
                 Vector3.zero;
+
             player.isKinematic = true;
         }
 
@@ -175,18 +259,21 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         {
             enemy.linearVelocity =
                 Vector3.zero;
+
             enemy.isKinematic = true;
         }
 
-        // 実時間で待機
-        yield return new WaitForSecondsRealtime(
-            hitStopDuration
-        );
+        // 待機
+        yield return
+            new WaitForSecondsRealtime(
+                hitStopDuration
+            );
 
         // 復帰
         if (player != null)
         {
             player.isKinematic = false;
+
             player.linearVelocity =
                 playerVelocity;
         }
@@ -194,6 +281,7 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         if (enemy != null)
         {
             enemy.isKinematic = false;
+
             enemy.linearVelocity =
                 enemyVelocity;
         }

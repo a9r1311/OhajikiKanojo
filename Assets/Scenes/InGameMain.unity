@@ -362,6 +362,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -16.19573
       objectReference: {fileID: 0}
+    - target: {fileID: 6791371609766880671, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
+      propertyPath: brain
+      value: 
+      objectReference: {fileID: 142548359}
+    - target: {fileID: 6791371609766880671, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
+      propertyPath: gameCam
+      value: 
+      objectReference: {fileID: 142548358}
+    - target: {fileID: 6791371609766880671, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
+      propertyPath: titleCam
+      value: 
+      objectReference: {fileID: 142548358}
     - target: {fileID: 7108787608880145731, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -375,6 +387,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
+--- !u!114 &142548358 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7189297877333920760, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
+  m_PrefabInstance: {fileID: 142548357}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
+--- !u!114 &142548359 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7108787608880145731, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
+  m_PrefabInstance: {fileID: 142548357}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBrain
 --- !u!1 &342513335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,8 +1202,24 @@ PrefabInstance:
       value: Player_notusing
       objectReference: {fileID: 0}
     - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: reflectRate
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: reflectPower
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: reflectSpeed
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: reflectDistance
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: minimumReflectAngle
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1757,6 +1807,7 @@ MonoBehaviour:
   - {fileID: 9111659187339402544, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
   - {fileID: 6511203756376054620, guid: db0adc7bb9af95f45945aacbe16e7980, type: 3}
   target: {fileID: 625733061}
+  gameStop: {fileID: 0}
   isLongDistanceSpawn: 0
   spawnTypeCount: 1
 --- !u!4 &1822324202
@@ -1815,7 +1866,7 @@ MonoBehaviour:
   speedTolerance: 5
   hitStopDuration: 0.2
   sameEnemyCooldown: 1
-  hitEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 1749362427593801985, guid: ea7ebfca0016370468244e5ff7b4f828, type: 3}
   effectDestroyTime: 2
 --- !u!114 &2043960527
 MonoBehaviour:
