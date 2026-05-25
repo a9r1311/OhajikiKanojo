@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class InGameManager : MonoBehaviour
 {
-
+    ChangeGame change;
     public void OnCrickTitleButton()
     {
-        SceneLoader.Load("TitleScene");
+        change.GoTitle();
     }
 }

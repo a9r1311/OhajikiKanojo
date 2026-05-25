@@ -3,21 +3,22 @@ using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
-    //タイトルシーンからホームシーンへ
+    ChangeGame change;
+    //タイトルからインゲーム画面へ
     public void OnCrickStratButton()
     {
-        SceneLoader.Load("InGameMain_alpha");
+        change.GoInGame();
     }
 
-    //タイトルシーンからコンフィグへ
+    //コンフィグ呼び出し
     public void OnCrickConfigButton()
     {
-        SceneLoader.Load("ConfigScene");
+        
     }
 
-    //タイトルシーンからランキングへ
+    //ランキング呼び出し
     public void OnCrickRankingButton()
     {
-        SceneLoader.Load("RankingScene");
+        
     }
 }
