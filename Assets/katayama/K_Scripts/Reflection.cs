@@ -12,22 +12,34 @@ public class Reflection : MonoBehaviour
     [SerializeField] private float reflectDistance = 5f;
 
     [Header("反射時の減衰率（0～1）")]
-    [Tooltip("1 = 減衰なし / 0.5 = 半分の速度 / 0 = 反射しない")]
     [Range(0f, 1f)]
-    [SerializeField] private float reflectRate = 0.9f;
+    [SerializeField] private float reflectRate = 1f;
 
     [Header("最低反射角（度）")]
-    [Tooltip("浅い角度で当たっても、この角度以上で跳ね返る")]
     [Range(0f, 89f)]
     [SerializeField] private float minimumReflectAngle = 30f;
 
     [Header("停止判定")]
-    [Tooltip("この速度未満なら停止中とみなして反射しない")]
     [SerializeField] private float stopThreshold = 0.1f;
 
+    [Header("ホーミング設定")]
+    [SerializeField] private float autoAimRadius = 10f;
+
+    [Range(0f, 1f)]
+    [SerializeField] private float homingStrength = 0.8f;
+    // 0 = 補正なし
+    // 0.5 = 少し補正
+    // 1 = 完全ホーミング
+
+    [Header("敵タグ")]
+    [SerializeField] private string enemyTag = "Enemy";
+
     private Rigidbody myRb;
+
     private float remainingDistance = 0f;
+
     private Vector3 reflectDirection;
+
     private float currentReflectSpeed = 0f;
 
     private void Awake()
@@ -40,16 +52,17 @@ public class Reflection : MonoBehaviour
         if (myRb == null) return;
         if (collision.contactCount == 0) return;
 
-        // =========================
-        // プレイヤーが止まっているときは反射しない
-        // =========================
+        // 止まっていたら反射しない
         if (myRb.linearVelocity.magnitude < stopThreshold)
         {
             return;
         }
 
-        Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
-        Vector3 normal = collision.contacts[0].normal;
+        Rigidbody enemyRb =
+            collision.gameObject.GetComponent<Rigidbody>();
+
+        Vector3 normal =
+            collision.contacts[0].normal;
 
         // =========================
         // 敵を吹っ飛ばす
@@ -57,36 +70,43 @@ public class Reflection : MonoBehaviour
         if (enemyRb != null)
         {
             enemyRb.AddForce(
-                myRb.linearVelocity.normalized * knockbackPower,
+                myRb.linearVelocity.normalized *
+                knockbackPower,
                 ForceMode.Impulse
             );
         }
 
         // =========================
-        // 自分を反射させる
+        // 通常反射
         // =========================
-        Vector3 incoming = myRb.linearVelocity;
+        Vector3 incoming =
+            myRb.linearVelocity;
 
-        // 通常の反射方向
-        Vector3 reflected = Vector3.Reflect(incoming.normalized, normal);
+        Vector3 reflected =
+            Vector3.Reflect(
+                incoming.normalized,
+                normal
+            );
 
-        // 壁に沿う方向（法線成分を除いた方向）
-        Vector3 tangent = Vector3.ProjectOnPlane(reflected, normal).normalized;
+        Vector3 tangent =
+            Vector3.ProjectOnPlane(
+                reflected,
+                normal
+            ).normalized;
 
-        // tangent がゼロの場合（真正面衝突）は通常反射をそのまま使用
         if (tangent.sqrMagnitude < 0.0001f)
         {
-            reflectDirection = reflected.normalized;
+            reflectDirection =
+                reflected.normalized;
         }
         else
         {
-            // 壁から離れる方向（法線方向）
-            Vector3 away = normal.normalized;
+            Vector3 away =
+                normal.normalized;
 
-            // 最低角度を使って方向を再構成
-            // 0° = 壁に沿う
-            // 90° = 法線方向
-            float angleRad = minimumReflectAngle * Mathf.Deg2Rad;
+            float angleRad =
+                minimumReflectAngle *
+                Mathf.Deg2Rad;
 
             reflectDirection =
                 tangent * Mathf.Cos(angleRad) +
@@ -94,47 +114,154 @@ public class Reflection : MonoBehaviour
 
             reflectDirection.Normalize();
 
-            // 反射方向が壁の外側を向くように保証
-            if (Vector3.Dot(reflectDirection, normal) < 0f)
+            if (Vector3.Dot(
+                reflectDirection,
+                normal) < 0f)
             {
-                reflectDirection = Vector3.Reflect(reflectDirection, normal);
+                reflectDirection =
+                    Vector3.Reflect(
+                        reflectDirection,
+                        normal
+                    );
             }
         }
 
-        // 減衰率を反映した反射速度
-        currentReflectSpeed = reflectSpeed * reflectRate;
+        // =========================
+        // 近くの敵を検索
+        // =========================
+        Collider[] hits =
+            Physics.OverlapSphere(
+                transform.position,
+                autoAimRadius
+            );
+
+        Transform nearestEnemy = null;
+
+        float nearestDistance = Mathf.Infinity;
+
+        foreach (Collider hit in hits)
+        {
+            // Enemyタグ以外は無視
+            if (!hit.CompareTag(enemyTag))
+                continue;
+
+            // 今ぶつかった敵を除外
+            if (hit.gameObject == collision.gameObject)
+                continue;
+
+            // 自分自身を除外
+            if (hit.gameObject == gameObject)
+                continue;
+
+            Vector3 toEnemy =
+                (
+                    hit.transform.position -
+                    transform.position
+                ).normalized;
+
+            // 前方向にいる敵だけ対象
+            float dot =
+                Vector3.Dot(
+                    reflectDirection,
+                    toEnemy
+                );
+
+            // 後ろの敵は無視
+            if (dot < 0.3f)
+                continue;
+
+            float distance =
+                Vector3.Distance(
+                    transform.position,
+                    hit.transform.position
+                );
+
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestEnemy = hit.transform;
+            }
+        }
+
+        // =========================
+        // ホーミング補正
+        // =========================
+        if (nearestEnemy != null)
+        {
+            Vector3 targetDirection =
+                (
+                    nearestEnemy.position -
+                    transform.position
+                ).normalized;
+
+            reflectDirection =
+                Vector3.Lerp(
+                    reflectDirection,
+                    targetDirection,
+                    homingStrength
+                ).normalized;
+        }
+
+        // =========================
+        // 反射速度
+        // =========================
+        currentReflectSpeed =
+            reflectSpeed * reflectRate;
 
         if (currentReflectSpeed <= 0.01f)
         {
-            myRb.linearVelocity = Vector3.zero;
+            myRb.linearVelocity =
+                Vector3.zero;
+
             return;
         }
 
-        // 指定した距離だけ移動
-        remainingDistance = reflectDistance;
+        // 指定距離移動
+        remainingDistance =
+            reflectDistance;
 
         // 反射開始
-        myRb.linearVelocity = reflectDirection * currentReflectSpeed;
-
-        Debug.Log(reflectDirection);
+        myRb.linearVelocity =
+            reflectDirection *
+            currentReflectSpeed;
     }
 
     private void FixedUpdate()
     {
-        if (remainingDistance <= 0f) return;
+        if (remainingDistance <= 0f)
+            return;
 
-        float moveDistance = currentReflectSpeed * Time.fixedDeltaTime;
+        float moveDistance =
+            currentReflectSpeed *
+            Time.fixedDeltaTime;
+
         remainingDistance -= moveDistance;
 
         if (remainingDistance <= 0f)
         {
-            myRb.linearVelocity = Vector3.zero;
+            myRb.linearVelocity =
+                Vector3.zero;
+
             remainingDistance = 0f;
+
             currentReflectSpeed = 0f;
         }
         else
         {
-            myRb.linearVelocity = reflectDirection * currentReflectSpeed;
+            myRb.linearVelocity =
+                reflectDirection *
+                currentReflectSpeed;
         }
+    }
+
+    // ホーミング範囲表示
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            autoAimRadius
+        );
     }
 }
