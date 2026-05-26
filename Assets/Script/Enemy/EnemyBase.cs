@@ -7,7 +7,7 @@ public class EnemyBase : MonoBehaviour
     protected Rigidbody rb;
     public EnemySpawnDirector spawnDirector;  //スポーンディレクターへの参照
     public ScoreDirector scoreDirector;  //スコアディレクターへの参照
-    [SerializeField] private GameDirector gameDirector;  //ゲームディレクターへの参照
+    public GameStop gameStop;  //ゲームストップへの参照
 
     public enum movePattern { Idle, Walk, Knock };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
@@ -48,9 +48,9 @@ public class EnemyBase : MonoBehaviour
         {
             scoreDirector = GameObject.FindWithTag("Player").transform.GetChild(0).GetComponent<ScoreDirector>();  //スコアディレクターへの参照を取得
         }
-        if (gameDirector == null)
+        if (gameStop == null)
         {
-            gameDirector = GameObject.Find("StageDirector").GetComponent<GameDirector>();  //ゲームディレクターへの参照を取得
+            gameStop = GameObject.Find("Manager").GetComponent<GameStop>();  //ゲームストップへの参照を取得
         }
 
         //初期行動パターンを歩行にする
@@ -60,7 +60,7 @@ public class EnemyBase : MonoBehaviour
     void Update()
     {
         //ゲーム終了時の処理
-        if (gameDirector.gameFinish)
+        if (gameStop.isGameStop)
         {
             //初期化
             ResetState();
