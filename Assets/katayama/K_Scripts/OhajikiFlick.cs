@@ -27,7 +27,6 @@ public class OhajikiFlick : MonoBehaviour
     [SerializeField] int maxFlickCount = 5;
 
     [Header("フリック再許可")]
-    [SerializeField] float flickEnableSpeed = 1.0f;
     [SerializeField] float flickCooldown = 0.2f;
 
     [Header("キャンセル判定")]
@@ -70,16 +69,9 @@ public class OhajikiFlick : MonoBehaviour
         // クールタイム
         flickTimer += Time.deltaTime;
 
-        // 減速したら再フリック可能
-        if (rb.linearVelocity.magnitude < flickEnableSpeed &&
-            flickTimer > flickCooldown)
-        {
-            canFlick = true;
-        }
-        else
-        {
-            canFlick = false;
-        }
+        // クールタイムだけで再フリック可能
+        canFlick =
+            flickTimer > flickCooldown;
 
         // =========================
         // 押した瞬間
@@ -89,7 +81,6 @@ public class OhajikiFlick : MonoBehaviour
             if (!canFlick) return;
             if (currentFlickCount >= maxFlickCount) return;
 
-            // 開始位置（ため時間用）
             startPos = GetMouseWorldPosition();
 
             isDragging = true;
@@ -106,21 +97,22 @@ public class OhajikiFlick : MonoBehaviour
         // =========================
         if (isDragging)
         {
-            // ため時間加算
+            // ため時間
             chargeTime += Time.deltaTime;
+
             chargeTime = Mathf.Clamp(
                 chargeTime,
                 0f,
                 maxChargeTime
             );
 
-            currentPos = GetMouseWorldPosition();
+            currentPos =
+                GetMouseWorldPosition();
 
-            // プレイヤー → 現在のマウス位置の方向
             Vector3 dir =
-                currentPos - transform.position;
+                currentPos -
+                transform.position;
 
-            // Y無視
             dir.y = 0f;
 
             // 距離制限
@@ -140,12 +132,15 @@ public class OhajikiFlick : MonoBehaviour
 
             // キャンセル判定
             bool isCanceling =
-                dir.magnitude < cancelDistance;
+                dir.magnitude <
+                cancelDistance;
 
-            // 矢印表示切替
+            // 矢印表示
             if (arrow != null)
             {
-                arrow.gameObject.SetActive(!isCanceling);
+                arrow.gameObject.SetActive(
+                    !isCanceling
+                );
             }
 
             // =========================
@@ -153,19 +148,16 @@ public class OhajikiFlick : MonoBehaviour
             // =========================
             if (dir.sqrMagnitude > 0.0001f)
             {
-                // プレイヤー方向
                 transform.rotation =
                     Quaternion.LookRotation(dir) *
                     Quaternion.Euler(
                         modelRotationOffset
                     );
 
-                // 矢印方向（マウスと逆向きになる場合は180度回転）
                 if (arrow != null)
                 {
                     arrow.rotation =
-                        Quaternion.LookRotation(dir) *
-                        Quaternion.Euler(0f, 0f, 0f);
+                        Quaternion.LookRotation(dir);
                 }
             }
 
@@ -175,26 +167,26 @@ public class OhajikiFlick : MonoBehaviour
             if (arrow != null)
             {
                 float powerPercent =
-                    dir.magnitude / maxPower;
+                    dir.magnitude /
+                    maxPower;
 
                 float length =
-                    powerPercent * arrowMaxLength;
+                    powerPercent *
+                    arrowMaxLength;
 
-                // ため倍率
                 float chargeRate =
-                    chargeTime / maxChargeTime;
+                    chargeTime /
+                    maxChargeTime;
 
-                // ためるほど伸びる
-                arrow.localScale = new Vector3(
-                    2f,
-                    2f,
-                    length * (1f + chargeRate)
-                );
+                arrow.localScale =
+                    new Vector3(
+                        2f,
+                        2f,
+                        length *
+                        (1f + chargeRate)
+                    );
 
-                // =========================
                 // 矢印位置
-                // =========================
-                // 矢印をプレイヤーの前方に配置
                 if (dir.sqrMagnitude > 0.0001f)
                 {
                     arrow.position =
@@ -209,17 +201,18 @@ public class OhajikiFlick : MonoBehaviour
         // =========================
         // 離した瞬間
         // =========================
-        if (Mouse.current.leftButton.wasReleasedThisFrame &&
-            isDragging)
+        if (
+            Mouse.current.leftButton
+            .wasReleasedThisFrame &&
+            isDragging
+        )
         {
-            currentPos = GetMouseWorldPosition();
+            currentPos =
+                GetMouseWorldPosition();
 
-            // =====================================
-            // プレイヤー → マウス位置の方向
-            // （クリック開始位置に依存しない）
-            // =====================================
             Vector3 dir =
-                currentPos - transform.position;
+                currentPos -
+                transform.position;
 
             dir.y = 0f;
 
@@ -236,13 +229,15 @@ public class OhajikiFlick : MonoBehaviour
             );
 
             // キャンセル
-            if (dir.magnitude < cancelDistance)
+            if (dir.magnitude <
+                cancelDistance)
             {
                 isDragging = false;
 
                 if (arrow != null)
                 {
-                    arrow.gameObject.SetActive(false);
+                    arrow.gameObject
+                        .SetActive(false);
                 }
 
                 return;
@@ -250,7 +245,8 @@ public class OhajikiFlick : MonoBehaviour
 
             // ため倍率
             float chargeRate =
-                chargeTime / maxChargeTime;
+                chargeTime /
+                maxChargeTime;
 
             float chargePower =
                 Mathf.Lerp(
@@ -263,12 +259,19 @@ public class OhajikiFlick : MonoBehaviour
             float finalPower =
                 power * chargePower;
 
-            // 現在の速度をリセット
-            rb.linearVelocity = Vector3.zero;
+            // =========================
+            // ノックバック中でも
+            // フリックを優先
+            // =========================
 
-            // マウスの方向へ発射
+            // 今の速度を消す
+            rb.linearVelocity =
+                Vector3.zero;
+
+            // フリック方向へ発射
             rb.AddForce(
-                dir.normalized * finalPower,
+                dir.normalized *
+                finalPower,
                 ForceMode.Impulse
             );
 
@@ -297,9 +300,9 @@ public class OhajikiFlick : MonoBehaviour
             Mouse.current.position.ReadValue();
 
         Ray ray =
-            Camera.main.ScreenPointToRay(mousePos);
+            Camera.main
+            .ScreenPointToRay(mousePos);
 
-        // プレイヤーの高さに合わせた平面
         Plane plane =
             new Plane(
                 Vector3.up,
@@ -310,7 +313,10 @@ public class OhajikiFlick : MonoBehaviour
                 )
             );
 
-        if (plane.Raycast(ray, out float distance))
+        if (plane.Raycast(
+            ray,
+            out float distance
+        ))
         {
             return ray.GetPoint(distance);
         }
