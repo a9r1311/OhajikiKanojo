@@ -12,14 +12,14 @@ public class EnemySpawnDirector : MonoBehaviour
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
     
-    private float spawnInterval = 2.5f;  //スポーン間隔
+    private float spawnInterval = 7f;  //スポーン間隔
     private float minSpawnInterval = 0.6f;  //スポーン間隔の最小値
     private float spawnIntervalDecreaseRate = 0.01f;  //スポーン間隔の減少率
     private float spawnTimer = 0f;  //スポーンタイマー
 
     [SerializeField] private bool isLongDistanceSpawn = false;  //遠距離スポーンフラグ
     [SerializeField] private int spawnTypeCount = 1;  //スポーンさせる敵の種類数
-    private int increaseSpawnTypeInterval = 7;  //スポーンさせる敵の種類を増やす間隔
+    private int increaseSpawnTypeInterval = 20;  //スポーンさせる敵の種類を増やす間隔
     private int spawnCounter = 0;  //スポーンカウンター
 
     void Start()
