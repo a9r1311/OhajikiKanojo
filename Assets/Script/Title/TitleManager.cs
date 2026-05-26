@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
-    ChangeGame change;
+    [SerializeField] ChangeGame change;
     //タイトルからインゲーム画面へ
     public void OnCrickStratButton()
     {
