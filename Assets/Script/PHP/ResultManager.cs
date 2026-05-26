@@ -3,8 +3,10 @@ using TMPro;
 
 public class ResultManager : MonoBehaviour
 {
-    [SerializeField] private ScoreDirector scoreDirector;
     [SerializeField] private GameObject resultInput;
+    [SerializeField] private GameObject resultOutput;
+    [SerializeField] private GameObject ranking;
+    [SerializeField] private ScoreDirector scoreDirector;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private TextMeshProUGUI scoreResultText;
     [SerializeField] private RankingManager rankingManager;
@@ -13,7 +15,10 @@ public class ResultManager : MonoBehaviour
 
     void Start()
     {
+        //リザルトとかを非表示
         resultInput.SetActive(false);
+        resultOutput.SetActive(false);
+        ranking.SetActive(false);
     }
 
     //リザルト+名前入力UI表示
@@ -28,7 +33,7 @@ public class ResultManager : MonoBehaviour
     }
 
     //送信ボタンがクリックされたときの処理
-    public void OnClickSendButton()
+    public void ClickSendButton()
     {
         string playerName = nameInputField.text;  //入力された名前を取得
 
@@ -39,8 +44,27 @@ public class ResultManager : MonoBehaviour
         }
 
         //スコア送信
-        rankingManager.SendScore(playerName, finalScore);
+        //rankingManager.SendScore(playerName, finalScore);
+
         //名前入力UIを非表示
         resultInput.SetActive(false);
+        //ランキング表示
+        resultOutput.SetActive(true);
+    }
+
+    public void ClickRankingButton()
+    {
+        resultOutput.SetActive(!resultOutput.activeSelf);
+        ranking.SetActive(!ranking.activeSelf);
+    }
+
+    public void ClickRetryButton()
+    {
+
+    }
+
+    public void ClickTitleButton()
+    {
+
     }
 }

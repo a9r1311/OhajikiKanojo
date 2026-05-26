@@ -60,14 +60,14 @@ public class EnemyBase : MonoBehaviour
     void Update()
     {
         //ゲーム終了時の処理
-        //if (gameDirector.gameFinish)
-        //{
-        //    //初期化
-        //    ResetState();
+        if (gameDirector.gameFinish)
+        {
+            //初期化
+            ResetState();
 
-        //    //スポーンディレクターに敵をオブジェクトプールに返す
-        //    spawnDirector.ReturnEnemyToPool(this.gameObject, id);
-        //}
+            //スポーンディレクターに敵をオブジェクトプールに返す
+            spawnDirector.ReturnEnemyToPool(this.gameObject, id);
+        }
 
         //行動パターンに応じた処理
         switch (moveState)
