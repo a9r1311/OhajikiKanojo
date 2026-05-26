@@ -1,38 +1,43 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Reflection : MonoBehaviour
 {
-    [Header("“G‚ğ‚Á”ò‚Î‚·—Í")]
+    [Header("æ•µã‚’å¹ã£é£›ã°ã™åŠ›")]
     [SerializeField] private float knockbackPower = 10f;
 
-    [Header("©•ª‚Ì”½Ë‘¬“x")]
+    [Header("è‡ªåˆ†ã®åå°„é€Ÿåº¦")]
     [SerializeField] private float reflectSpeed = 10f;
 
-    [Header("©•ª‚Ì”½Ë‹——£")]
+    [Header("è‡ªåˆ†ã®åå°„è·é›¢")]
     [SerializeField] private float reflectDistance = 5f;
 
-    [Header("”½Ë‚ÌŒ¸Š—¦i0`1j")]
+    [Header("é€šå¸¸æ™‚ã®åå°„è·é›¢å€ç‡")]
     [Range(0f, 1f)]
     [SerializeField] private float reflectRate = 1f;
 
-    [Header("Å’á”½ËŠpi“xj")]
+    [Header("å¾Œã‚ãƒ’ãƒƒãƒˆæ™‚ã®åå°„è·é›¢å€ç‡")]
+    [Range(0f, 1f)]
+    [SerializeField]
+    private float backHitReflectMultiplier = 0.3f;
+
+    [Header("æœ€ä½åå°„è§’ï¼ˆåº¦ï¼‰")]
     [Range(0f, 89f)]
     [SerializeField] private float minimumReflectAngle = 30f;
 
-    [Header("’â~”»’è")]
+    [Header("åœæ­¢åˆ¤å®š")]
     [SerializeField] private float stopThreshold = 0.1f;
 
-    [Header("ƒz[ƒ~ƒ“ƒOİ’è")]
+    [Header("ãƒ›ãƒ¼ãƒŸãƒ³ã‚°è¨­å®š")]
     [SerializeField] private float autoAimRadius = 10f;
 
     [Range(0f, 1f)]
     [SerializeField] private float homingStrength = 0.8f;
-    // 0 = •â³‚È‚µ
-    // 0.5 = ­‚µ•â³
-    // 1 = Š®‘Sƒz[ƒ~ƒ“ƒO
 
-    [Header("“Gƒ^ƒO")]
+    [Header("æ•µã‚¿ã‚°")]
     [SerializeField] private string enemyTag = "Enemy";
+
+    [Header("å¾Œã‚åˆ¤å®šè·é›¢")]
+    [SerializeField] private float behindCheckRadius = 1.5f;
 
     private Rigidbody myRb;
 
@@ -41,6 +46,9 @@ public class Reflection : MonoBehaviour
     private Vector3 reflectDirection;
 
     private float currentReflectSpeed = 0f;
+
+    // å¾Œã‚å´ã«ã„ãŸã‹
+    private bool wasBehindEnemy = false;
 
     private void Awake()
     {
@@ -52,7 +60,7 @@ public class Reflection : MonoBehaviour
         if (myRb == null) return;
         if (collision.contactCount == 0) return;
 
-        // ~‚Ü‚Á‚Ä‚¢‚½‚ç”½Ë‚µ‚È‚¢
+        // æ­¢ã¾ã£ã¦ã„ãŸã‚‰åå°„ã—ãªã„
         if (myRb.linearVelocity.magnitude < stopThreshold)
         {
             return;
@@ -65,7 +73,7 @@ public class Reflection : MonoBehaviour
             collision.contacts[0].normal;
 
         // =========================
-        // “G‚ğ‚Á”ò‚Î‚·
+        // æ•µã‚’å¹ã£é£›ã°ã™
         // =========================
         if (enemyRb != null)
         {
@@ -77,7 +85,7 @@ public class Reflection : MonoBehaviour
         }
 
         // =========================
-        // ’Êí”½Ë
+        // é€šå¸¸åå°„
         // =========================
         Vector3 incoming =
             myRb.linearVelocity;
@@ -127,7 +135,7 @@ public class Reflection : MonoBehaviour
         }
 
         // =========================
-        // ‹ß‚­‚Ì“G‚ğŒŸõ
+        // è¿‘ãã®æ•µã‚’æ¤œç´¢
         // =========================
         Collider[] hits =
             Physics.OverlapSphere(
@@ -137,20 +145,22 @@ public class Reflection : MonoBehaviour
 
         Transform nearestEnemy = null;
 
-        float nearestDistance = Mathf.Infinity;
+        float nearestDistance =
+            Mathf.Infinity;
 
         foreach (Collider hit in hits)
         {
-            // Enemyƒ^ƒOˆÈŠO‚Í–³‹
             if (!hit.CompareTag(enemyTag))
                 continue;
 
-            // ¡‚Ô‚Â‚©‚Á‚½“G‚ğœŠO
-            if (hit.gameObject == collision.gameObject)
+            // ä»Šã¶ã¤ã‹ã£ãŸæ•µã‚’é™¤å¤–
+            if (hit.gameObject ==
+                collision.gameObject)
                 continue;
 
-            // ©•ª©g‚ğœŠO
-            if (hit.gameObject == gameObject)
+            // è‡ªåˆ†è‡ªèº«é™¤å¤–
+            if (hit.gameObject ==
+                gameObject)
                 continue;
 
             Vector3 toEnemy =
@@ -159,14 +169,13 @@ public class Reflection : MonoBehaviour
                     transform.position
                 ).normalized;
 
-            // ‘O•ûŒü‚É‚¢‚é“G‚¾‚¯‘ÎÛ
             float dot =
                 Vector3.Dot(
                     reflectDirection,
                     toEnemy
                 );
 
-            // Œã‚ë‚Ì“G‚Í–³‹
+            // å¾Œã‚ã®æ•µã¯ç„¡è¦–
             if (dot < 0.3f)
                 continue;
 
@@ -176,15 +185,19 @@ public class Reflection : MonoBehaviour
                     hit.transform.position
                 );
 
-            if (distance < nearestDistance)
+            if (distance <
+                nearestDistance)
             {
-                nearestDistance = distance;
-                nearestEnemy = hit.transform;
+                nearestDistance =
+                    distance;
+
+                nearestEnemy =
+                    hit.transform;
             }
         }
 
         // =========================
-        // ƒz[ƒ~ƒ“ƒO•â³
+        // ãƒ›ãƒ¼ãƒŸãƒ³ã‚°è£œæ­£
         // =========================
         if (nearestEnemy != null)
         {
@@ -203,10 +216,23 @@ public class Reflection : MonoBehaviour
         }
 
         // =========================
-        // ”½Ë‘¬“x
+        // å¾Œã‚ãƒ’ãƒƒãƒˆãªã‚‰æ¸›è¡°
+        // =========================
+
+        float finalReflectRate =
+            reflectRate;
+
+        if (wasBehindEnemy)
+        {
+            finalReflectRate *=
+                backHitReflectMultiplier;
+        }
+
+        // =========================
+        // åå°„é€Ÿåº¦
         // =========================
         currentReflectSpeed =
-            reflectSpeed * reflectRate;
+            reflectSpeed;
 
         if (currentReflectSpeed <= 0.01f)
         {
@@ -216,11 +242,14 @@ public class Reflection : MonoBehaviour
             return;
         }
 
-        // w’è‹——£ˆÚ“®
+        // =========================
+        // åå°„è·é›¢
+        // =========================
         remainingDistance =
-            reflectDistance;
+            reflectDistance *
+            finalReflectRate;
 
-        // ”½ËŠJn
+        // åå°„é–‹å§‹
         myRb.linearVelocity =
             reflectDirection *
             currentReflectSpeed;
@@ -228,6 +257,46 @@ public class Reflection : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // =========================
+        // å¾Œã‚å´åˆ¤å®šã‚’äº‹å‰ä¿å­˜
+        // =========================
+
+        Collider[] enemies =
+            Physics.OverlapSphere(
+                transform.position,
+                behindCheckRadius
+            );
+
+        wasBehindEnemy = false;
+
+        foreach (Collider enemy in enemies)
+        {
+            if (!enemy.CompareTag(enemyTag))
+                continue;
+
+            Vector3 enemyForward =
+                enemy.transform.forward;
+
+            Vector3 enemyToPlayer =
+                (
+                    transform.position -
+                    enemy.transform.position
+                ).normalized;
+
+            float dot =
+                Vector3.Dot(
+                    enemyForward,
+                    enemyToPlayer
+                );
+
+            // å¾Œã‚å´
+            if (dot < -0.3f)
+            {
+                wasBehindEnemy = true;
+                break;
+            }
+        }
+
         if (remainingDistance <= 0f)
             return;
 
@@ -235,7 +304,8 @@ public class Reflection : MonoBehaviour
             currentReflectSpeed *
             Time.fixedDeltaTime;
 
-        remainingDistance -= moveDistance;
+        remainingDistance -=
+            moveDistance;
 
         if (remainingDistance <= 0f)
         {
@@ -254,7 +324,7 @@ public class Reflection : MonoBehaviour
         }
     }
 
-    // ƒz[ƒ~ƒ“ƒO”ÍˆÍ•\¦
+    // ãƒ›ãƒ¼ãƒŸãƒ³ã‚°ç¯„å›²è¡¨ç¤º
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -262,6 +332,13 @@ public class Reflection : MonoBehaviour
         Gizmos.DrawWireSphere(
             transform.position,
             autoAimRadius
+        );
+
+        Gizmos.color = Color.blue;
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            behindCheckRadius
         );
     }
 }

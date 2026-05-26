@@ -1,32 +1,20 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HPManager : MonoBehaviour
 {
-
     public Image hpFill;
-
-    public float maxHP = 3;
-    public float currentHP;
+    [SerializeField] TargetToProtect ttp;
+    private float maxHP;
 
     void Start()
     {
-        currentHP = maxHP;
-        UpdateHPBar();
+        maxHP = ttp.currentHp;
     }
 
-    public void GetDamage()
+    void Update()
     {
-        currentHP--;
-        if(currentHP < 0) currentHP = 0;
-
-        UpdateHPBar();
-
-        if (currentHP == 0) Debug.Log("君の負け～～～");
-    }
-
-    void UpdateHPBar()
-    {
-        hpFill.fillAmount = currentHP / maxHP;
+        hpFill.fillAmount = ttp.currentHp / maxHP;
     }
 }

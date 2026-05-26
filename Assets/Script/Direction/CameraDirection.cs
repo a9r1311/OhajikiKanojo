@@ -6,13 +6,9 @@ public class CameraDirection : MonoBehaviour
 {
     public CinemachineBrain brain;
 
-    GameStop stop;
-
     public CinemachineCamera titleCam;
     public CinemachineCamera gameCam;
-
-    public float goTitleTime;
-    public float goGameTime;
+    public CinemachineCamera resultCam;
 
     private CinemachineBasicMultiChannelPerlin noise;
 
@@ -48,37 +44,30 @@ public class CameraDirection : MonoBehaviour
         noise.AmplitudeGain = 0;
     }
 
-    public void GoTitleCamera()
-    {
-        StartCoroutine(ChangeTitleCamera());
-    }
-
-    public void GoGameCamera()
-    {
-        StartCoroutine(ChangeGameCamera());
-    }
-
-    IEnumerator ChangeTitleCamera()
+    public void GoTitleCamera(float goTitleTime)
     {
         brain.DefaultBlend.Time = goTitleTime;
 
         titleCam.Priority = 10;
         gameCam.Priority = 0;
-
-        yield return new WaitForSeconds(goTitleTime); 
-
-        stop.StopGame();
+        resultCam.Priority = 0;
     }
 
-    IEnumerator ChangeGameCamera()
+    public void GoGameCamera(float goGameTime)
     {
         brain.DefaultBlend.Time = goGameTime;
 
         titleCam.Priority = 0;
         gameCam.Priority = 10;
+        resultCam.Priority = 0;
+    }
 
-        yield return new WaitForSeconds(goGameTime);
+    public void GoResultCamera(float goResultTime)
+    {
+        brain.DefaultBlend.Time = goResultTime;
 
-        stop.StartGame();
+        titleCam.Priority = 0;
+        gameCam.Priority = 0;
+        resultCam.Priority = 10;
     }
 }

@@ -7,64 +7,47 @@ public class UIChanger : MonoBehaviour
     public GameObject inGameUI;
     public GameObject configUI;
     public GameObject rankingUI;
+    public GameObject resultUI;
 
 
     public void ActiveTitleUI()
     {
-        StartCoroutine(TitleUI(true));
-        StartCoroutine(InGameUI(false));
-        StartCoroutine(ConfigUI(false));
-        StartCoroutine(RankingUI(false));
+        StartCoroutine(ChangeUI(true, false, false, false, false));
     }
 
 
     public void ActiveInGameUI()
     {
-        StartCoroutine(TitleUI(false));
-        StartCoroutine(InGameUI(true));
-        StartCoroutine(ConfigUI(false));
-        StartCoroutine(RankingUI(false));
+        StartCoroutine(ChangeUI(false, true, false, false, false));
     }
 
 
     public void ActiveConfigUI()
     {
-        StartCoroutine(TitleUI(true));
-        StartCoroutine(InGameUI(false));
-        StartCoroutine(ConfigUI(true));
-        StartCoroutine(RankingUI(false));
+        StartCoroutine(ChangeUI(true, false, true, false, false));
     }
 
 
     public void ActiveRankingUI()
     {
-        StartCoroutine(TitleUI(true));
-        StartCoroutine(InGameUI(false));
-        StartCoroutine(ConfigUI(false));
-        StartCoroutine(RankingUI(true));
+        StartCoroutine(ChangeUI(true, false, false, true, false));
     }
 
-    IEnumerator TitleUI(bool isBool)
+
+    public void HideAllUI()
     {
-        titleUI.SetActive(isBool);
+        StartCoroutine(ChangeUI(false, false, false, false, false));
+    }
+
+    IEnumerator ChangeUI(bool title, bool game, bool config, bool ranking, bool result)
+    {
+        titleUI.SetActive(title);
+        inGameUI.SetActive(game);
+        configUI.SetActive(config);
+        rankingUI.SetActive(ranking);
+        resultUI.SetActive(result);
+
         yield return new WaitForSeconds(0);
     }
 
-    IEnumerator InGameUI(bool isBool)
-    {
-        inGameUI.SetActive(isBool);
-        yield return new WaitForSeconds(0);
-    }
-
-    IEnumerator ConfigUI(bool isBool)
-    {
-        configUI.SetActive(isBool);
-        yield return new WaitForSeconds(0);
-    }
-
-    IEnumerator RankingUI(bool isBool)
-    {
-        rankingUI.SetActive(isBool);
-        yield return new WaitForSeconds(0);
-    }
 }
