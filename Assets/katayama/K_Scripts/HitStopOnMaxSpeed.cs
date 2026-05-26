@@ -30,15 +30,20 @@ public class HitStopOnMaxSpeed : MonoBehaviour
     [SerializeField] float sameEnemyCooldown = 1.0f;
 
     [Header("ヒットエフェクト")]
-    [SerializeField] GameObject hitEffectPrefab;
+    [Tooltip("0番目 = 衝突地点エフェクト")]
+    [SerializeField]
+    GameObject[] hitEffectPrefabs;
 
-    [SerializeField] float effectDestroyTime = 2.0f;
+    [SerializeField]
+    float effectDestroyTime = 2.0f;
 
     [Header("初期エフェクト数")]
-    [SerializeField] int startEffectCount = 1;
+    [SerializeField]
+    int startEffectCount = 1;
 
     [Header("連鎖終了までの時間")]
-    [SerializeField] float comboResetTime = 2f;
+    [SerializeField]
+    float comboResetTime = 2f;
 
     // 現在のエフェクト数
     int currentEffectCount;
@@ -82,7 +87,8 @@ public class HitStopOnMaxSpeed : MonoBehaviour
 
     void Update()
     {
-        // 毎フレーム、衝突直前の速度を保存
+        // 毎フレーム、
+        // 衝突直前の速度を保存
         if (playerRb != null)
         {
             previousSpeed =
@@ -100,10 +106,13 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(
+        Collision collision
+    )
     {
         // Enemyタグ以外は無視
-        if (!collision.gameObject.CompareTag("Enemy"))
+        if (!collision.gameObject
+            .CompareTag("Enemy"))
             return;
 
         if (playerRb == null)
@@ -142,7 +151,8 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         // =========================
         // エフェクト生成
         // =========================
-        if (hitEffectPrefab != null &&
+        if (hitEffectPrefabs != null &&
+            hitEffectPrefabs.Length > 0 &&
             collision.contactCount > 0)
         {
             Vector3 hitPoint =
@@ -150,22 +160,27 @@ public class HitStopOnMaxSpeed : MonoBehaviour
 
             // =========================
             // 1個目
+            // 必ず0番目Prefab
             // 衝突地点
             // =========================
-            GameObject firstEffect =
-                Instantiate(
-                    hitEffectPrefab,
-                    hitPoint,
-                    Random.rotation
-                );
+            if (hitEffectPrefabs[0] != null)
+            {
+                GameObject firstEffect =
+                    Instantiate(
+                        hitEffectPrefabs[0],
+                        hitPoint,
+                        Random.rotation
+                    );
 
-            Destroy(
-                firstEffect,
-                effectDestroyTime
-            );
+                Destroy(
+                    firstEffect,
+                    effectDestroyTime
+                );
+            }
 
             // =========================
             // 2個目以降
+            // ランダムPrefab
             // カメラ内ランダム
             // =========================
             for (int i = 1;
@@ -174,8 +189,8 @@ public class HitStopOnMaxSpeed : MonoBehaviour
             {
                 Vector3 viewportPos =
                     new Vector3(
-                        Random.Range(0.25f, 0.75f),
-                        Random.Range(0.25f, 0.75f),
+                        Random.Range(0.15f, 0.85f),
+                        Random.Range(0.15f, 0.85f),
                         10f
                     );
 
@@ -185,9 +200,24 @@ public class HitStopOnMaxSpeed : MonoBehaviour
                         viewportPos
                     );
 
+                // ランダムPrefab選択
+                int randomIndex =
+                    Random.Range(
+                        0,
+                        hitEffectPrefabs.Length
+                    );
+
+                GameObject randomPrefab =
+                    hitEffectPrefabs[
+                        randomIndex
+                    ];
+
+                if (randomPrefab == null)
+                    continue;
+
                 GameObject effect =
                     Instantiate(
-                        hitEffectPrefab,
+                        randomPrefab,
                         spawnPos,
                         Random.rotation
                     );
