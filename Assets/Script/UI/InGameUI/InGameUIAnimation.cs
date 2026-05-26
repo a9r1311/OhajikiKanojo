@@ -1,4 +1,4 @@
-/*using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class InGameUIAnimation : MonoBehaviour
@@ -7,31 +7,31 @@ public class InGameUIAnimation : MonoBehaviour
     [SerializeField] RectTransform gameUIRU;
 
     Vector2 gameUILUInPos;
-    Vector2 startInPos;
+    Vector2 gameUIRUInPos;
 
     Vector2 gameUILUOutPos;
-    Vector2 startOutPos;
+    Vector2 gameUIRUOutPos;
 
     void Start()
     {
         gameUILUInPos = gameUILU.anchoredPosition;
-        startInPos = start.anchoredPosition;
+        gameUIRUInPos = gameUIRU.anchoredPosition;
 
-        gameUILUOutPos = gameUILUInPos + new Vector2(-800, 1000);
-        startOutPos = startInPos + new Vector2(-500, -1200);
+        gameUILUOutPos = gameUILUInPos + new Vector2(-1000, 0);
+        gameUIRUOutPos = gameUIRUInPos + new Vector2(1000, 0);
     }
 
-    public void MoveGameUIInPosition(float duration)
+    public void MoveInGameInPosition(float duration)
     {
-        StartCoroutine(MGIP(duration));
+        StartCoroutine(MIGIP(duration));
     }
 
-    public void MoveTitleOutPosition(float duration)
+    public void MoveInGameOutPosition(float duration)
     {
-        StartCoroutine(MTOP(duration));
+        StartCoroutine(MIGOP(duration));
     }
 
-    IEnumerator MGIP(float duration)
+    IEnumerator MIGIP(float duration)
     {
         float time = 0;
         while (time < duration)
@@ -41,13 +41,13 @@ public class InGameUIAnimation : MonoBehaviour
             t = t * t;
 
             gameUILU.anchoredPosition = Vector2.Lerp(gameUILUOutPos, gameUILUInPos, t);
-            start.anchoredPosition = Vector2.Lerp(startOutPos, startInPos, t);
+            gameUIRU.anchoredPosition = Vector2.Lerp(gameUIRUOutPos, gameUIRUInPos, t);
 
             yield return null;
         }
     }
 
-    IEnumerator MTOP(float duration)
+    IEnumerator MIGOP(float duration)
     {
         float time = 0;
         while (time < duration)
@@ -56,23 +56,22 @@ public class InGameUIAnimation : MonoBehaviour
             float t = Mathf.Clamp01(time / duration);
             t = t * t;
 
-            title.anchoredPosition = Vector2.Lerp(titleInPos, titleOutPos, t);
-            start.anchoredPosition = Vector2.Lerp(startInPos, startOutPos, t);
+            gameUILU.anchoredPosition = Vector2.Lerp(gameUILUInPos, gameUILUOutPos, t);
+            gameUIRU.anchoredPosition = Vector2.Lerp(gameUIRUInPos, gameUIRUOutPos, t);
 
             yield return null;
         }
     }
 
-    public void SetTitleInPosition()
+    public void SetInGameInPosition()
     {
-        title.anchoredPosition = titleInPos;
-        start.anchoredPosition = startInPos;
+        gameUILU.anchoredPosition = gameUILUInPos;
+        gameUIRU.anchoredPosition = gameUIRUInPos;
     }
 
-    public void SetTitleOutPosition()
+    public void SetInGameOutPosition()
     {
-        title.anchoredPosition = titleOutPos;
-        start.anchoredPosition = startOutPos;
+        gameUILU.anchoredPosition = gameUILUOutPos;
+        gameUIRU.anchoredPosition = gameUIRUOutPos;
     }
 }
-*/

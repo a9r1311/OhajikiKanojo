@@ -4,13 +4,13 @@ using UnityEngine;
 public class ChangeGame : MonoBehaviour
 {
     [SerializeField] TitleUIAnimation animeT;
-    //[SerializeField] InGameUIAnimation animeIG;
+    [SerializeField] InGameUIAnimation animeIG;
     [SerializeField] CameraDirection direction;
     [SerializeField] UIChanger changeUI;
     [SerializeField] GameStop gs;
 
     public float animeTTime = 1.6f;
-    //public float animeIGTime = 1.0f;
+    public float animeIGTime = 1.0f;
     public float cameraTime = 2.0f;
 
     public float earlyTimer = 0.5f;
@@ -35,11 +35,11 @@ public class ChangeGame : MonoBehaviour
 
         changeUI.HideAllUI();
         animeT.SetTitleInPosition();
-        //animeIG.SetInGameOutPosition();
+        animeIG.SetInGameOutPosition();
         changeUI.ActiveInGameUI();
-        //animeIG.MoveInGameInPosition(animeIGTime);
+        animeIG.MoveInGameInPosition(animeIGTime);
 
-        //yield return new WaitForSeconds(animeIGTime);
+        yield return new WaitForSeconds(animeIGTime);
 
         gs.StartGame();
     }
@@ -48,12 +48,12 @@ public class ChangeGame : MonoBehaviour
     {
         gs.StopGame();
 
-        //animeIG.MoveInGameOutPosition(animeIGTime * earlyTimer);
+        animeIG.MoveInGameOutPosition(animeIGTime * earlyTimer);
 
-        //yield return new WaitForSeconds(animeIGTime * earlyTimer);
+        yield return new WaitForSeconds(animeIGTime * earlyTimer);
 
         changeUI.HideAllUI();
-        //animeIG.SetInGameInPosition();
+        animeIG.SetInGameInPosition();
         animeT.SetTitleOutPosition();
         changeUI.ActiveTitleUI();
         direction.GoTitleCamera(cameraTime * earlyTimer);
