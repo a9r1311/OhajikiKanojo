@@ -10,6 +10,9 @@ public class HitStopOnMaxSpeed : MonoBehaviour
     [Header("カメラシェイク")]
     [SerializeField] CameraDirection cameraDirection;
 
+    [Header("エフェクト用カメラ")]
+    [SerializeField] Camera effectCamera;
+
     [Header("カメラシェイク設定")]
     [SerializeField] float shakePower = 5.0f;
     [SerializeField] float shakeTime = 0.2f;
@@ -64,6 +67,12 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         {
             cameraDirection =
                 FindAnyObjectByType<CameraDirection>();
+        }
+
+        // カメラ未設定なら MainCamera
+        if (effectCamera == null)
+        {
+            effectCamera = Camera.main;
         }
 
         // 初期化
@@ -140,9 +149,10 @@ public class HitStopOnMaxSpeed : MonoBehaviour
                 collision.contacts[0].point;
 
             // =========================
-            // 必ず1個は衝突地点
+            // 1個目
+            // 衝突地点
             // =========================
-            GameObject hitEffect =
+            GameObject firstEffect =
                 Instantiate(
                     hitEffectPrefab,
                     hitPoint,
@@ -150,23 +160,18 @@ public class HitStopOnMaxSpeed : MonoBehaviour
                 );
 
             Destroy(
-                hitEffect,
+                firstEffect,
                 effectDestroyTime
             );
 
             // =========================
-            // 追加エフェクト
+            // 2個目以降
+            // カメラ内ランダム
             // =========================
-            int extraEffectCount =
-                currentEffectCount - 1;
-
-            for (int i = 0;
-                 i < extraEffectCount;
+            for (int i = 1;
+                 i < currentEffectCount;
                  i++)
             {
-                Camera cam =
-                    Camera.main;
-
                 Vector3 viewportPos =
                     new Vector3(
                         Random.Range(0.25f, 0.75f),
@@ -175,18 +180,16 @@ public class HitStopOnMaxSpeed : MonoBehaviour
                     );
 
                 Vector3 spawnPos =
-                    cam.ViewportToWorldPoint(
+                    effectCamera
+                    .ViewportToWorldPoint(
                         viewportPos
                     );
-
-                Quaternion randomRot =
-                    Random.rotation;
 
                 GameObject effect =
                     Instantiate(
                         hitEffectPrefab,
                         spawnPos,
-                        randomRot
+                        Random.rotation
                     );
 
                 Destroy(
