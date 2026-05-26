@@ -15,33 +15,19 @@ public class ChangeGame : MonoBehaviour
 
     public float earlyTimer = 0.5f;
 
+    public void GoTitle()
+    {
+        StartCoroutine(GT());
+    }
+
     public void GoInGame()
     {
        StartCoroutine(GIG());
     }
 
-
-    public void GoTitle()
+    public void GoResult()
     {
-       StartCoroutine(GT());
-    }
-
-    IEnumerator GIG()
-    {
-        direction.GoGameCamera(cameraTime);
-        animeT.MoveTitleOutPosition(animeTTime);
-
-        yield return new WaitForSeconds(CheckLongTime(animeTTime, cameraTime));
-
-        changeUI.HideAllUI();
-        animeT.SetTitleInPosition();
-        animeIG.SetInGameOutPosition();
-        changeUI.ActiveInGameUI();
-        animeIG.MoveInGameInPosition(animeIGTime);
-
-        yield return new WaitForSeconds(animeIGTime);
-
-        gs.StartGame();
+        //StartCoroutine(GR());
     }
 
     IEnumerator GT()
@@ -64,6 +50,30 @@ public class ChangeGame : MonoBehaviour
 
         yield return new WaitForSeconds(animeTTime * earlyTimer);
     }
+
+
+    IEnumerator GIG()
+    {
+        direction.GoGameCamera(cameraTime);
+        animeT.MoveTitleOutPosition(animeTTime);
+
+        yield return new WaitForSeconds(CheckLongTime(animeTTime, cameraTime));
+
+        changeUI.HideAllUI();
+        animeT.SetTitleInPosition();
+        animeIG.SetInGameOutPosition();
+        changeUI.ActiveInGameUI();
+        animeIG.MoveInGameInPosition(animeIGTime);
+
+        yield return new WaitForSeconds(animeIGTime);
+
+        gs.StartGame();
+    }
+
+    /*IEnumerator GR()
+    {
+
+    }*/
 
     float CheckLongTime(float a, float b)
     {
