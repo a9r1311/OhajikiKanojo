@@ -275,7 +275,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -50
   m_MaskInteraction: 0
-  m_Time: 0.2
+  m_Time: 0.4
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -426,7 +426,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Time: 0.3
+  m_Time: 0.6
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
