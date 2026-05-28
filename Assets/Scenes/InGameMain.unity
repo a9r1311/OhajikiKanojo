@@ -2944,12 +2944,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChangeGame
   animeT: {fileID: 936246341}
   animeIG: {fileID: 1113710278}
+  animeR: {fileID: 1747233493}
   direction: {fileID: 1993844053}
   changeUI: {fileID: 836601127}
   gs: {fileID: 836601128}
+  cameraTime: 2
   animeTTime: 1.6
   animeIGTime: 1
-  cameraTime: 2
+  animeRTime: 1.2
   earlyTimer: 0.5
 --- !u!4 &836601130
 Transform:
@@ -5706,6 +5708,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1747233492}
+  - component: {fileID: 1747233493}
   m_Layer: 5
   m_Name: ResultUI
   m_TagString: Untagged
@@ -5734,6 +5737,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1747233493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747233491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca20da90b06d57c4caa45b3639da925f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResultUIAnimation
+  result: {fileID: 1747233492}
 --- !u!1 &1768937995
 GameObject:
   m_ObjectHideFlags: 0
