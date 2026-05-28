@@ -7,7 +7,7 @@ public class EnemySpawnDirector : MonoBehaviour
     [SerializeField] private List<GameObject> spawnEnemy = new List<GameObject>();  //スポーンする敵のリスト
     [SerializeField] private GameObject target;  //敵の追尾ターゲット
     private ScoreDirector scoreDirector;  //スコアディレクター
-    private GameDirector gameDirector;  //ゲームディレクター
+    [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
 
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
@@ -35,8 +35,6 @@ public class EnemySpawnDirector : MonoBehaviour
 
         //スコアディレクター確認
         scoreDirector = gameObject.GetComponent<ScoreDirector>();
-        //ゲームディレクター確認
-        gameDirector = gameObject.GetComponent<GameDirector>();
 
         waitingEnemies = new List<Queue<GameObject>>();  //初期化
         Vector3 waitingPos = new Vector3(100f, 0f, 100f);  //初期待機位置
@@ -55,6 +53,7 @@ public class EnemySpawnDirector : MonoBehaviour
                 enemyBase.target = target;
                 enemyBase.spawnDirector = this;
                 enemyBase.scoreDirector = scoreDirector;
+                enemyBase.gameStop = gameStop;
                 //敵を非アクティブにして待機キューに追加
                 waitingEnemies[enemyBase.id].Enqueue(enemy);
                 enemy.SetActive(false);
@@ -65,9 +64,8 @@ public class EnemySpawnDirector : MonoBehaviour
     void Update()
     {
         //ゲームストップ中はスポーンさせない
-        //if (gameStop.isGameStop)
-        //if (gameDirector.gameFinish)
-        //return;
+        if (gameStop.isGameStop)
+            return;
 
         //スポーンタイマー
         spawnTimer += Time.deltaTime;
@@ -128,6 +126,7 @@ public class EnemySpawnDirector : MonoBehaviour
                 enemyBase.target = target;
                 enemyBase.spawnDirector = this;
                 enemyBase.scoreDirector = scoreDirector;
+                enemyBase.gameStop = gameStop;
             }
             else  //オブジェクトプールから敵を出してスポーン
             {

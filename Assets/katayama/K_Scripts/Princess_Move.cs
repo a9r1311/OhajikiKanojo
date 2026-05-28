@@ -13,12 +13,17 @@ public class Princess_Move : MonoBehaviour
     [SerializeField] string nextSceneName = "GameClear";
 
     [SerializeField] private ScoreDirector scoreDirector;  // スコアデータの参照
+    [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
 
     // シーン遷移を1回だけ行うため
     bool hasChangedScene = false;
 
     void Update()
     {
+        //ゲームストップ中はスポーンさせない
+        if (gameStop.isGameStop)
+            return;
+
         Vector3 targetPosition = new Vector3(0f, 1f, coordinate);
 
         // 目的地へ移動

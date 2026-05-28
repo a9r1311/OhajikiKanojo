@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class TargetToProtect : MonoBehaviour
 {
+    [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
+    [SerializeField] private ChangeGame changeGame;  //ゲーム遷移への参照
     [SerializeField] private int maxHp = 100;  //ターゲットのHP
     public int currentHp;  //現在のHP
 
@@ -18,7 +20,8 @@ public class TargetToProtect : MonoBehaviour
         //HPを減らす
         if ((currentHp -= damage) <= 0)
         {
-            //Debug.Log("お前が殺した");
+            gameStop.StopGame();  //ゲームストップ
+            changeGame.GoResult();  //リザルト移行
         }
     }
 
