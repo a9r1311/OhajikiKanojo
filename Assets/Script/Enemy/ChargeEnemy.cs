@@ -37,6 +37,9 @@ public class ChargeEnemy : EnemyBase
     //初期化
     public override void ResetState()
     {
+        model.SetActive(true);  //敵のモデルをアクティブにする
+        collider.SetActive(true);  //敵のコライダーをアクティブにする
+        gameObject.SetActive(false);  //こののゲームオブジェクトを非アクティブにする
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする
         currentHp = maxHp;  //HPを最大HPに戻す

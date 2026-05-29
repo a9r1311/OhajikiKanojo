@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HPManager : MonoBehaviour
 {
     public Image hpFill;
-    [SerializeField] TargetToProtect ttp;
+    [SerializeField] PrinceController ttp;
     private float maxHP;
 
     void Start()

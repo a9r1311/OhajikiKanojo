@@ -87,12 +87,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 136654946938465911}
+  - component: {fileID: 4328023794644840208}
+  - component: {fileID: 6460821914532434115}
   - component: {fileID: 2253421082350525137}
   - component: {fileID: 3195847199136354162}
   - component: {fileID: 6130482042467149582}
   - component: {fileID: 4062382504392555452}
   - component: {fileID: 1119997116510438297}
-  - component: {fileID: 4328023794644840208}
   m_Layer: 0
   m_Name: zakozakoEnemy
   m_TagString: Enemy
@@ -117,6 +118,125 @@ Transform:
   - {fileID: 4513692165243499831}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4328023794644840208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2413927969628079686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a0f96926e8a3644b90560922d17ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
+  spawnDirector: {fileID: 0}
+  scoreDirector: {fileID: 0}
+  gameStop: {fileID: 0}
+  moveState: 0
+  id: 0
+  speed: 6
+  maxHp: 1
+  power: 10
+  knockBackMultiplier: 0.98
+  target: {fileID: 0}
+--- !u!82 &6460821914532434115
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2413927969628079686}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 7681b106d40be0b4da1f9d0da7961637, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.597
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!33 &2253421082350525137
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -243,33 +363,11 @@ MonoBehaviour:
   flickSensitivity: 2
   maxDragDistance: 2
   maxFlickCount: 1000
-  flickEnableSpeed: 1
   flickCooldown: 0.2
   cancelDistance: 0.2
   maxChargeTime: 2
   chargeMultiplier: 2
   modelRotationOffset: {x: -90, y: -180, z: 0}
---- !u!114 &4328023794644840208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2413927969628079686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42a0f96926e8a3644b90560922d17ff4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyBase
-  spawnDirector: {fileID: 0}
-  scoreDirector: {fileID: 0}
-  moveState: 0
-  id: 0
-  speed: 6
-  maxHp: 1
-  power: 10
-  knockBackMultiplier: 0.98
-  target: {fileID: 0}
 --- !u!1001 &274254455281407785
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -509,9 +509,6 @@ PrefabInstance:
       addedObject: {fileID: 2128758036}
     - targetCorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2128758035}
-    - targetCorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2128758039}
     - targetCorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
       insertIndex: -1
@@ -4000,7 +3997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HPManager
   hpFill: {fileID: 1836942449}
-  ttp: {fileID: 2128758035}
+  ttp: {fileID: 2128758039}
 --- !u!1 &1438913454
 GameObject:
   m_ObjectHideFlags: 0
@@ -4201,7 +4198,6 @@ MonoBehaviour:
   flickSensitivity: 2
   maxDragDistance: 2
   maxFlickCount: 1000
-  flickEnableSpeed: 1
   flickCooldown: 0.2
   cancelDistance: 0.2
   maxChargeTime: 2
@@ -6170,7 +6166,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1822324202}
-  - component: {fileID: 1822324203}
   - component: {fileID: 1822324201}
   m_Layer: 0
   m_Name: StageDirector
@@ -6215,24 +6210,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1822324203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822324200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efefeb4193be93947ba6bd6e89c0bf5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameDirector
-  enemySpawnDirector: {fileID: 1822324201}
-  scoreDirector: {fileID: 2043960527}
-  targetToProtect: {fileID: 2128758035}
-  resultManager: {fileID: 836601132}
-  gameStop: {fileID: 836601128}
-  gameFinish: 0
 --- !u!1 &1824317794
 GameObject:
   m_ObjectHideFlags: 0
@@ -6961,7 +6938,7 @@ MonoBehaviour:
   speedTolerance: 5
   hitStopDuration: 0.2
   sameEnemyCooldown: 1
-  hitEffectPrefab: {fileID: 1749362427593801985, guid: ea7ebfca0016370468244e5ff7b4f828, type: 3}
+  hitEffectPrefabs: []
   effectDestroyTime: 2
   startEffectCount: 1
   comboResetTime: 2
@@ -7573,22 +7550,6 @@ CapsuleCollider:
   m_Height: 0.15
   m_Direction: 2
   m_Center: {x: 0, y: 0.02, z: 0.06}
---- !u!114 &2128758035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2128758029}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9687abd8a477aab408e4a2c7bbd210d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TargetToProtect
-  gameStop: {fileID: 836601128}
-  changeGame: {fileID: 836601129}
-  maxHp: 100
-  currentHp: 0
 --- !u!114 &2128758036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7626,6 +7587,7 @@ MonoBehaviour:
   scoreDirector: {fileID: 2043960527}
   gameStop: {fileID: 836601128}
   changeGame: {fileID: 836601129}
+  resultManager: {fileID: 836601132}
   coordinate: 455
   speed: 2
   nextSceneName: SampleScene

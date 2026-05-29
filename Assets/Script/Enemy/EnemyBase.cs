@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class EnemyBase : MonoBehaviour
     public EnemySpawnDirector spawnDirector;  //スポーンディレクターへの参照
     public ScoreDirector scoreDirector;  //スコアディレクターへの参照
     public GameStop gameStop;  //ゲームストップへの参照
+    private AudioSource audioSource;
+    protected GameObject model;  //敵のモデル（見た目）への参照
+    protected GameObject collider;  //敵のコライダーへの参照
 
     public enum movePattern { Idle, Walk, Knock };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
@@ -30,6 +34,9 @@ public class EnemyBase : MonoBehaviour
     {
         currentHp = maxHp;  //現在のHPを最大HPで初期化
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+        model = transform.GetChild(0).gameObject;  //敵のモデルへの参照を取得
+        collider = transform.GetChild(1).gameObject;  //敵のコライダーへの参照を取得
 
         //ターゲット確認
         if (target == null)
@@ -138,17 +145,29 @@ public class EnemyBase : MonoBehaviour
     {
         //ぶっ飛ぶ
         //knockBackMultiplier = 50f;
+
+        //動物の鳴き声を再生
+        audioSource.Play();
+
         yield return new WaitForSeconds(0.5f);
 
-        //初期化
-        ResetState();
+        model.SetActive(false);  //敵のモデルを非アクティブにする
+        collider.SetActive(false);  //敵のコライダーを非アクティブにする
 
         //スポーンディレクターに敵をオブジェクトプールに返す
         spawnDirector.ReturnEnemyToPool(this.gameObject, id);
+
+        yield return new WaitForSeconds(1.0f);
+
+        //初期化
+        ResetState();
     }
 
     public virtual void ResetState()
     {
+        model.SetActive(true);  //敵のモデルをアクティブにする
+        collider.SetActive(true);  //敵のコライダーをアクティブにする
+        gameObject.SetActive(false);  //こののゲームオブジェクトを非アクティブにする
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする
         currentHp = maxHp;  //HPを最大HPに戻す
