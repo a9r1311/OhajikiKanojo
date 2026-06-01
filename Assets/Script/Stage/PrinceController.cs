@@ -6,6 +6,7 @@ public class PrinceController : MonoBehaviour
     [SerializeField] private ScoreDirector scoreDirector;  //スコアデータの参照
     [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
     [SerializeField] private ChangeGame changeGame;  //ゲーム遷移への参照
+    [SerializeField] private ResultManager resultManager;  //リザルト管理への参照
 
     [Header("目的地の座標")]
     [SerializeField] public float coordinate = 10f;
@@ -62,6 +63,8 @@ public class PrinceController : MonoBehaviour
         //HPを減らす
         if ((currentHp -= damage) <= 0)
         {
+            //リザルト表示
+            resultManager.ResultView();
             gameStop.StopGame();  //ゲームストップ
             changeGame.GoResult();  //リザルト移行
         }

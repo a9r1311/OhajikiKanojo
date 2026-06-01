@@ -17,8 +17,6 @@ public class GameDirector : MonoBehaviour
         if (!gameFinish && targetToProtect.currentHp <= 0)
         {
             gameFinish = true;
-            //リザルト表示
-            resultManager.ResultView();
         }
     }
 }
