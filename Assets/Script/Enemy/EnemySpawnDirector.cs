@@ -12,7 +12,8 @@ public class EnemySpawnDirector : MonoBehaviour
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 3;  //とりあえず3体ずつ用意しておく
     
-    private float spawnInterval = 4f;  //スポーン間隔
+    private float initialSpawnInterval = 4f;  //スポーン間隔の初期値
+    private float currentSpawnInterval;  //スポーン間隔
     private float minSpawnInterval = 0.5f;  //スポーン間隔の最小値
     private float spawnIntervalDecreaseRate = 0.025f;  //スポーン間隔の減少率
     private float spawnTimer = 0f;  //スポーンタイマー
@@ -35,6 +36,8 @@ public class EnemySpawnDirector : MonoBehaviour
 
         //スコアディレクター確認
         scoreDirector = gameObject.GetComponent<ScoreDirector>();
+
+        currentSpawnInterval = initialSpawnInterval;  //スポーン間隔を初期化
 
         waitingEnemies = new List<Queue<GameObject>>();  //初期化
         Vector3 waitingPos = new Vector3(100f, 0f, 100f);  //初期待機位置
@@ -69,12 +72,12 @@ public class EnemySpawnDirector : MonoBehaviour
 
         //スポーンタイマー
         spawnTimer += Time.deltaTime;
-        if (spawnTimer >= spawnInterval)
+        if (spawnTimer >= currentSpawnInterval)
         {
             spawnTimer = 0f;
 
-            if(spawnInterval > minSpawnInterval)
-                spawnInterval -= spawnIntervalDecreaseRate;  //スポーン間隔を徐々に短くする
+            if(currentSpawnInterval > minSpawnInterval)
+                currentSpawnInterval -= spawnIntervalDecreaseRate;  //スポーン間隔を徐々に短くする
 
             if(spawnCounter >= increaseSpawnTypeInterval && spawnTypeCount < spawnEnemy.Count)
             {
@@ -171,5 +174,14 @@ public class EnemySpawnDirector : MonoBehaviour
     public void ReturnEnemyToPool(GameObject enemy, int index)
     {
         waitingEnemies[index].Enqueue(enemy);
+    }
+
+    //スポーン設定を初期化
+    public void SpawnReset()
+    {
+        spawnTimer = 0f;
+        currentSpawnInterval = initialSpawnInterval;
+        spawnCounter = 0;
+        spawnTypeCount = 1;
     }
 }

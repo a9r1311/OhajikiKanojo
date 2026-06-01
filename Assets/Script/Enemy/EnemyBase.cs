@@ -11,7 +11,7 @@ public class EnemyBase : MonoBehaviour
     public GameStop gameStop;  //ゲームストップへの参照
     private AudioSource audioSource;
     protected GameObject model;  //敵のモデル（見た目）への参照
-    protected GameObject collider;  //敵のコライダーへの参照
+    protected GameObject colliderObject;  //敵のコライダーへの参照
 
     public enum movePattern { Idle, Walk, Knock };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
@@ -36,7 +36,7 @@ public class EnemyBase : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         model = transform.GetChild(0).gameObject;  //敵のモデルへの参照を取得
-        collider = transform.GetChild(1).gameObject;  //敵のコライダーへの参照を取得
+        colliderObject = transform.GetChild(1).gameObject;  //敵のコライダーへの参照を取得
 
         //ターゲット確認
         if (target == null)
@@ -69,11 +69,7 @@ public class EnemyBase : MonoBehaviour
         //ゲーム終了時の処理
         if (gameStop.isGameStop)
         {
-            //初期化
-            ResetState();
-
-            //スポーンディレクターに敵をオブジェクトプールに返す
-            spawnDirector.ReturnEnemyToPool(this.gameObject, id);
+            return;
         }
 
         //行動パターンに応じた処理
@@ -152,7 +148,7 @@ public class EnemyBase : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         model.SetActive(false);  //敵のモデルを非アクティブにする
-        collider.SetActive(false);  //敵のコライダーを非アクティブにする
+        colliderObject.SetActive(false);  //敵のコライダーを非アクティブにする
 
         //スポーンディレクターに敵をオブジェクトプールに返す
         spawnDirector.ReturnEnemyToPool(this.gameObject, id);
@@ -163,10 +159,19 @@ public class EnemyBase : MonoBehaviour
         ResetState();
     }
 
+    public void EnemyRetryGame()
+    {
+        //初期化
+        ResetState();
+
+        //スポーンディレクターに敵をオブジェクトプールに返す
+        spawnDirector.ReturnEnemyToPool(this.gameObject, id);
+    }
+
     public virtual void ResetState()
     {
         model.SetActive(true);  //敵のモデルをアクティブにする
-        collider.SetActive(true);  //敵のコライダーをアクティブにする
+        colliderObject.SetActive(true);  //敵のコライダーをアクティブにする
         gameObject.SetActive(false);  //こののゲームオブジェクトを非アクティブにする
         moveState = movePattern.Idle;  //行動パターンを待機にする
         rb.linearVelocity = Vector3.zero;  //速度を0にする
