@@ -14,13 +14,13 @@ public class EnemySpawnDirector : MonoBehaviour
     
     private float initialSpawnInterval = 4f;  //スポーン間隔の初期値
     private float currentSpawnInterval;  //スポーン間隔
-    private float minSpawnInterval = 0.5f;  //スポーン間隔の最小値
-    private float spawnIntervalDecreaseRate = 0.025f;  //スポーン間隔の減少率
+    private float minSpawnInterval = 0.27f;  //スポーン間隔の最小値
+    private float spawnIntervalDecreaseRate = 0.033f;  //スポーン間隔の減少率
     private float spawnTimer = 0f;  //スポーンタイマー
 
     [SerializeField] private bool isLongDistanceSpawn = false;  //遠距離スポーンフラグ
     [SerializeField] private int spawnTypeCount = 1;  //スポーンさせる敵の種類数
-    private int increaseSpawnTypeInterval = 8;  //スポーンさせる敵の種類を増やす間隔
+    private float increaseSpawnTypeInterval = 8.7f;  //スポーンさせる敵の種類を増やす間隔
     private int spawnCounter = 0;  //スポーンカウンター
 
     void Start()
