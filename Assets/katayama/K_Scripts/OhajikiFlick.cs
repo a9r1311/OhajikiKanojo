@@ -7,9 +7,15 @@ public class OhajikiFlick : MonoBehaviour
 
     Vector3 startPos;
     Vector3 currentPos;
+    Vector3 startPosition;
+    Quaternion startRotation;
 
     bool isDragging = false;
     public bool canFlick = true;
+
+    [Header("リスポーン地点")]
+    [SerializeField]
+    Transform spawnPoint;
 
     [Header("矢印")]
     [SerializeField] Transform arrow;
@@ -49,6 +55,12 @@ public class OhajikiFlick : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        startPosition =
+            transform.position;
+
+        startRotation =
+            transform.rotation;
 
         // 矢印を最初は非表示
         if (arrow != null)
@@ -322,5 +334,51 @@ public class OhajikiFlick : MonoBehaviour
         }
 
         return transform.position;
+    }
+
+    public void Retry()
+    {
+        // 停止
+        rb.linearVelocity =
+            Vector3.zero;
+
+        rb.angularVelocity =
+            Vector3.zero;
+
+        // 位置を戻す
+        if (spawnPoint != null)
+        {
+            transform.position =
+                spawnPoint.position;
+
+            transform.rotation =
+                spawnPoint.rotation;
+        }
+        else
+        {
+            transform.position =
+                startPosition;
+
+            transform.rotation =
+                startRotation;
+        }
+
+        // 状態リセット
+        currentFlickCount = 0;
+
+        canFlick = true;
+
+        flickTimer =
+            flickCooldown;
+
+        isDragging = false;
+
+        chargeTime = 0f;
+
+        // 矢印非表示
+        if (arrow != null)
+        {
+            arrow.gameObject.SetActive(false);
+        }
     }
 }

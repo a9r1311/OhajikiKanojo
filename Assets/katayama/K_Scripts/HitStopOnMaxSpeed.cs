@@ -29,6 +29,10 @@ public class HitStopOnMaxSpeed : MonoBehaviour
     [Header("同じ敵への再ヒット待機時間")]
     [SerializeField] float sameEnemyCooldown = 1.0f;
 
+    [Header("通常ヒットエフェクト")]
+    [SerializeField]
+    GameObject normalHitEffect;
+
     [Header("ヒットエフェクト")]
     [Tooltip("0番目 = 衝突地点エフェクト")]
     [SerializeField]
@@ -136,10 +140,37 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         float currentSpeed =
             previousSpeed;
 
-        // 最高速度付近のみ発動
+        // =========================
+        // 通常ヒット
+        // =========================
         if (currentSpeed <
             maxSpeed - speedTolerance)
+        {
+            if (normalHitEffect != null &&
+                collision.contactCount > 0)
+            {
+                Vector3 hitPoint =
+                    collision.contacts[0].point;
+
+                GameObject effect =
+                    Instantiate(
+                        normalHitEffect,
+                        hitPoint,
+                        Quaternion.identity
+                    );
+
+                Destroy(
+                    effect,
+                    effectDestroyTime
+                );
+            }
+
             return;
+        }
+
+        // =========================
+        // ここから最高速度ヒット
+        // =========================
 
         // 最後のヒット時刻記録
         lastHitTimes[enemy] =
@@ -149,7 +180,7 @@ public class HitStopOnMaxSpeed : MonoBehaviour
             Time.time;
 
         // =========================
-        // エフェクト生成
+        // ヒットストップエフェクト
         // =========================
         if (hitEffectPrefabs != null &&
             hitEffectPrefabs.Length > 0 &&
@@ -158,11 +189,7 @@ public class HitStopOnMaxSpeed : MonoBehaviour
             Vector3 hitPoint =
                 collision.contacts[0].point;
 
-            // =========================
-            // 1個目
-            // 必ず0番目Prefab
-            // 衝突地点
-            // =========================
+            // 0番目のPrefab
             if (hitEffectPrefabs[0] != null)
             {
                 GameObject firstEffect =
@@ -178,11 +205,7 @@ public class HitStopOnMaxSpeed : MonoBehaviour
                 );
             }
 
-            // =========================
-            // 2個目以降
-            // ランダムPrefab
-            // カメラ内ランダム
-            // =========================
+            // カメラ演出用
             for (int i = 1;
                  i < currentEffectCount;
                  i++)
@@ -200,7 +223,6 @@ public class HitStopOnMaxSpeed : MonoBehaviour
                         viewportPos
                     );
 
-                // ランダムPrefab選択
                 int randomIndex =
                     Random.Range(
                         0,
@@ -224,19 +246,14 @@ public class HitStopOnMaxSpeed : MonoBehaviour
 
                 Destroy(
                     effect,
-                    effectDestroyTime
-                );
+                        effectDestroyTime
+                    );
             }
 
-            // =========================
-            // 連鎖する度に増える
-            // =========================
             currentEffectCount++;
         }
 
-        // =========================
         // カメラシェイク
-        // =========================
         if (cameraDirection != null)
         {
             cameraDirection.Shake(
@@ -245,9 +262,7 @@ public class HitStopOnMaxSpeed : MonoBehaviour
             );
         }
 
-        // =========================
         // ヒットストップ
-        // =========================
         if (!isHitStopping)
         {
             Rigidbody enemyRb =
