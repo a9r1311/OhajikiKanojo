@@ -528,6 +528,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 782799745041919410, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -44.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 782799745041919410, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -182.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6062097122342098557, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -573,10 +581,12 @@ PrefabInstance:
       value: FirstMapRoot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5483693999297578874, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+    - {fileID: 3107925579574976186, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6062097122342098557, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
-      insertIndex: -1
+      insertIndex: 8
       addedObject: {fileID: 1525205847}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
@@ -4085,8 +4095,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1a777e9527a1549a47f3379ec6724b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HPManager
+  allFill: {fileID: 0}
   hpFill: {fileID: 1836942449}
-  ttp: {fileID: 2128758039}
+  hpBackFill: {fileID: 0}
+  pc: {fileID: 0}
+  reactionTimer: 0.4
+  goBackGaugeCount: 1
+  backGaugeSpeed: 0.5
+  shakePow: 16
 --- !u!1 &1438913454
 GameObject:
   m_ObjectHideFlags: 0
@@ -4280,6 +4296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
   canFlick: 1
+  spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
   arrowMaxLength: 0.6
   power: 5
@@ -7027,6 +7044,7 @@ MonoBehaviour:
   speedTolerance: 5
   hitStopDuration: 0.2
   sameEnemyCooldown: 1
+  normalHitEffect: {fileID: 0}
   hitEffectPrefabs:
   - {fileID: 1749362427593801985, guid: ea7ebfca0016370468244e5ff7b4f828, type: 3}
   - {fileID: 8185526686621646940, guid: d51dd3ca4a47c85449589f19db3ca151, type: 3}
