@@ -32,6 +32,10 @@ public class OhajikiFlick : MonoBehaviour
     [Header("回数制限")]
     [SerializeField] int maxFlickCount = 5;
 
+    [Header("再フリック可能な速度")]
+    [SerializeField]
+    float stopVelocity = 0.5f;
+
     [Header("フリック再許可")]
     [SerializeField] float flickCooldown = 0.2f;
 
@@ -83,7 +87,8 @@ public class OhajikiFlick : MonoBehaviour
 
         // クールタイムだけで再フリック可能
         canFlick =
-            flickTimer > flickCooldown;
+            flickTimer > flickCooldown &&
+            rb.linearVelocity.magnitude < stopVelocity;
 
         // =========================
         // 押した瞬間
