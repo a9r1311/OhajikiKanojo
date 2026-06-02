@@ -2,13 +2,32 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using static RankingManager;
 
 public class RankingManager : MonoBehaviour
 {
-    public TextMeshProUGUI rankingText;  //ランキング表示用テキスト
+    [SerializeField] private TextMeshProUGUI[] nameTexts;
+    [SerializeField] private TextMeshProUGUI[] scoreTexts;
+
+    //ランキングデータクラス
+    [System.Serializable]
+    public class RankingData
+    {
+        public int rank;
+        public string name;
+        public int score;
+    }
+
+    //ランキングリストクラス
+    [System.Serializable]
+    public class RankingList
+    {
+        public RankingData[] rankings;
+    }
 
     void Start()
     {
+        //ゲーム開始時にランキングを取得
         StartCoroutine(GetRanking());
     }
 
@@ -57,7 +76,26 @@ public class RankingManager : MonoBehaviour
 
         if (www.result == UnityWebRequest.Result.Success)
         {
-            rankingText.text = www.downloadHandler.text;
+            //ランキングデータをJSONからクラスに変換
+            RankingList list = JsonUtility.FromJson<RankingList>(www.downloadHandler.text);
+
+            //ランキングデータをテキストに
+            for (int i = 0; i < nameTexts.Length; i++)
+            {
+                //ランキングデータが存在する場合は表示、存在しない場合は---を表示
+                if (i < list.rankings.Length)
+                {
+                    RankingData data = list.rankings[i];
+
+                    nameTexts[i].text = $"{data.name}";
+                    scoreTexts[i].text = $"{data.score}";
+                }
+                else
+                {
+                    nameTexts[i].text = $"----------";
+                    scoreTexts[i].text = $"---";
+                }
+            }
         }
         else
         {
