@@ -3,7 +3,8 @@ using UnityEngine;
 public class ScoreDirector : MonoBehaviour
 {
     private Rigidbody playerRb;
-    [SerializeField] private int score = 0;  //スコア
+    private int score = 0;  //スコア
+    private int chainCount = 0;  //連鎖数
 
     private const float maxSpeed = 110.2917f;  //プレイヤーの最大速度
     private float currentSpeed = 0f;  //現在の速度
@@ -36,13 +37,13 @@ public class ScoreDirector : MonoBehaviour
         return 100 + bonus;
     }
 
-    public int ChainScore(int enemyScore) 
+    public int ChainScore(int enemyScore, int magnification)
     {
-        //スコア加算(二倍)
-        score += enemyScore * 2;
-        Debug.Log("Chain Score: " + (enemyScore * 2));
+        //スコア加算
+        score += enemyScore * magnification;
+        Debug.Log("Chain Score: " + (enemyScore * magnification));
 
-        return enemyScore * 2;
+        return enemyScore * magnification;
     }
 
     public int GetScore()

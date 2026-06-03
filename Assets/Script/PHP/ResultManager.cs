@@ -6,8 +6,10 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private GameObject resultInput;
     [SerializeField] private GameObject resultOutput;
     [SerializeField] private GameObject ranking;
+    [SerializeField] private GameObject title;
     [SerializeField] private ScoreDirector scoreDirector;
     [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private GameObject dangerText;
     [SerializeField] private TextMeshProUGUI scoreResultText;
     [SerializeField] private RankingManager rankingManager;
 
@@ -19,6 +21,7 @@ public class ResultManager : MonoBehaviour
         resultInput.SetActive(false);
         resultOutput.SetActive(false);
         ranking.SetActive(false);
+        dangerText.SetActive(false);
     }
 
     //リザルト+名前入力UI表示
@@ -37,6 +40,14 @@ public class ResultManager : MonoBehaviour
     {
         string playerName = nameInputField.text;  //入力された名前を取得
 
+        //名前の文字数制限
+        if (playerName.Length > 10)
+        {
+            dangerText.SetActive(true);
+            return;
+        }
+        dangerText.SetActive(false);
+
         //未入力対策
         if (string.IsNullOrWhiteSpace(playerName))
         {
@@ -52,10 +63,41 @@ public class ResultManager : MonoBehaviour
         resultOutput.SetActive(true);
     }
 
-    public void ClickRankingButton()
+    bool beforeUIIsTitle;  //前のUIを記憶する変数
+
+    //ランキング表示
+    public void ClickRankingButton(bool beforeIsTitle)
     {
-        resultOutput.SetActive(!resultOutput.activeSelf);
-        ranking.SetActive(!ranking.activeSelf);
+        //ランキングUIを表示
+        ranking.SetActive(true);
+
+        //前のUIを非表示にして記憶
+        if (!beforeIsTitle)
+        {
+            resultOutput.SetActive(false);
+            beforeUIIsTitle = false;
+        }
+        else
+        {
+            title.SetActive(false);
+            beforeUIIsTitle = true;
+        }
+    }
+
+    //ランキングから元のUIに戻る
+    public void ClickBackRankingButton()
+    {
+        ranking.SetActive(false);  //ランキングUIを非表示
+
+        //前のUIを再表示
+        if (!beforeUIIsTitle)
+        {
+            resultOutput.SetActive(true);
+        }
+        else
+        {
+            title.SetActive(true);
+        }
     }
 
     public void ClickRetryButton()

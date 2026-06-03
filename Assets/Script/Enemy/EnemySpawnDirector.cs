@@ -10,7 +10,7 @@ public class EnemySpawnDirector : MonoBehaviour
     [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
 
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
-    private int poolCount = 3;  //とりあえず3体ずつ用意しておく
+    private int poolCount = 4;  //とりあえずこの数ずつ用意しておく
     
     private float initialSpawnInterval = 4f;  //スポーン間隔の初期値
     private float currentSpawnInterval;  //スポーン間隔

@@ -193,7 +193,10 @@ public class EnemyBase : MonoBehaviour
                 knockbyPlayer = true;
                 MovePatternKnock();
             //スコアを加算
+            //if ()
             knockScore = collision.gameObject.GetComponent<ScoreDirector>().AddScore();
+            //else
+            //knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, 2);
             //}
             //else  //プレイヤーがアタック中ではない場合、プレイヤーはノックバックを受ける
             //{
@@ -216,7 +219,7 @@ public class EnemyBase : MonoBehaviour
                 hitEnemies.Add(enemy);
                 //連鎖スコアを加算
                 if (knockScore == 0)
-                    knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore);
+                    knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, 2);
 
                 MovePatternKnock();
             }
@@ -236,7 +239,7 @@ public class EnemyBase : MonoBehaviour
                 hitEnemies.Add(enemy);
                 //連鎖スコアを加算
                 if (knockScore == 0)
-                    knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore);
+                    knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, 2);
 
                 MovePatternKnock();
             }
