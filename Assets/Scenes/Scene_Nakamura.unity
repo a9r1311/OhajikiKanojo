@@ -815,6 +815,7 @@ MonoBehaviour:
   speedTolerance: 5
   hitStopDuration: 0.2
   sameEnemyCooldown: 1
+  normalHitEffect: {fileID: 0}
   hitEffectPrefabs:
   - {fileID: 1749362427593801985, guid: ea7ebfca0016370468244e5ff7b4f828, type: 3}
   - {fileID: 8185526686621646940, guid: d51dd3ca4a47c85449589f19db3ca151, type: 3}
@@ -1537,7 +1538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &151400163
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3494,8 +3495,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2158273700
-  m_fontColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0.5}
+    rgba: 2147483648
+  m_fontColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4901,7 +4902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &600213670
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5329,8 +5330,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1a777e9527a1549a47f3379ec6724b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HPManager
+  allFill: {fileID: 0}
   hpFill: {fileID: 1460813812}
-  ttp: {fileID: 1900666744}
+  hpBackFill: {fileID: 0}
+  pc: {fileID: 0}
+  reactionTimer: 0.4
+  goBackGaugeCount: 1
+  backGaugeSpeed: 0.5
+  shakePow: 16
 --- !u!1 &777237110
 GameObject:
   m_ObjectHideFlags: 0
@@ -11831,7 +11838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 2100000, guid: 4f2a290cc8ec68846a4f8dee4e57edc1, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -12917,8 +12924,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -13145,6 +13152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
   canFlick: 1
+  spawnPoint: {fileID: 0}
   arrow: {fileID: 300496702}
   arrowMaxLength: 2
   power: 5
@@ -15338,6 +15346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
   canFlick: 1
+  spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
   arrowMaxLength: 0.6
   power: 5
@@ -15923,6 +15932,7 @@ MonoBehaviour:
   speedTolerance: 5
   hitStopDuration: 0.2
   sameEnemyCooldown: 1
+  normalHitEffect: {fileID: 0}
   hitEffectPrefabs: []
   effectDestroyTime: 2
   startEffectCount: 1

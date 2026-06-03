@@ -140,6 +140,7 @@ MonoBehaviour:
   power: 10
   knockBackMultiplier: 0.98
   target: {fileID: 0}
+  isDead: 0
 --- !u!82 &6460821914532434115
 AudioSource:
   m_ObjectHideFlags: 0
@@ -355,7 +356,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
-  canFlick: 1
+  isAttacking: 0
+  spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
   arrowMaxLength: 0.6
   power: 5
@@ -435,6 +437,10 @@ PrefabInstance:
     - target: {fileID: 7773959511823637435, guid: dba786f3b77d9ff48b19c17ac8e15f67, type: 3}
       propertyPath: m_Name
       value: zakozakoElephent
+      objectReference: {fileID: 0}
+    - target: {fileID: 7773959511823637435, guid: dba786f3b77d9ff48b19c17ac8e15f67, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7773959511823637435, guid: dba786f3b77d9ff48b19c17ac8e15f67, type: 3}
       propertyPath: m_IsActive

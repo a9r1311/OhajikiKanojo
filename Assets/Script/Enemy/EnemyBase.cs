@@ -27,6 +27,7 @@ public class EnemyBase : MonoBehaviour
     protected bool knockbyPlayer = false;  //プレイヤーによるノックバックを受けたかどうか
     protected HashSet<EnemyBase> hitEnemies = new HashSet<EnemyBase>();  //ノックバックを受けた敵のリスト
     protected bool knockRock = false;  //ノックバックのクールダウン中かどうか
+    public bool isDead = false;  //死亡状態かどうか
 
     protected int knockScore = 0;  //この敵のスコア
 
@@ -116,8 +117,9 @@ public class EnemyBase : MonoBehaviour
     {
         currentHp--;  //HPを減らす
 
-        if (currentHp <= 0)  //HPが0未満になったら死亡処理
+        if (currentHp <= 0 && !isDead)  //HPが0未満になったら死亡処理
         {
+            isDead = true;  //死亡状態にする
             StartCoroutine(DeadEnemy());
         }
 
@@ -139,9 +141,6 @@ public class EnemyBase : MonoBehaviour
     //hpが0未満になったときの死亡処理
     private IEnumerator DeadEnemy()
     {
-        //ぶっ飛ぶ
-        //knockBackMultiplier = 50f;
-
         //動物の鳴き声を再生
         audioSource.Play();
 
@@ -170,6 +169,7 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void ResetState()
     {
+        isDead = false;  //死亡状態をリセット
         model.SetActive(true);  //敵のモデルをアクティブにする
         colliderObject.SetActive(true);  //敵のコライダーをアクティブにする
         gameObject.SetActive(false);  //こののゲームオブジェクトを非アクティブにする
@@ -186,26 +186,21 @@ public class EnemyBase : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && !knockbyPlayer && moveState != movePattern.Knock)
         {
-            //プレイヤーがアタック中の場合、敵はノックバックを受ける
-            //if (!collision.gameObject.GetComponent<OhajikiFlick>().canFlick)
-            //{
-                //Debug.Log("くぉ～ぶつかる！！");
-                knockbyPlayer = true;
-                MovePatternKnock();
-            //スコアを加算
-            //if ()
-            knockScore = collision.gameObject.GetComponent<ScoreDirector>().AddScore();
-            //else
-            //knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, 2);
-            //}
-            //else  //プレイヤーがアタック中ではない場合、プレイヤーはノックバックを受ける
-            //{
-            //    Debug.Log("インド人を右に！！");
-            //    Rigidbody playerRb = collision.gameObject.GetComponent<Rigidbody>();
+            OhajikiFlick player = collision.gameObject.GetComponent<OhajikiFlick>();
 
-            //    Debug.Log(playerRb.linearVelocity);
-            //    rb.AddForce(collision.gameObject.GetComponent<Rigidbody>().linearVelocity.normalized * power * 0.5f, ForceMode.Impulse);
-            //}
+            //プレイヤーがアタック中の場合、敵はノックバックを受ける
+            if (player.isAttacking)
+            {
+                scoreDirector.chainCount++;  //連鎖カウントを増やす
+                knockbyPlayer = true;  //プレイヤーによるノックバックを受けた状態にする
+                MovePatternKnock();  //ノックバック行動に移行
+
+                //スコアを加算
+                if (knockScore <= 1)
+                    knockScore = scoreDirector.AddScore();
+                else
+                    knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, scoreDirector.chainCount);
+            }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -214,9 +209,9 @@ public class EnemyBase : MonoBehaviour
             //ノックバック行動中の敵に衝突した場合、ノックバックを受ける
             if ((enemy.moveState == movePattern.Knock || moveState == movePattern.Knock) && !hitEnemies.Contains(enemy))
             {
-                //Debug.Log("ノックバックを受ける");
                 //ノックバックを受けた敵がリストにない場合、リストに追加
                 hitEnemies.Add(enemy);
+
                 //連鎖スコアを加算
                 if (knockScore == 0)
                     knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, 2);
@@ -237,6 +232,7 @@ public class EnemyBase : MonoBehaviour
             {
                 //ノックバックを受けた敵がリストにない場合、リストに追加
                 hitEnemies.Add(enemy);
+
                 //連鎖スコアを加算
                 if (knockScore == 0)
                     knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, 2);
@@ -260,7 +256,6 @@ public class EnemyBase : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
-            //Debug.Log("インド人を右に！！");
             //プレイヤーとの衝突が離れた場合、ノックバックを受けた状態をリセット
             knockbyPlayer = false;
         }
