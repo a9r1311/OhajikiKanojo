@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PrinceController : MonoBehaviour
 {
@@ -14,19 +13,23 @@ public class PrinceController : MonoBehaviour
     [Header("移動速度")]
     [SerializeField] public float speed = 5f;
 
-    [Header("遷移するシーン名")]
-    [SerializeField] string nextSceneName = "GameClear";
-
     [Header("ターゲットのHP")]
     [SerializeField] private int maxHp = 100;  //ターゲットのHP
     public int currentHp;  //現在のHP
 
-    //シーン遷移を1回だけ行うため
+    //リザルト処理を1回だけ行うため
     bool hasChangedScene = false;
+
+    //リトライ用
+    Vector3 startPosition;
+    Quaternion startRotation;
 
     void Start()
     {
         currentHp = maxHp;  //初期HPを設定
+
+        startPosition = transform.position;
+        startRotation = transform.rotation;
     }
 
     void Update()
@@ -44,7 +47,7 @@ public class PrinceController : MonoBehaviour
             speed * Time.deltaTime
         );
 
-        //目的地に到着したらシーン遷移
+        //目的地に到着したらリザルト
         if (!hasChangedScene &&
             Vector3.Distance(transform.position, targetPosition) < 0.01f)
         {
@@ -52,7 +55,11 @@ public class PrinceController : MonoBehaviour
             ScoreData.FinalScore = scoreDirector.GetScore();
 
             hasChangedScene = true;
-            SceneManager.LoadScene(nextSceneName);
+
+            //HP0時と同じ処理
+            resultManager.ResultView();
+            gameStop.StopGame();
+            changeGame.GoResult();
         }
     }
 
@@ -60,6 +67,7 @@ public class PrinceController : MonoBehaviour
     private void Damage(int damage)
     {
         Debug.Log("HP: " + (currentHp - damage));
+
         //HPを減らす
         if ((currentHp -= damage) <= 0)
         {
@@ -81,11 +89,26 @@ public class PrinceController : MonoBehaviour
             {
                 //敵がターゲットに接触したときの処理
                 Damage(enemyBase.power);
+
                 //敵の状態をリセット
                 enemyBase.ResetState();
+
                 //敵をオブジェクトプールに返す
-                enemyBase.spawnDirector.ReturnEnemyToPool(other.transform.parent.gameObject, enemyBase.id);
+                enemyBase.spawnDirector.ReturnEnemyToPool(
+                    other.transform.parent.gameObject,
+                    enemyBase.id
+                );
             }
         }
+    }
+
+    //リトライ時初期化
+    public void Retry()
+    {
+        currentHp = maxHp;
+        hasChangedScene = false;
+
+        transform.position = startPosition;
+        transform.rotation = startRotation;
     }
 }
