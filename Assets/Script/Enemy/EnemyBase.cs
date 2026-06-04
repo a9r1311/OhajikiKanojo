@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
-using System;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -13,14 +12,14 @@ public class EnemyBase : MonoBehaviour
     protected GameObject model;  //敵のモデル（見た目）への参照
     protected GameObject colliderObject;  //敵のコライダーへの参照
 
-    public enum movePattern { Idle, Walk, Knock };  //行動パターン
+    public enum movePattern { Idle, Walk, Knock, Hit };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
 
     public int id = 0;  //敵のID（種類を識別するためのもの）
     [SerializeField] protected float speed = 1f;  //移動速度
     [SerializeField] protected int maxHp = 1;  //最大HP
     protected int currentHp;  //現在のHP
-    public int power = 30;  //ノックバックの力
+    public int power = 30;  //攻撃力
     [SerializeField] private float knockBackMultiplier = 1.0f;  //ノックバック倍率
     public GameObject target;  //追尾ターゲット
 
@@ -50,15 +49,18 @@ public class EnemyBase : MonoBehaviour
 
         if (spawnDirector == null)
         {
-            spawnDirector = GameObject.Find("StageDirector").GetComponent<EnemySpawnDirector>();  //スポーンディレクターへの参照を取得
+            Debug.LogWarning("EnemySpawnDirectorへの参照が設定されていません。");
+            //spawnDirector = GameObject.Find("StageDirector").GetComponent<EnemySpawnDirector>();  //スポーンディレクターへの参照を取得
         }
         if (scoreDirector == null)
         {
-            scoreDirector = GameObject.FindWithTag("Player").transform.GetChild(0).GetComponent<ScoreDirector>();  //スコアディレクターへの参照を取得
+            Debug.LogWarning("ScoreDirectorへの参照が設定されていません。");
+            //scoreDirector = GameObject.FindWithTag("Player").transform.GetChild(0).GetComponent<ScoreDirector>();  //スコアディレクターへの参照を取得
         }
         if (gameStop == null)
         {
-            gameStop = GameObject.Find("Manager").GetComponent<GameStop>();  //ゲームストップへの参照を取得
+            Debug.LogWarning("GameStopへの参照が設定されていません。");
+            //gameStop = GameObject.Find("Manager").GetComponent<GameStop>();  //ゲームストップへの参照を取得
         }
 
         //初期行動パターンを歩行にする
@@ -68,10 +70,9 @@ public class EnemyBase : MonoBehaviour
     void Update()
     {
         //ゲーム終了時の処理
-        if (gameStop.isGameStop)
-        {
-            return;
-        }
+        if (gameStop != null)
+            if (gameStop.isGameStop)
+                return;
 
         //行動パターンに応じた処理
         switch (moveState)
@@ -120,6 +121,7 @@ public class EnemyBase : MonoBehaviour
         if (currentHp <= 0 && !isDead)  //HPが0未満になったら死亡処理
         {
             isDead = true;  //死亡状態にする
+            StartCoroutine(Cycle(model.transform));
             StartCoroutine(DeadEnemy());
         }
 
@@ -150,12 +152,31 @@ public class EnemyBase : MonoBehaviour
         colliderObject.SetActive(false);  //敵のコライダーを非アクティブにする
 
         //スポーンディレクターに敵をオブジェクトプールに返す
-        spawnDirector.ReturnEnemyToPool(this.gameObject, id);
+        if (spawnDirector != null)
+            spawnDirector.ReturnEnemyToPool(this.gameObject, id);
 
         yield return new WaitForSeconds(1.0f);
 
         //初期化
         ResetState();
+    }
+
+    //敵が死亡したときのモデルの回転処理
+    private IEnumerator Cycle(Transform target)
+    {
+        float timer = 0f;  //回転時間
+        float rotateY = Random.value < 0.5f ? -180f : 180f;  //回転方向をランダムに決定
+        float rotateSpeed = Random.Range(5f, 20f);  //回転速度をランダムに決定
+
+        //回転処理
+        while (timer < 10.0f)
+        {
+            //回転方向に応じてY軸を回転させる
+            target.Rotate(0f, rotateY * rotateSpeed * Time.deltaTime, 0f);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
     }
 
     public void EnemyRetryGame()
@@ -169,6 +190,7 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void ResetState()
     {
+        model.transform.rotation = new Quaternion();  //モデルの回転をリセット
         isDead = false;  //死亡状態をリセット
         model.SetActive(true);  //敵のモデルをアクティブにする
         colliderObject.SetActive(true);  //敵のコライダーをアクティブにする
@@ -191,15 +213,19 @@ public class EnemyBase : MonoBehaviour
             //プレイヤーがアタック中の場合、敵はノックバックを受ける
             if (player.isAttacking)
             {
-                scoreDirector.chainCount++;  //連鎖カウントを増やす
                 knockbyPlayer = true;  //プレイヤーによるノックバックを受けた状態にする
                 MovePatternKnock();  //ノックバック行動に移行
 
-                //スコアを加算
-                if (knockScore <= 1)
-                    knockScore = scoreDirector.AddScore();
-                else
-                    knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, scoreDirector.chainCount);
+                if (scoreDirector != null)
+                {
+                    scoreDirector.chainCount++;  //連鎖カウントを増やす
+
+                    //スコアを加算
+                    if (knockScore <= 1)
+                        knockScore = scoreDirector.AddScore();
+                    else
+                        knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, scoreDirector.chainCount);
+                }
             }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
@@ -213,7 +239,7 @@ public class EnemyBase : MonoBehaviour
                 hitEnemies.Add(enemy);
 
                 //連鎖スコアを加算
-                if (knockScore == 0)
+                if (knockScore == 0 && scoreDirector != null)
                     knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, 2);
 
                 MovePatternKnock();
@@ -234,7 +260,7 @@ public class EnemyBase : MonoBehaviour
                 hitEnemies.Add(enemy);
 
                 //連鎖スコアを加算
-                if (knockScore == 0)
+                if (knockScore == 0 && scoreDirector != null)
                     knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, 2);
 
                 MovePatternKnock();
