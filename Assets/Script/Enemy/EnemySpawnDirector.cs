@@ -13,15 +13,15 @@ public class EnemySpawnDirector : MonoBehaviour
     private int poolCount = 4;  //とりあえずこの数ずつ用意しておく
     private List<GameObject> activeEnemies = new();  //現在アクティブな敵のリスト
 
-    private float initialSpawnInterval = 4f;  //スポーン間隔の初期値
+    private float initialSpawnInterval = 2f;  //スポーン間隔の初期値
     private float currentSpawnInterval;  //スポーン間隔
-    private float minSpawnInterval = 0.27f;  //スポーン間隔の最小値
-    private float spawnIntervalDecreaseRate = 0.033f;  //スポーン間隔の減少率
+    private float minSpawnInterval = 0.35f;  //スポーン間隔の最小値
+    private float spawnIntervalDecreaseRate = 0.05f;  //スポーン間隔の減少率
     private float spawnTimer = 0f;  //スポーンタイマー
 
     [SerializeField] private bool isLongDistanceSpawn = false;  //遠距離スポーンフラグ
     [SerializeField] private int spawnTypeCount = 1;  //スポーンさせる敵の種類数
-    private float increaseSpawnTypeInterval = 8.7f;  //スポーンさせる敵の種類を増やす間隔
+    private float increaseSpawnTypeInterval = 5.7f;  //スポーンさせる敵の種類を増やす間隔
     private int spawnCounter = 0;  //スポーンカウンター
 
     void Start()
@@ -77,8 +77,9 @@ public class EnemySpawnDirector : MonoBehaviour
         {
             spawnTimer = 0f;
 
-            if(currentSpawnInterval > minSpawnInterval)
-                currentSpawnInterval -= spawnIntervalDecreaseRate;  //スポーン間隔を徐々に短くする
+            //スポーン間隔を徐々に短くする
+            if ((currentSpawnInterval -= spawnIntervalDecreaseRate) < minSpawnInterval)
+                currentSpawnInterval = minSpawnInterval;
 
             if(spawnCounter >= increaseSpawnTypeInterval && spawnTypeCount < spawnEnemy.Count)
             {
