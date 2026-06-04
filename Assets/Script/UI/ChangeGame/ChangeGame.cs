@@ -33,6 +33,11 @@ public class ChangeGame : MonoBehaviour
         StartCoroutine(GR());
     }
 
+    public void GoRetry()
+    {
+        StartCoroutine(GRt());
+    }
+
     IEnumerator GT()
     {
         gs.StopGame();
@@ -89,6 +94,26 @@ public class ChangeGame : MonoBehaviour
         animeR.MoveResultInPosition(animeRTime);
 
         yield return new WaitForSeconds(animeRTime);
+    }
+
+    IEnumerator GRt()
+    {
+        direction.GoGameCamera(cameraTime);
+        animeT.MoveTitleOutPosition(animeTTime * earlyTimer);
+        animeR.MoveResultOutPosition(animeRTime * earlyTimer);
+
+        yield return new WaitForSeconds(CheckLongTime(animeRTime, animeTTime) * earlyTimer);
+
+        changeUI.HideAllUI();
+        animeT.SetTitleInPosition();
+        animeR.SetResultInPosition();
+        animeIG.SetInGameOutPosition();
+        changeUI.ActiveInGameUI();
+        animeIG.MoveInGameInPosition(animeIGTime);
+
+        yield return new WaitForSeconds(animeIGTime);
+
+        gs.StartGame();
     }
 
     float CheckLongTime(float a, float b)
