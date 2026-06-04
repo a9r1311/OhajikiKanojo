@@ -3464,13 +3464,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 693571666}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0062596444, y: -0.99203956, z: 0.12458957, w: -0.017200675}
-  m_LocalPosition: {x: -1, y: 11.9, z: 466.5}
+  m_LocalRotation: {x: 0.3826692, y: 0.003299418, z: -0.0079655005, w: 0.92384523}
+  m_LocalPosition: {x: 452, y: 9, z: 443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 142548360}
-  m_LocalEulerAnglesHint: {x: 14.299, y: 177.889, z: -0.988}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: -0.988}
 --- !u!114 &693571668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6672,6 +6672,10 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: stopVelocity
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: flickCooldown
       value: 0.1
       objectReference: {fileID: 0}
@@ -7611,6 +7615,63 @@ MonoBehaviour:
   goBackGaugeCount: 1
   backGaugeSpeed: 0.5
   shakePow: 16
+--- !u!1001 &1438771107
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 455
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 455
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1369512134538433764, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2827211821514483503, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
+      propertyPath: m_Name
+      value: Result
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dd07dac7da6c1c245866d9536b92e067, type: 3}
 --- !u!1 &1438913454
 GameObject:
   m_ObjectHideFlags: 0
@@ -7949,6 +8010,7 @@ MonoBehaviour:
   flickSensitivity: 2
   maxDragDistance: 2
   maxFlickCount: 1000
+  stopVelocity: 0.5
   flickCooldown: 0.2
   cancelDistance: 0.2
   maxChargeTime: 2
@@ -13000,9 +13062,9 @@ MonoBehaviour:
   gameStop: {fileID: 836601128}
   changeGame: {fileID: 836601129}
   resultManager: {fileID: 836601132}
+  cameraDirection: {fileID: 1993844053}
   coordinate: 455
-  speed: 2
-  nextSceneName: SampleScene
+  speed: 200
   maxHp: 100
   currentHp: 0
 --- !u!1001 &3666229245717536018
@@ -13090,3 +13152,4 @@ SceneRoots:
   - {fileID: 836601130}
   - {fileID: 1454468452}
   - {fileID: 1167473508}
+  - {fileID: 1438771107}
