@@ -5,7 +5,7 @@ public class ScoreDirector : MonoBehaviour
 {
     private Rigidbody playerRb;
     [SerializeField] private TextMeshProUGUI scoreText;  //スコア表示用テキスト
-    private int score = 0;  //スコア
+    [SerializeField] private int score = 0;  //スコア
     public int chainCount = 0;  //連鎖数
 
     private const float maxSpeed = 110.2917f;  //プレイヤーの最大速度
@@ -57,6 +57,7 @@ public class ScoreDirector : MonoBehaviour
         return 100 + bonus;
     }
 
+    //連鎖スコア加算
     public int ChainScore(int enemyScore, int magnification)
     {
         //スコア加算
@@ -69,8 +70,16 @@ public class ScoreDirector : MonoBehaviour
         return enemyScore * magnification;
     }
 
+    //スコア取得
     public int GetScore()
     {
         return score;
+    }
+
+    //スコアリセット
+    public void ResetScore()
+    {
+        score = 0;
+        ScoreTextUpdate();
     }
 }

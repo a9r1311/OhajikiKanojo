@@ -216,8 +216,8 @@ public class EnemyBase : MonoBehaviour
                 knockbyPlayer = true;  //プレイヤーによるノックバックを受けた状態にする
                 MovePatternKnock();  //ノックバック行動に移行
 
-                if (scoreDirector != null)
-                {
+                //if (scoreDirector != null)
+                //{
                     scoreDirector.chainCount++;  //連鎖カウントを増やす
 
                     //スコアを加算
@@ -225,7 +225,7 @@ public class EnemyBase : MonoBehaviour
                         knockScore = scoreDirector.AddScore();
                     else
                         knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, scoreDirector.chainCount);
-                }
+                //}
             }
         }
         else if (collision.gameObject.CompareTag("Enemy"))

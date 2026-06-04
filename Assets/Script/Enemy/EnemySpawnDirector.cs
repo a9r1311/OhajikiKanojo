@@ -6,8 +6,8 @@ public class EnemySpawnDirector : MonoBehaviour
 {
     [SerializeField] private List<GameObject> spawnEnemy = new();  //スポーンする敵のリスト
     [SerializeField] private GameObject target;  //敵の追尾ターゲット
-    private ScoreDirector scoreDirector;  //スコアディレクター
     [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
+    [SerializeField] private ScoreDirector scoreDirector;
 
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 4;  //とりあえずこの数ずつ用意しておく
@@ -34,9 +34,6 @@ public class EnemySpawnDirector : MonoBehaviour
             if (target == null)
                 Debug.LogError("Targetが設定されていません");
         }
-
-        //スコアディレクター確認
-        scoreDirector = gameObject.GetComponent<ScoreDirector>();
 
         currentSpawnInterval = initialSpawnInterval;  //スポーン間隔を初期化
 
