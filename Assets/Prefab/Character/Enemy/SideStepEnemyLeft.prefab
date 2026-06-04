@@ -62,6 +62,7 @@ MonoBehaviour:
   power: 10
   knockBackMultiplier: 1
   target: {fileID: 0}
+  isDead: 0
   rightSideStep: 0
 --- !u!82 &8163857048078472380
 AudioSource:
@@ -278,7 +279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
-  canFlick: 1
+  isAttacking: 0
+  spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
   arrowMaxLength: 0.6
   power: 5
@@ -436,6 +438,10 @@ PrefabInstance:
     - target: {fileID: 8967914350442167713, guid: 85869fae4c5e9d047bb3faf66920c6c9, type: 3}
       propertyPath: m_Name
       value: SideStepPig
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967914350442167713, guid: 85869fae4c5e9d047bb3faf66920c6c9, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8967914350442167713, guid: 85869fae4c5e9d047bb3faf66920c6c9, type: 3}
       propertyPath: m_IsActive

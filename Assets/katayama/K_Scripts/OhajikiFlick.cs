@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class OhajikiFlick : MonoBehaviour
 {
     Rigidbody rb;
+    private ScoreDirector scoreDirector;  //スコアディレクターへの参照
 
     Vector3 startPos;
     Vector3 currentPos;
@@ -11,7 +12,8 @@ public class OhajikiFlick : MonoBehaviour
     Quaternion startRotation;
 
     bool isDragging = false;
-    public bool canFlick = true;
+    bool canFlick = true;
+    public bool isAttacking = false;
 
     [Header("リスポーン地点")]
     [SerializeField]
@@ -56,9 +58,13 @@ public class OhajikiFlick : MonoBehaviour
     float flickTimer = 0f;
     int currentFlickCount = 0;
 
+    float attackTimer = 0f;
+    float attackTime = 0.5f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        scoreDirector = GetComponent<ScoreDirector>();
 
         startPosition =
             transform.position;
@@ -89,6 +95,20 @@ public class OhajikiFlick : MonoBehaviour
         canFlick =
             flickTimer > flickCooldown &&
             rb.linearVelocity.magnitude < stopVelocity;
+
+        // 攻撃状態の解除
+        if (isAttacking)
+        {
+            attackTimer += Time.deltaTime;
+
+            if (attackTimer > attackTime &&
+                rb.linearVelocity.magnitude < 0.01f)
+            {
+                isAttacking = false;  // 攻撃状態解除
+                scoreDirector.chainCount = 0;  // チェインリセット
+                attackTimer = 0f;
+            }
+        }
 
         // =========================
         // 押した瞬間
@@ -291,6 +311,10 @@ public class OhajikiFlick : MonoBehaviour
                 finalPower,
                 ForceMode.Impulse
             );
+
+            // 攻撃状態へ
+            isAttacking = true;
+            attackTimer = 0f;
 
             // 回数加算
             currentFlickCount++;

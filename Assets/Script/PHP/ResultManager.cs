@@ -5,8 +5,7 @@ public class ResultManager : MonoBehaviour
 {
     [SerializeField] private GameObject resultInput;
     [SerializeField] private GameObject resultOutput;
-    [SerializeField] private GameObject ranking;
-    [SerializeField] private GameObject title;
+    [SerializeField] private UIChanger changer;
     [SerializeField] private ScoreDirector scoreDirector;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private GameObject dangerText;
@@ -20,7 +19,7 @@ public class ResultManager : MonoBehaviour
         //リザルトとかを非表示
         resultInput.SetActive(false);
         resultOutput.SetActive(false);
-        ranking.SetActive(false);
+        changer.rankingUI.SetActive(false);
         dangerText.SetActive(false);
     }
 
@@ -69,7 +68,7 @@ public class ResultManager : MonoBehaviour
     public void ClickRankingButton(bool beforeIsTitle)
     {
         //ランキングUIを表示
-        ranking.SetActive(true);
+        changer.rankingUI.SetActive(true);
 
         //前のUIを非表示にして記憶
         if (!beforeIsTitle)
@@ -79,7 +78,7 @@ public class ResultManager : MonoBehaviour
         }
         else
         {
-            title.SetActive(false);
+            changer.titleUI.SetActive(false);
             beforeUIIsTitle = true;
         }
     }
@@ -87,7 +86,7 @@ public class ResultManager : MonoBehaviour
     //ランキングから元のUIに戻る
     public void ClickBackRankingButton()
     {
-        ranking.SetActive(false);  //ランキングUIを非表示
+        changer.rankingUI.SetActive(false);  //ランキングUIを非表示
 
         //前のUIを再表示
         if (!beforeUIIsTitle)
@@ -96,7 +95,7 @@ public class ResultManager : MonoBehaviour
         }
         else
         {
-            title.SetActive(true);
+            changer.titleUI.SetActive(true);
         }
     }
 

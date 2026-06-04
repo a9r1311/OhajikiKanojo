@@ -140,6 +140,7 @@ MonoBehaviour:
   power: 10
   knockBackMultiplier: 1
   target: {fileID: 0}
+  isDead: 0
   rightSideStep: 1
 --- !u!82 &1619381754210257403
 AudioSource:
@@ -356,7 +357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
-  canFlick: 1
+  isAttacking: 0
+  spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
   arrowMaxLength: 0.6
   power: 5
@@ -420,6 +422,10 @@ PrefabInstance:
     - target: {fileID: 3470795012463295081, guid: f43cce2708f9b17499e8e1fb3dfc4f13, type: 3}
       propertyPath: m_Name
       value: SlideChikenOne
+      objectReference: {fileID: 0}
+    - target: {fileID: 3470795012463295081, guid: f43cce2708f9b17499e8e1fb3dfc4f13, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3470795012463295081, guid: f43cce2708f9b17499e8e1fb3dfc4f13, type: 3}
       propertyPath: m_IsActive

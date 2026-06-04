@@ -139,6 +139,7 @@ MonoBehaviour:
   power: 15
   knockBackMultiplier: 1
   target: {fileID: 0}
+  isDead: 0
 --- !u!82 &5680788600782125791
 AudioSource:
   m_ObjectHideFlags: 0
@@ -393,6 +394,10 @@ PrefabInstance:
     - target: {fileID: 7192202233046801756, guid: 935ee12ccc78b614ebadff383c3a3a35, type: 3}
       propertyPath: m_Name
       value: ChargeCow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7192202233046801756, guid: 935ee12ccc78b614ebadff383c3a3a35, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,173 +1,91 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PrinceController : MonoBehaviour
 {
-    // スコア管理
-    [SerializeField] private ScoreDirector scoreDirector;
+    [SerializeField] private ScoreDirector scoreDirector;  //スコアデータの参照
+    [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
+    [SerializeField] private ChangeGame changeGame;  //ゲーム遷移への参照
+    [SerializeField] private ResultManager resultManager;  //リザルト管理への参照
 
-    // ゲーム停止管理
-    [SerializeField] private GameStop gameStop;
-
-    // ゲーム遷移管理
-    [SerializeField] private ChangeGame changeGame;
-
-    // リザルト表示管理
-    [SerializeField] private ResultManager resultManager;
-
-    // Cinemachineカメラ切り替え
-    [SerializeField] private CameraDirection cameraDirection;
-
-    [Header("目的地のZ座標")]
-    [SerializeField] private float coordinate = 10f;
+    [Header("目的地の座標")]
+    [SerializeField] public float coordinate = 10f;
 
     [Header("移動速度")]
-    [SerializeField] private float speed = 5f;
+    [SerializeField] public float speed = 5f;
 
-    [Header("ターゲット最大HP")]
-    [SerializeField] private int maxHp = 100;
+    [Header("遷移するシーン名")]
+    [SerializeField] string nextSceneName = "GameClear";
 
-    // 現在HP
-    public int currentHp;
+    [Header("ターゲットのHP")]
+    [SerializeField] private int maxHp = 100;  //ターゲットのHP
+    public int currentHp;  //現在のHP
 
-    // ゴール処理を1回だけ実行するため
+    //シーン遷移を1回だけ行うため
     bool hasChangedScene = false;
 
     void Start()
     {
-        // HP初期化
-        currentHp = maxHp;
+        currentHp = maxHp;  //初期HPを設定
     }
 
     void Update()
     {
-        // ゲーム停止中は処理しない
+        //ゲームストップ中はスポーンさせない
         if (gameStop.isGameStop)
             return;
 
-        // ゴール地点
-        Vector3 targetPosition =
-            new Vector3(0f, 1f, coordinate);
+        Vector3 targetPosition = new Vector3(0f, 1f, coordinate);
 
-        // ゴールへ移動
-        transform.position =
-            Vector3.MoveTowards(
-                transform.position,
-                targetPosition,
-                speed * Time.deltaTime
-            );
-
-        // ゴール到達判定
-        if (!hasChangedScene &&
-            Vector3.Distance(
-                transform.position,
-                targetPosition) < 0.01f)
-        {
-            // スコア保存
-            ScoreData.FinalScore =
-                scoreDirector.GetScore();
-
-            // 二重実行防止
-            hasChangedScene = true;
-
-            // リザルトカメラへ切り替え
-            if (cameraDirection != null)
-            {
-                cameraDirection.GoResultCamera(1.5f);
-            }
-
-            // リザルト表示開始
-            StartCoroutine(ResultCoroutine());
-        }
-    }
-
-    // ゴール時のリザルト表示
-    IEnumerator ResultCoroutine()
-    {
-        // カメラブレンド待機
-        yield return new WaitForSeconds(1.5f);
-
-        // ゲーム停止
-        gameStop.StopGame();
-
-        // リザルト表示
-        resultManager.ResultView();
-    }
-
-    // ダメージ処理
-    public void Damage(int damage)
-    {
-        // HP減少
-        currentHp -= damage;
-
-        // 0未満防止
-        currentHp =
-            Mathf.Max(currentHp, 0);
-
-        Debug.Log(
-            "HP : " + currentHp
+        //目的地へ移動
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            targetPosition,
+            speed * Time.deltaTime
         );
 
-        // HPが0になったら敗北
-        if (currentHp <= 0)
+        //目的地に到着したらシーン遷移
+        if (!hasChangedScene &&
+            Vector3.Distance(transform.position, targetPosition) < 0.01f)
         {
-            // リザルトカメラへ切り替え
-            if (cameraDirection != null)
-            {
-                cameraDirection.GoResultCamera(1.5f);
-            }
+            //スコアを保存
+            ScoreData.FinalScore = scoreDirector.GetScore();
 
-            // 敗北リザルト表示
-            StartCoroutine(
-                DeathResultCoroutine()
-            );
+            hasChangedScene = true;
+            SceneManager.LoadScene(nextSceneName);
         }
     }
 
-    // HP0時のリザルト処理
-    IEnumerator DeathResultCoroutine()
+    //ターゲットが攻撃されたときの処理
+    private void Damage(int damage)
     {
-        // カメラ移動待機
-        yield return new WaitForSeconds(1.5f);
-
-        // リザルト表示
-        resultManager.ResultView();
-
-        // ゲーム停止
-        gameStop.StopGame();
-
-        // リザルト状態へ移行
-        changeGame.GoResult();
+        Debug.Log("HP: " + (currentHp - damage));
+        //HPを減らす
+        if ((currentHp -= damage) <= 0)
+        {
+            //リザルト表示
+            resultManager.ResultView();
+            gameStop.StopGame();  //ゲームストップ
+            changeGame.GoResult();  //リザルト移行
+        }
     }
 
-
-    // 敵接触時
-    private void OnTriggerEnter(
-        Collider other
-    )
+    private void OnTriggerEnter(Collider other)
     {
-        // Enemyタグ以外は無視
-        if (!other.CompareTag("Enemy"))
-            return;
+        if (other.CompareTag("Enemy"))
+        {
+            EnemyBase enemyBase = other.transform.parent.gameObject.GetComponent<EnemyBase>();
 
-        // 親からEnemyBase取得
-        EnemyBase enemyBase =
-            other.GetComponentInParent<EnemyBase>();
-
-        if (enemyBase == null)
-            return;
-
-        // ダメージ
-        Damage(enemyBase.power);
-
-        // 敵状態リセット
-        enemyBase.ResetState();
-
-        // オブジェクトプールへ返却
-        enemyBase.spawnDirector
-            .ReturnEnemyToPool(
-                enemyBase.gameObject,
-                enemyBase.id
-            );
+            //敵が死んでいるかどうかを確認
+            if (!enemyBase.isDead)
+            {
+                //敵がターゲットに接触したときの処理
+                Damage(enemyBase.power);
+                //敵の状態をリセット
+                enemyBase.ResetState();
+                //敵をオブジェクトプールに返す
+                enemyBase.spawnDirector.ReturnEnemyToPool(other.transform.parent.gameObject, enemyBase.id);
+            }
+        }
     }
 }

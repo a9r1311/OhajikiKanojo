@@ -37,6 +37,7 @@ public class ChargeEnemy : EnemyBase
     //初期化
     public override void ResetState()
     {
+        isDead = false;  //死亡状態をリセット
         model.SetActive(true);  //敵のモデルをアクティブにする
         colliderObject.SetActive(true);  //敵のコライダーをアクティブにする
         gameObject.SetActive(false);  //こののゲームオブジェクトを非アクティブにする
