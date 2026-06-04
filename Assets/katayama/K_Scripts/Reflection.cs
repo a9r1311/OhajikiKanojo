@@ -11,6 +11,11 @@ public class Reflection : MonoBehaviour
     [Header("自分の反射距離")]
     [SerializeField] private float reflectDistance = 5f;
 
+    [Header("速度による反射距離補正")]
+    [SerializeField] private float baseSpeed = 10f;
+
+    [SerializeField] private float maxDistanceMultiplier = 3f;
+
     [Header("通常時の反射距離倍率")]
     [Range(0f, 1f)]
     [SerializeField] private float reflectRate = 1f;
@@ -73,12 +78,21 @@ public class Reflection : MonoBehaviour
             collision.contacts[0].normal;
 
         // =========================
+        // 当たった瞬間の速度
+        // =========================
+        Vector3 incoming =
+            myRb.linearVelocity;
+
+        float hitSpeed =
+            incoming.magnitude;
+
+        // =========================
         // 敵を吹っ飛ばす
         // =========================
         if (enemyRb != null)
         {
             enemyRb.AddForce(
-                myRb.linearVelocity.normalized *
+                incoming.normalized *
                 knockbackPower,
                 ForceMode.Impulse
             );
@@ -87,9 +101,6 @@ public class Reflection : MonoBehaviour
         // =========================
         // 通常反射
         // =========================
-        Vector3 incoming =
-            myRb.linearVelocity;
-
         Vector3 reflected =
             Vector3.Reflect(
                 incoming.normalized,
@@ -144,23 +155,17 @@ public class Reflection : MonoBehaviour
             );
 
         Transform nearestEnemy = null;
-
-        float nearestDistance =
-            Mathf.Infinity;
+        float nearestDistance = Mathf.Infinity;
 
         foreach (Collider hit in hits)
         {
             if (!hit.CompareTag(enemyTag))
                 continue;
 
-            // 今ぶつかった敵を除外
-            if (hit.gameObject ==
-                collision.gameObject)
+            if (hit.gameObject == collision.gameObject)
                 continue;
 
-            // 自分自身除外
-            if (hit.gameObject ==
-                gameObject)
+            if (hit.gameObject == gameObject)
                 continue;
 
             Vector3 toEnemy =
@@ -175,7 +180,6 @@ public class Reflection : MonoBehaviour
                     toEnemy
                 );
 
-            // 後ろの敵は無視
             if (dot < 0.3f)
                 continue;
 
@@ -185,8 +189,7 @@ public class Reflection : MonoBehaviour
                     hit.transform.position
                 );
 
-            if (distance <
-                nearestDistance)
+            if (distance < nearestDistance)
             {
                 nearestDistance =
                     distance;
@@ -207,18 +210,30 @@ public class Reflection : MonoBehaviour
                     transform.position
                 ).normalized;
 
+            float speedHomingMultiplier =
+                Mathf.Clamp(
+                    hitSpeed / baseSpeed,
+                    0f,
+                    2f
+                );
+
+            float finalHomingStrength =
+                Mathf.Clamp01(
+                    homingStrength *
+                    speedHomingMultiplier
+                );
+
             reflectDirection =
                 Vector3.Lerp(
                     reflectDirection,
                     targetDirection,
-                    homingStrength
+                    finalHomingStrength
                 ).normalized;
         }
 
         // =========================
         // 後ろヒットなら減衰
         // =========================
-
         float finalReflectRate =
             reflectRate;
 
@@ -245,11 +260,26 @@ public class Reflection : MonoBehaviour
         // =========================
         // 反射距離
         // =========================
+        float speedMultiplier =
+            Mathf.Sqrt(
+                hitSpeed / baseSpeed
+            );
+
+        speedMultiplier =
+            Mathf.Clamp(
+                speedMultiplier,
+                0.3f,
+                maxDistanceMultiplier
+            );
+
         remainingDistance =
             reflectDistance *
-            finalReflectRate;
+            finalReflectRate *
+            speedMultiplier;
 
+        // =========================
         // 反射開始
+        // =========================
         myRb.linearVelocity =
             reflectDirection *
             currentReflectSpeed;

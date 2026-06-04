@@ -6736,6 +6736,10 @@ PrefabInstance:
       value: Player_notusing
       objectReference: {fileID: 0}
     - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: baseSpeed
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: reflectRate
       value: 0.8
       objectReference: {fileID: 0}
@@ -6758,6 +6762,10 @@ PrefabInstance:
     - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: minimumReflectAngle
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636780662337433338, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: maxDistanceMultiplier
+      value: 1.12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12597,11 +12605,11 @@ MonoBehaviour:
   effectCamera: {fileID: 0}
   shakePower: 15
   shakeTime: 0.07
-  maxSpeed: 40
+  maxSpeed: 70
   speedTolerance: 5
   hitStopDuration: 0.2
   sameEnemyCooldown: 1
-  normalHitEffect: {fileID: 0}
+  normalHitEffect: {fileID: 6576688769259268341, guid: 74dee6595e2ec5649b8238682cfd2dbf, type: 3}
   hitEffectPrefabs:
   - {fileID: 1749362427593801985, guid: ea7ebfca0016370468244e5ff7b4f828, type: 3}
   - {fileID: 8185526686621646940, guid: d51dd3ca4a47c85449589f19db3ca151, type: 3}
@@ -13111,7 +13119,6 @@ MonoBehaviour:
   resultManager: {fileID: 836601132}
   coordinate: 455
   speed: 1
-  nextSceneName: GameClear
   maxHp: 100
   currentHp: 0
 --- !u!1001 &3666229245717536018
