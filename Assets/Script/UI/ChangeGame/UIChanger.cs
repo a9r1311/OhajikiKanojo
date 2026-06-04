@@ -8,7 +8,7 @@ public class UIChanger : MonoBehaviour
     public GameObject configUI;
     public GameObject rankingUI;
     public GameObject resultUI;
-
+    [SerializeField] GameObject resultOutputUI;
 
     public void ActiveTitleUI()
     {
@@ -42,6 +42,7 @@ public class UIChanger : MonoBehaviour
     public void HideAllUI()
     {
         ChangeUI(false, false, false, false, false);
+        resultOutputUI.SetActive(false);
     }
 
     void ChangeUI(bool title, bool game, bool config, bool ranking, bool result)

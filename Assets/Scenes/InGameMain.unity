@@ -4690,6 +4690,7 @@ MonoBehaviour:
   configUI: {fileID: 1867415271}
   rankingUI: {fileID: 596104484}
   resultUI: {fileID: 1747233491}
+  resultOutputUI: {fileID: 889328254}
 --- !u!114 &836601128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4904,6 +4905,30 @@ MonoBehaviour:
       - m_Target: {fileID: 836601129}
         m_TargetAssemblyTypeName: ChangeGame, Assembly-CSharp
         m_MethodName: GoRetry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2128758039}
+        m_TargetAssemblyTypeName: PrinceController, Assembly-CSharp
+        m_MethodName: Retry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2043960527}
+        m_TargetAssemblyTypeName: ScoreDirector, Assembly-CSharp
+        m_MethodName: ResetScore
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10833,6 +10858,7 @@ MonoBehaviour:
   - {fileID: 6511203756376054620, guid: db0adc7bb9af95f45945aacbe16e7980, type: 3}
   target: {fileID: 625733061}
   gameStop: {fileID: 836601128}
+  scoreDirector: {fileID: 2043960527}
   isLongDistanceSpawn: 1
   spawnTypeCount: 1
 --- !u!4 &1822324202
@@ -12630,6 +12656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreDirector
   scoreText: {fileID: 2003084708}
+  score: 0
   chainCount: 0
 --- !u!114 &2043960530 stripped
 MonoBehaviour:
