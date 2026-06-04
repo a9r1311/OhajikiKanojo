@@ -5,10 +5,13 @@ using UnityEngine.UI;
 public class HPManager : MonoBehaviour
 {
     public RectTransform allFill;
-    public Image hpFill;
-    public Image hpBackFill;
+    public GameObject mainHP;
+    public GameObject backHP;
+    Image[] hpFill;
+    Image[] hpBackFill;
 
     [SerializeField] PrinceController pc;
+    [SerializeField] HeartChecker hc;
 
     Coroutine damageReaction;
     Coroutine hpBackCount;
@@ -17,6 +20,9 @@ public class HPManager : MonoBehaviour
     float oldHP;
     private bool goBackGauge = false;
 
+    float rate;
+    public int heartCount = 5;
+    public float heartLine;
     public float reactionTimer = 0.4f;
     public float goBackGaugeCount = 1.0f;
     public float backGaugeSpeed = 0.5f;
@@ -26,6 +32,10 @@ public class HPManager : MonoBehaviour
     {
         maxHP = pc.currentHp;
         oldHP = pc.currentHp;
+        heartLine = 100f / heartCount;
+
+        hpFill = mainHP.GetComponentsInChildren<Image>();
+        hpBackFill = backHP.GetComponentsInChildren<Image>();
 
         ChangeColor(hpFill, Color.red);
         ChangeColor(hpBackFill, Color.black);
@@ -33,7 +43,7 @@ public class HPManager : MonoBehaviour
 
     void Update()
     {
-        if(oldHP != pc.currentHp)
+        if (oldHP != pc.currentHp)
         {
             if(damageReaction != null)
             {
@@ -48,8 +58,23 @@ public class HPManager : MonoBehaviour
 
         if(goBackGauge)
         {
-            hpBackFill.fillAmount = Mathf.MoveTowards(hpBackFill.fillAmount, hpFill.fillAmount, backGaugeSpeed * Time.deltaTime);
-            if(hpBackFill.fillAmount == hpFill.fillAmount) goBackGauge = false;
+            bool complete = true;
+
+            for(int i = heartCount - 1; i >= 0; i--)
+            {
+                if (hpBackFill[i].fillAmount > hpFill[i].fillAmount)
+                {
+                    float before = hpBackFill[i].fillAmount;
+
+                    hpBackFill[i].fillAmount = Mathf.MoveTowards(hpBackFill[i].fillAmount, hpFill[i].fillAmount, backGaugeSpeed * Time.deltaTime);
+                    complete = false;
+
+                    if(before > 0f && hpBackFill[i].fillAmount <= 0f) hc.UpdateHeart();
+
+                    break;
+                }
+            }
+            if(complete) goBackGauge = false;
         }
     }
 
@@ -67,7 +92,11 @@ public class HPManager : MonoBehaviour
 
     void GaugeReaction()
     {
-        hpFill.fillAmount = pc.currentHp / maxHP;
+        rate = pc.currentHp / maxHP * 100;
+        for(int i = 0; i < heartCount; i++)
+        {
+            hpFill[i].fillAmount = Mathf.Clamp01((rate - heartLine * i) / heartLine);
+        }
     }
 
     IEnumerator HPBackCount()
@@ -77,9 +106,9 @@ public class HPManager : MonoBehaviour
         goBackGauge = true;
     }
 
-    void ChangeColor(Image fill, Color color)
+    public void ChangeColor(Image[] fills, Color color)
     {
-        fill.color = color;
+        foreach(Image img in fills) img.color = color;
     }
 
     IEnumerator HPShake()
