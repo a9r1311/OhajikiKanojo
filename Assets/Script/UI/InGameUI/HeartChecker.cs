@@ -46,4 +46,9 @@ public class HeartChecker : MonoBehaviour
         yield return null;
         heart[n].SetActive(false);
     }
+
+    public void ReStart()
+    {
+        for(int i = 0; i <= hm.heartCount; i++) heart[i].SetActive(true);
+    }
 }
