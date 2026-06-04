@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class EnemySpawnDirector : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> spawnEnemy = new List<GameObject>();  //スポーンする敵のリスト
+    [SerializeField] private List<GameObject> spawnEnemy = new();  //スポーンする敵のリスト
     [SerializeField] private GameObject target;  //敵の追尾ターゲット
     private ScoreDirector scoreDirector;  //スコアディレクター
     [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
 
     private List<Queue<GameObject>> waitingEnemies;  //オブジェクトプール用の待機中の敵のキューリスト
     private int poolCount = 4;  //とりあえずこの数ずつ用意しておく
-    
+    private List<GameObject> activeEnemies = new();  //現在アクティブな敵のリスト
+
     private float initialSpawnInterval = 4f;  //スポーン間隔の初期値
     private float currentSpawnInterval;  //スポーン間隔
     private float minSpawnInterval = 0.27f;  //スポーン間隔の最小値
@@ -125,11 +126,13 @@ public class EnemySpawnDirector : MonoBehaviour
                 //敵を生成
                 GameObject enemy = Instantiate(spawnEnemy[index], spawnPos, Quaternion.identity);
                 EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
+
                 //スポーンした敵に色々設定
                 enemyBase.target = target;
                 enemyBase.spawnDirector = this;
                 enemyBase.scoreDirector = scoreDirector;
                 enemyBase.gameStop = gameStop;
+                activeEnemies.Add(enemy);  //スポーンした敵をアクティブな敵のリストに追加
             }
             else  //オブジェクトプールから敵を出してスポーン
             {
@@ -137,6 +140,7 @@ public class EnemySpawnDirector : MonoBehaviour
                 enemy.transform.position = spawnPos;
                 enemy.SetActive(true);
                 enemy.GetComponent<EnemyBase>().moveState = EnemyBase.movePattern.Walk;  //行動パターンを歩きにする
+                activeEnemies.Add(enemy);  //スポーンした敵をアクティブな敵のリストに追加
             }
         }
     }
@@ -183,5 +187,16 @@ public class EnemySpawnDirector : MonoBehaviour
         currentSpawnInterval = initialSpawnInterval;
         spawnCounter = 0;
         spawnTypeCount = 1;
+
+        //アクティブな敵をすべてオブジェクトプールに戻す
+        foreach (var enemy in activeEnemies)
+        {
+            EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();  //敵のEnemyBaseコンポーネントを取得
+
+            enemyBase.ResetState();  //敵の状態をリセット
+            ReturnEnemyToPool(enemy, enemyBase.id);  //敵をオブジェクトプールに戻す
+        }
+
+        activeEnemies.Clear();  //アクティブな敵のリストをクリア
     }
 }

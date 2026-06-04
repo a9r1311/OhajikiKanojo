@@ -20,7 +20,7 @@ public class ScoreDirector : MonoBehaviour
         score = 0;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         currentSpeed = playerRb.linearVelocity.magnitude;
     }
