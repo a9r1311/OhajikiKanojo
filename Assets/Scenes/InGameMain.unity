@@ -4876,7 +4876,43 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 854727380}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2043960530}
+        m_TargetAssemblyTypeName: OhajikiFlick, Assembly-CSharp
+        m_MethodName: Retry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1822324201}
+        m_TargetAssemblyTypeName: EnemySpawnDirector, Assembly-CSharp
+        m_MethodName: SpawnReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 836601129}
+        m_TargetAssemblyTypeName: ChangeGame, Assembly-CSharp
+        m_MethodName: GoRetry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &854727380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12587,6 +12623,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScoreDirector
   scoreText: {fileID: 2003084708}
   chainCount: 0
+--- !u!114 &2043960530 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+  m_PrefabInstance: {fileID: 1171416930}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314698259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
 --- !u!1 &2080854933
 GameObject:
   m_ObjectHideFlags: 0
@@ -13062,9 +13109,9 @@ MonoBehaviour:
   gameStop: {fileID: 836601128}
   changeGame: {fileID: 836601129}
   resultManager: {fileID: 836601132}
-  cameraDirection: {fileID: 1993844053}
   coordinate: 455
-  speed: 200
+  speed: 1
+  nextSceneName: GameClear
   maxHp: 100
   currentHp: 0
 --- !u!1001 &3666229245717536018
