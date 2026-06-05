@@ -20,11 +20,11 @@ namespace Ohajiki.Core
             screenFadeFacade = new ScreenFadeFacade(screenFader, fadeJudge);
             
             DontDestroyOnLoad(canvas);
+            ServiceLocator.Register<IScreenFadeFacade>(screenFadeFacade);
         }
 
         private void Start()
         {
-            ServiceLocator.Register<IScreenFadeFacade>(screenFadeFacade);
         }
     }
 }
