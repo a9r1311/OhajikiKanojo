@@ -54,6 +54,16 @@ public class OhajikiFlick : MonoBehaviour
     Vector3 modelRotationOffset =
         new Vector3(-90f, -180f, 0f);
 
+    [Header("ó\ë™ê¸")]
+    [SerializeField]
+    LineRenderer predictionLine;
+
+    [SerializeField]
+    int predictionPoints = 30;
+
+    [SerializeField]
+    float predictionStep = 0.1f;
+
     float chargeTime = 0f;
     float flickTimer = 0f;
     int currentFlickCount = 0;
@@ -82,6 +92,11 @@ public class OhajikiFlick : MonoBehaviour
         rb.constraints =
             RigidbodyConstraints.FreezeRotation |
             RigidbodyConstraints.FreezePositionY;
+
+        if (predictionLine != null)
+        {
+            predictionLine.enabled = false;
+        }
     }
 
     void Update()
@@ -137,6 +152,22 @@ public class OhajikiFlick : MonoBehaviour
             // ÇΩÇﬂéûä‘
             chargeTime += Time.deltaTime;
 
+            float chargeRate = Mathf.Clamp01(
+                chargeTime /
+                maxChargeTime
+            );
+
+            float chargePower =
+                Mathf.Lerp(
+                    1f,
+                    chargeMultiplier,
+                    chargeRate
+                );
+
+            float finalPower =
+                power *
+                chargePower;
+
             chargeTime = Mathf.Clamp(
                 chargeTime,
                 0f,
@@ -166,6 +197,20 @@ public class OhajikiFlick : MonoBehaviour
                 dir,
                 maxPower
             );
+
+            if (dir.magnitude > cancelDistance)
+            {
+                DrawPrediction(
+                    dir,
+                    finalPower
+                );
+            }
+            else if (
+                predictionLine != null)
+            {
+                predictionLine.enabled =
+                    false;
+            }
 
             // ÉLÉÉÉìÉZÉãîªíË
             bool isCanceling =
@@ -211,9 +256,9 @@ public class OhajikiFlick : MonoBehaviour
                     powerPercent *
                     arrowMaxLength;
 
-                float chargeRate =
-                    chargeTime /
-                    maxChargeTime;
+                //float chargeRate =
+                //    chargeTime /
+                //    maxChargeTime;
 
                 arrow.localScale =
                     new Vector3(
@@ -232,6 +277,8 @@ public class OhajikiFlick : MonoBehaviour
                         length *
                         0.5f;
                 }
+
+                
             }
         }
 
@@ -270,6 +317,11 @@ public class OhajikiFlick : MonoBehaviour
                 cancelDistance)
             {
                 isDragging = false;
+
+                if (predictionLine != null)
+                {
+                    predictionLine.enabled = false;
+                }
 
                 if (arrow != null)
                 {
@@ -311,6 +363,10 @@ public class OhajikiFlick : MonoBehaviour
                 finalPower,
                 ForceMode.Impulse
             );
+            if (predictionLine != null)
+            {
+                predictionLine.enabled = false;
+            }
 
             // çUåÇèÛë‘Ç÷
             isAttacking = true;
@@ -408,6 +464,55 @@ public class OhajikiFlick : MonoBehaviour
         if (arrow != null)
         {
             arrow.gameObject.SetActive(false);
+        }
+
+        if (predictionLine != null)
+        {
+            predictionLine.enabled = false;
+        }
+    }
+
+    void DrawPrediction(
+    Vector3 dir,
+    float finalPower
+)
+    {
+        if (predictionLine == null)
+            return;
+
+        predictionLine.enabled = true;
+
+        predictionLine.positionCount =
+            predictionPoints;
+
+        Vector3 position =
+            transform.position;
+
+        Vector3 velocity =
+            dir.normalized * finalPower;
+
+        float drag =
+            rb.linearDamping;
+
+        for (int i = 0;
+             i < predictionPoints;
+             i++)
+        {
+            predictionLine.SetPosition(
+                i,
+                position
+            );
+
+            position +=
+                velocity *
+                predictionStep;
+
+            velocity *=
+                Mathf.Clamp01(
+                    1f -
+                    drag *
+                    predictionStep
+                );
         }
     }
 }
