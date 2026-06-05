@@ -62,7 +62,7 @@ public class HPManager : MonoBehaviour
 
             for(int i = heartCount - 1; i >= 0; i--)
             {
-                if (hpBackFill[i].fillAmount > hpFill[i].fillAmount)
+                if (hpBackFill[i].fillAmount != hpFill[i].fillAmount)
                 {
                     float before = hpBackFill[i].fillAmount;
 
