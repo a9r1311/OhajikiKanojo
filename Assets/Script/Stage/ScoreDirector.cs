@@ -46,7 +46,6 @@ public class ScoreDirector : MonoBehaviour
         //ボーナス計算(０～４００点)
         int bonus = Mathf.RoundToInt(currentSpeed / maxSpeed * maxBonus);
         bonus = Mathf.Clamp(bonus, 0, maxBonus);
-        Debug.Log("Bonus: " + bonus);
 
         //スコア加算
         score += 100 + bonus;
@@ -62,7 +61,6 @@ public class ScoreDirector : MonoBehaviour
     {
         //スコア加算
         score += enemyScore * magnification;
-        Debug.Log("Chain Score: " + (enemyScore * magnification));
 
         //スコア表示更新
         ScoreTextUpdate();
