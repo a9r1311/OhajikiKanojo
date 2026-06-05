@@ -1,25 +1,28 @@
 using UnityEngine;
 
-public class CharacterMove : MonoBehaviour
+namespace Ohajiki.Core
 {
-    [SerializeField] FollowTargetUI target;
-    public GameObject prince;
-    float moveSpd = 12f;
-    private CharacterController controller;
-
-    void Start()
+    public class CharacterMove : MonoBehaviour
     {
-        controller = GetComponent<CharacterController>();
-    }
+        [SerializeField] FollowTargetUI target;
+        public GameObject prince;
+        float moveSpd = 12f;
+        private CharacterController controller;
 
-    void Update()
-    {
-        if(target.explaind)
+        void Start()
         {
-            transform.position += Vector3.forward * moveSpd * Time.deltaTime;
-            //Vector3 moveDirection = Vector3.forward;
-            //moveDirection.y = -2f;
-            //controller.Move(moveDirection * moveSpd * Time.deltaTime);
+            controller = GetComponent<CharacterController>();
+        }
+
+        void Update()
+        {
+            if (target.explaind)
+            {
+                transform.position += Vector3.forward * moveSpd * Time.deltaTime;
+                //Vector3 moveDirection = Vector3.forward;
+                //moveDirection.y = -2f;
+                //controller.Move(moveDirection * moveSpd * Time.deltaTime);
+            }
         }
     }
 }
