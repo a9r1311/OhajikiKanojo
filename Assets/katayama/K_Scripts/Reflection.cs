@@ -45,6 +45,7 @@ public class Reflection : MonoBehaviour
     [SerializeField] private float behindCheckRadius = 1.5f;
 
     private Rigidbody myRb;
+    private OhajikiFlick ohajikiFlick;
 
     private float remainingDistance = 0f;
 
@@ -58,6 +59,7 @@ public class Reflection : MonoBehaviour
     private void Awake()
     {
         myRb = GetComponent<Rigidbody>();
+        ohajikiFlick = GetComponent<OhajikiFlick>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -97,6 +99,12 @@ public class Reflection : MonoBehaviour
                 ForceMode.Impulse
             );
         }
+
+        // =========================
+        // フリック攻撃状態にする
+        // =========================
+        ohajikiFlick.isAttacking = true;
+        //ohajikiFlick.attackTimer = 0f;
 
         // =========================
         // 通常反射

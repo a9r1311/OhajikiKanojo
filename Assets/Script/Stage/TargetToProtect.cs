@@ -15,8 +15,8 @@ public class TargetToProtect : MonoBehaviour
     //ターゲットが攻撃されたときの処理
     private void Damage(int damage)
     {
-        //Debug.Log(damage + "ダメージ");
         Debug.Log("HP: " + (currentHp - damage));
+
         //HPを減らす
         if ((currentHp -= damage) <= 0)
         {
@@ -31,12 +31,19 @@ public class TargetToProtect : MonoBehaviour
         {
             EnemyBase enemyBase = other.transform.parent.gameObject.GetComponent<EnemyBase>();
 
-            //敵がターゲットに接触したときの処理
-            Damage(enemyBase.power);
-            //敵の状態をリセット
-            enemyBase.ResetState();
-            //敵をオブジェクトプールに返す
-            enemyBase.spawnDirector.ReturnEnemyToPool(other.transform.parent.gameObject, enemyBase.id);
+            //敵が死んでいるかどうかを確認
+            if (!enemyBase.isDead)
+            {
+                //敵がターゲットに接触したときの処理
+                Damage(enemyBase.power);
+
+                //敵の状態をリセット
+                enemyBase.ResetState();
+
+                //敵をオブジェクトプールに返す
+                enemyBase.spawnDirector.ReturnEnemyToPool(other.transform.parent.gameObject, enemyBase.id);
+                enemyBase.spawnDirector.RemoveActiveEnemy(other.transform.parent.gameObject);
+            }
         }
     }
 }

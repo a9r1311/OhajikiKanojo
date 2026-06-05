@@ -65,7 +65,11 @@ public class EnemySpawnDirector : MonoBehaviour
     void Update()
     {
         //ゲームストップ中はスポーンさせない
-        if (gameStop.isGameStop)
+        if (gameStop == null)
+        {
+            Debug.LogWarning("GameStopへの参照が設定されていません。");
+        }
+        else if (gameStop.isGameStop)
             return;
 
         //スポーンタイマー
@@ -176,6 +180,12 @@ public class EnemySpawnDirector : MonoBehaviour
     public void ReturnEnemyToPool(GameObject enemy, int index)
     {
         waitingEnemies[index].Enqueue(enemy);
+    }
+
+    //アクティブな敵のリストから敵を削除
+    public void RemoveActiveEnemy(GameObject enemy)
+    {
+        activeEnemies.Remove(enemy);
     }
 
     //スポーン設定を初期化

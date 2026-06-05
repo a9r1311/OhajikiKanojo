@@ -51,9 +51,6 @@ public class PrinceController : MonoBehaviour
         if (!hasChangedScene &&
             Vector3.Distance(transform.position, targetPosition) < 0.01f)
         {
-            //スコアを保存
-            ScoreData.FinalScore = scoreDirector.GetScore();
-
             hasChangedScene = true;
 
             //HP0時と同じ処理
@@ -94,10 +91,8 @@ public class PrinceController : MonoBehaviour
                 enemyBase.ResetState();
 
                 //敵をオブジェクトプールに返す
-                enemyBase.spawnDirector.ReturnEnemyToPool(
-                    other.transform.parent.gameObject,
-                    enemyBase.id
-                );
+                enemyBase.spawnDirector.ReturnEnemyToPool(other.transform.parent.gameObject, enemyBase.id);
+                enemyBase.spawnDirector.RemoveActiveEnemy(other.transform.parent.gameObject);
             }
         }
     }

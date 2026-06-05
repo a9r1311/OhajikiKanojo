@@ -9,7 +9,8 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private ScoreDirector scoreDirector;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private GameObject dangerText;
-    [SerializeField] private TextMeshProUGUI scoreResultText;
+    [SerializeField] private TextMeshProUGUI inputScoreResultText;
+    [SerializeField] private TextMeshProUGUI outputScoreResultText;
     [SerializeField] private RankingManager rankingManager;
 
     private int finalScore;  //最終スコア
@@ -29,9 +30,12 @@ public class ResultManager : MonoBehaviour
         //名前入力UIを表示
         resultInput.SetActive(true);
 
+        //スコアを取得
         finalScore = scoreDirector.GetScore();
 
-        scoreResultText.text = $"Result:" + finalScore;
+        //最終スコアをテキストに表示
+        inputScoreResultText.text = $"Result:" + finalScore;
+        outputScoreResultText.text = finalScore.ToString();
     }
 
     //送信ボタンがクリックされたときの処理
@@ -54,7 +58,7 @@ public class ResultManager : MonoBehaviour
         }
 
         //スコア送信
-        //rankingManager.SendScore(playerName, finalScore);
+        rankingManager.SendScore(playerName, finalScore);
 
         //名前入力UIを非表示
         resultInput.SetActive(false);
@@ -97,11 +101,6 @@ public class ResultManager : MonoBehaviour
         {
             changer.titleUI.SetActive(true);
         }
-    }
-
-    public void ClickRetryButton()
-    {
-
     }
 
     public void ClickTitleButton()
