@@ -2,12 +2,14 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-using static RankingManager;
 
 public class RankingManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI[] nameTexts;
     [SerializeField] private TextMeshProUGUI[] scoreTexts;
+    [SerializeField] private TextMeshProUGUI playerRankText;
+
+    private bool isRankingUpdated = false;  //ランキングデータが更新されたかどうか
 
     //ランキングデータクラス
     [System.Serializable]
@@ -25,6 +27,12 @@ public class RankingManager : MonoBehaviour
         public RankingData[] rankings;
     }
 
+    [System.Serializable]
+    public class RankResult
+    {
+        public int rank;
+    }
+
     void Start()
     {
         //ゲーム開始時にランキングを取得
@@ -34,7 +42,20 @@ public class RankingManager : MonoBehaviour
     //スコア送信
     public void SendScore(string name, int score)
     {
+        isRankingUpdated = false;  //ランキングデータが更新される前にプレイヤーの順位を取得できないようにするため
+
         StartCoroutine(AddScore(name, score));
+    }
+
+    //ランキング更新
+    public void UpdateRanking()
+    {
+        if (isRankingUpdated)
+        {
+            isRankingUpdated = false;
+
+            StartCoroutine(GetRanking());
+        }
     }
 
     IEnumerator AddScore(string name, int score)
@@ -45,8 +66,7 @@ public class RankingManager : MonoBehaviour
         form.AddField("score", score);
 
         //送信リクエスト作成
-        UnityWebRequest www =
-            UnityWebRequest.Post("http://localhost/OhajikiGame/addScore.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://localhost/OhajikiGame/addScore.php", form);
 
         //送信
         yield return www.SendWebRequest();
@@ -55,12 +75,19 @@ public class RankingManager : MonoBehaviour
         {
             Debug.Log("スコア送信成功");
 
+            RankResult result = JsonUtility.FromJson<RankResult>(www.downloadHandler.text);
+
             //送信後ランキング更新
             StartCoroutine(GetRanking());
+
+            //プレイヤーの順位を取得して表示
+            //string playerRank = GetPlayerRank(score);
+            playerRankText.text = result.rank + "位";
         }
         else
         {
             Debug.LogError(www.error);
+            playerRankText.text = "?位";
         }
     }
 
@@ -68,8 +95,7 @@ public class RankingManager : MonoBehaviour
     IEnumerator GetRanking()
     {
         //送信リクエスト作成
-        UnityWebRequest www =
-            UnityWebRequest.Get("http://localhost/OhajikiGame/getRanking.php");
+        UnityWebRequest www = UnityWebRequest.Get("http://localhost/OhajikiGame/getRanking.php");
 
         //送信
         yield return www.SendWebRequest();
@@ -101,5 +127,9 @@ public class RankingManager : MonoBehaviour
         {
             Debug.LogError(www.error);
         }
+
+        //ランキングデータが更新されたことを通知
+        isRankingUpdated = true;
+        Debug.Log("ランキングデータが更新されました");
     }
 }

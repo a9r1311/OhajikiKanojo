@@ -153,8 +153,10 @@ public class EnemyBase : MonoBehaviour
 
         //スポーンディレクターに敵をオブジェクトプールに返す
         if (spawnDirector != null)
+        {
             spawnDirector.ReturnEnemyToPool(this.gameObject, id);
-
+            spawnDirector.RemoveActiveEnemy(this.gameObject);
+        }
         yield return new WaitForSeconds(1.0f);
 
         //初期化
