@@ -5460,6 +5460,7 @@ MonoBehaviour:
   - {fileID: 1571208693}
   - {fileID: 1865289042}
   - {fileID: 1528015687}
+  playerRankText: {fileID: 2010592543}
 --- !u!114 &836601132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5478,7 +5479,8 @@ MonoBehaviour:
   scoreDirector: {fileID: 2043960527}
   nameInputField: {fileID: 563314125}
   dangerText: {fileID: 562333893}
-  scoreResultText: {fileID: 960338798}
+  inputScoreResultText: {fileID: 960338798}
+  outputScoreResultText: {fileID: 1591928905}
   rankingManager: {fileID: 836601131}
 --- !u!1 &854727377
 GameObject:
