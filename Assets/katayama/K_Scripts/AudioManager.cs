@@ -8,11 +8,19 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     AudioSource bgmSource;
 
-    [Header("再生するBGM")]
+    [Header("SE AudioSource")]
+    [SerializeField]
+    AudioSource seSource;
+
+    [Header("BGMデータ")]
     [SerializeField]
     BGMData bgmData;
 
-    [Header("再生する番号")]
+    [Header("SEデータ")]
+    [SerializeField]
+    SEData seData;
+
+    [Header("再生するBGM番号")]
     [SerializeField]
     int clipIndex = 0;
 
@@ -21,9 +29,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     float masterBGMVolume = 1f;
 
+    [Header("SE全体音量")]
+    [Range(0f, 1f)]
+    [SerializeField]
+    float masterSEVolume = 1f;
+
     void Awake()
     {
-        // Singleton
         if (Instance == null)
         {
             Instance = this;
@@ -81,7 +93,7 @@ public class AudioManager : MonoBehaviour
     }
 
     // =========================
-    // 一時停止
+    // BGM一時停止
     // =========================
     public void PauseBGM()
     {
@@ -89,7 +101,7 @@ public class AudioManager : MonoBehaviour
     }
 
     // =========================
-    // 再開
+    // BGM再開
     // =========================
     public void ResumeBGM()
     {
@@ -97,7 +109,7 @@ public class AudioManager : MonoBehaviour
     }
 
     // =========================
-    // 音量変更
+    // BGM音量変更
     // =========================
     public void SetBGMVolume(
         float volume
@@ -108,5 +120,37 @@ public class AudioManager : MonoBehaviour
 
         bgmSource.volume =
             masterBGMVolume;
+    }
+
+    // =========================
+    // SE再生
+    // =========================
+    public void PlaySE(int index)
+    {
+        if (seData == null)
+            return;
+
+        AudioClip clip =
+            seData.GetClip(index);
+
+        if (clip == null)
+            return;
+
+        seSource.PlayOneShot(
+            clip,
+            seData.volume *
+            masterSEVolume
+        );
+    }
+
+    // =========================
+    // SE音量変更
+    // =========================
+    public void SetSEVolume(
+        float volume
+    )
+    {
+        masterSEVolume =
+            Mathf.Clamp01(volume);
     }
 }
