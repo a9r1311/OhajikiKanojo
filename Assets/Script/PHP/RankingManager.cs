@@ -66,7 +66,8 @@ public class RankingManager : MonoBehaviour
         form.AddField("score", score);
 
         //送信リクエスト作成
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/OhajikiGame/addScore.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://10.219.32.62/OhajikiGame/addScore.php", form);
+        //UnityWebRequest www = UnityWebRequest.Post("http://localhost/OhajikiGame/addScore.php", form);
 
         //送信
         yield return www.SendWebRequest();
@@ -95,7 +96,8 @@ public class RankingManager : MonoBehaviour
     IEnumerator GetRanking()
     {
         //送信リクエスト作成
-        UnityWebRequest www = UnityWebRequest.Get("http://localhost/OhajikiGame/getRanking.php");
+        UnityWebRequest www = UnityWebRequest.Get("http://10.219.32.62/OhajikiGame/getRanking.php");
+        //UnityWebRequest www = UnityWebRequest.Get("http://localhost/OhajikiGame/getRanking.php");
 
         //送信
         yield return www.SendWebRequest();
