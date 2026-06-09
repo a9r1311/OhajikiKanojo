@@ -1089,16 +1089,28 @@ PrefabInstance:
       value: -182.1
       objectReference: {fileID: 0}
     - target: {fileID: 2761438458800685263, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.36361
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761438458800685263, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.36361
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761438458800685263, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.36361
+      objectReference: {fileID: 0}
+    - target: {fileID: 2761438458800685263, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 71
+      value: 49.9
       objectReference: {fileID: 0}
     - target: {fileID: 2761438458800685263, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 28.4
+      value: 13.4
       objectReference: {fileID: 0}
     - target: {fileID: 2761438458800685263, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 134.3
+      value: 137.8
       objectReference: {fileID: 0}
     - target: {fileID: 2761438458800685263, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1204,6 +1216,11 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 5483693999297578874, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
     - {fileID: 3107925579574976186, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+    - {fileID: 6999134928271407785, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+    - {fileID: 1821557197193977284, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+    - {fileID: 4252272418270878501, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+    - {fileID: 4645702016782306180, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
+    - {fileID: 8447070090017737061, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6062097122342098557, guid: ed5748ddf15b3ea47b1051c47d9b778a, type: 3}
       insertIndex: 8

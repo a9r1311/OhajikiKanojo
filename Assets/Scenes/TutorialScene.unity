@@ -456,6 +456,7 @@ MonoBehaviour:
   scoreText: {fileID: 0}
   score: 0
   chainCount: 0
+  playerKnockScore: 0
 --- !u!114 &89319503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1974,63 +1975,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 124171824}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &7205825654890565278
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6043406683979243284, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_Name
-      value: StarzakozakoEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.806039
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -30.068748
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8235407616254257585, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2047,5 +1991,4 @@ SceneRoots:
   - {fileID: 288433481}
   - {fileID: 184567435}
   - {fileID: 1108686383}
-  - {fileID: 7205825654890565278}
   - {fileID: 124171823}
