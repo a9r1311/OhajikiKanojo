@@ -57,7 +57,7 @@ MonoBehaviour:
   gameStop: {fileID: 0}
   moveState: 0
   id: 0
-  speed: 6
+  speed: 8
   maxHp: 1
   power: 10
   knockBackMultiplier: 1
@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
+  isDragging: 0
   isAttacking: 0
   spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
@@ -293,7 +294,11 @@ MonoBehaviour:
   cancelDistance: 0.2
   maxChargeTime: 2
   chargeMultiplier: 2
+  chargeEffectPrefab: {fileID: 0}
   modelRotationOffset: {x: -90, y: -180, z: 0}
+  predictionLine: {fileID: 0}
+  predictionPoints: 30
+  predictionStep: 0.1
 --- !u!1 &5203090843868126100
 GameObject:
   m_ObjectHideFlags: 0

@@ -17638,6 +17638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EscortWarp
   escortTarget: {fileID: 63152343}
   warpOffset: {x: 0, y: 0, z: -2}
+  isWarped: 0
 --- !u!1 &2061816333
 GameObject:
   m_ObjectHideFlags: 0
@@ -18377,7 +18378,7 @@ MonoBehaviour:
   changeGame: {fileID: 836601129}
   resultManager: {fileID: 836601132}
   coordinate: 455
-  speed: 6
+  speed: 4
   maxHp: 100
   currentHp: 0
 --- !u!1 &2141533152
