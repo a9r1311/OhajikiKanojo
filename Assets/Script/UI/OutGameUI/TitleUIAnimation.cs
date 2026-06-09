@@ -5,7 +5,7 @@ public class TitleUIAnimation : MonoBehaviour
 {
     [SerializeField] RectTransform title;
     [SerializeField] RectTransform start;
-    [SerializeField] RectTransform config;
+    //[SerializeField] RectTransform config;
     [SerializeField] RectTransform ranking;
 
     Vector2 titleInPos;
@@ -32,7 +32,7 @@ public class TitleUIAnimation : MonoBehaviour
     {
         titleInPos = title.anchoredPosition;
         startInPos = start.anchoredPosition;
-        configInPos = config.anchoredPosition;
+        //configInPos = config.anchoredPosition;
         rankingInPos = ranking.anchoredPosition;
 
         titleOutPos = titleInPos + new Vector2(-800, 1000);
@@ -72,12 +72,12 @@ public class TitleUIAnimation : MonoBehaviour
 
             title.anchoredPosition = Vector2.Lerp(titleOutPos, titleInPos, t);
             start.anchoredPosition = Vector2.Lerp(startOutPos, startInPos, t);
-            config.anchoredPosition = Vector2.Lerp(configOutPos, configInPos, t);
+            //config.anchoredPosition = Vector2.Lerp(configOutPos, configInPos, t);
             ranking.anchoredPosition = Vector2.Lerp(rankingOutPos, rankingInPos, t);
 
             title.rotation = Quaternion.Lerp(titleOutRot, titleInRot, t);
             start.rotation = Quaternion.Lerp(startOutRot, startInRot, t);
-            config.rotation = Quaternion.Lerp(configOutRot, configInRot, t);
+            //config.rotation = Quaternion.Lerp(configOutRot, configInRot, t);
             ranking.rotation = Quaternion.Lerp(rankingOutRot, rankingInRot, t);
 
             yield return null;
@@ -95,12 +95,12 @@ public class TitleUIAnimation : MonoBehaviour
 
             title.anchoredPosition = Vector2.Lerp(titleInPos, titleOutPos, t);
             start.anchoredPosition = Vector2.Lerp(startInPos, startOutPos, t);
-            config.anchoredPosition = Vector2.Lerp(configInPos, configOutPos, t);
+            //config.anchoredPosition = Vector2.Lerp(configInPos, configOutPos, t);
             ranking.anchoredPosition = Vector2.Lerp(rankingInPos, rankingOutPos, t);
 
             title.rotation = Quaternion.Lerp(titleInRot, titleOutRot, t);
             start.rotation = Quaternion.Lerp(startInRot, startOutRot, t);
-            config.rotation = Quaternion.Lerp(configInRot, configOutRot, t);
+            //config.rotation = Quaternion.Lerp(configInRot, configOutRot, t);
             ranking.rotation = Quaternion.Lerp(rankingInRot, rankingOutRot, t);
 
             yield return null;
@@ -111,12 +111,12 @@ public class TitleUIAnimation : MonoBehaviour
     {
         title.anchoredPosition = titleInPos;
         start.anchoredPosition = startInPos;
-        config.anchoredPosition = configInPos;
+        //config.anchoredPosition = configInPos;
         ranking.anchoredPosition = rankingInPos;
 
         title.rotation = titleInRot;
         start.rotation = startInRot;
-        config.rotation = configInRot;
+        //config.rotation = configInRot;
         ranking.rotation = rankingInRot;
     }
 
@@ -124,12 +124,12 @@ public class TitleUIAnimation : MonoBehaviour
     {
         title.anchoredPosition = titleOutPos;
         start.anchoredPosition = startOutPos;
-        config.anchoredPosition = configOutPos;
+        //config.anchoredPosition = configOutPos;
         ranking.anchoredPosition= rankingOutPos;
 
         title.rotation = titleOutRot;
         start.rotation = startOutRot;
-        config.rotation = configOutRot;
+        //config.rotation = configOutRot;
         ranking.rotation = rankingOutRot;
     }
 
