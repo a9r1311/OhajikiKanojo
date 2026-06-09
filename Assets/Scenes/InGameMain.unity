@@ -17543,6 +17543,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 781267829491574915, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288585833297272703, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2536557451405463234, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3014130895334015138, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
       propertyPath: m_LocalPosition.x
       value: 455
@@ -17583,6 +17595,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3881712822126422530, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6093978561146863179, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6301687587138651872, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6527044044189043056, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453861230462717547, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7506949980290103208, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.3921804
@@ -17603,11 +17635,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -29.973
       objectReference: {fileID: 0}
+    - target: {fileID: 7651660329712265696, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8375249942449030646, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
       propertyPath: m_Name
       value: Result_GameOver
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9122025450669685480, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4590262713999127443, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 5820317251216512516, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 8845126104225845927, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 8414603835873174940, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 5270184808899863175, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 4927556902828180748, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 964249650797158958, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 2631655317160756335, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 8729679340558150156, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 8785352019967822772, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 1629704039233269283, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 4366248461934832256, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 3647521078849183163, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 1115557533494336160, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 160447775753583915, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 5420512547593591305, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 7124043780884315208, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+    - {fileID: 4575157598404923947, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
