@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2639040475974781273, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.49
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2639040475974781273, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: m_LocalPosition.y
@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2639040475974781273, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.51
+      value: -5.03
       objectReference: {fileID: 0}
     - target: {fileID: 2639040475974781273, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: m_LocalRotation.w
@@ -485,6 +485,22 @@ MonoBehaviour:
   effectDestroyTime: 2
   startEffectCount: 1
   comboResetTime: 0.3
+--- !u!4 &89319504 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8235117461750303235, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+  m_PrefabInstance: {fileID: 89319497}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &89319506 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+  m_PrefabInstance: {fileID: 89319497}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89319498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
 --- !u!1001 &124171823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -511,7 +527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7723510501156604611, guid: b15615a260652db41972952ba3e32902, type: 3}
       propertyPath: masterBGMVolume
-      value: 0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8081895277493986476, guid: b15615a260652db41972952ba3e32902, type: 3}
       propertyPath: m_LocalPosition.x
@@ -849,15 +865,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4102040793879236605, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.88176
+      value: -2.1317601
       objectReference: {fileID: 0}
     - target: {fileID: 4102040793879236605, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 10.000004
       objectReference: {fileID: 0}
     - target: {fileID: 4102040793879236605, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.51573
+      value: -16.71573
       objectReference: {fileID: 0}
     - target: {fileID: 4404102623148351609, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.x
@@ -901,15 +917,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.88176
+      value: -2.1317601
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 10.000004
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.51573
+      value: -16.71573
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalRotation.w
@@ -958,7 +974,7 @@ PrefabInstance:
     - target: {fileID: 7189297877333920760, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 89319504}
     - target: {fileID: 8654167942679102182, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_Name
       value: InGameCamera
@@ -1548,7 +1564,7 @@ GameObject:
   - component: {fileID: 1556474357}
   - component: {fileID: 1556474356}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: SpawnDirector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1726,6 +1742,7 @@ MonoBehaviour:
   fullText_Forth: "\u3076\u3064\u304B\u3063\u3066\u59EB\u3092\u5B88\u308D\u3046\u3002"
   fullText_Fifth: '!?'
   fullText_Sixth: "\u59EB\u3092\u5B88\u308A\u306B\u884C\u3053\u3046"
+  flick: {fileID: 89319506}
   isAppearEnemyTimimig: 0
   explaind: 0
 --- !u!114 &1851967752

@@ -11,7 +11,7 @@ public class OhajikiFlick : MonoBehaviour
     Vector3 startPosition;
     Quaternion startRotation;
 
-    bool isDragging = false;
+    public bool isDragging = false;
     bool canFlick = true;
     public bool isAttacking = false;
 

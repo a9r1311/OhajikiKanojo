@@ -272,7 +272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9581509
 Transform:
   m_ObjectHideFlags: 0
@@ -9287,6 +9287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
+  isDragging: 0
   isAttacking: 0
   spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
