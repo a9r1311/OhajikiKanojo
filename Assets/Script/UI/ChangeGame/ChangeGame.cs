@@ -99,13 +99,11 @@ public class ChangeGame : MonoBehaviour
     IEnumerator GRt()
     {
         direction.GoGameCamera(cameraTime);
-        animeT.MoveTitleOutPosition(animeTTime * earlyTimer);
         animeR.MoveResultOutPosition(animeRTime * earlyTimer);
 
-        yield return new WaitForSeconds(CheckLongTime(animeRTime, animeTTime) * earlyTimer);
+        yield return new WaitForSeconds(animeRTime * earlyTimer);
 
         changeUI.HideAllUI();
-        animeT.SetTitleInPosition();
         animeR.SetResultInPosition();
         animeIG.SetInGameOutPosition();
         changeUI.ActiveInGameUI();
