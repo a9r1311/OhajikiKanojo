@@ -64,6 +64,9 @@ public class OhajikiFlick : MonoBehaviour
     [SerializeField]
     LineRenderer predictionLine;
 
+    [Header("リザルトUI")]
+    [SerializeField] GameObject resultUI;
+
     [SerializeField]
     int predictionPoints = 30;
 
@@ -107,6 +110,31 @@ public class OhajikiFlick : MonoBehaviour
 
     void Update()
     {
+        if (Mouse.current == null) return;
+
+        // ★リザルト中は完全停止
+        if (resultUI != null && resultUI.activeSelf)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            isDragging = false;
+            canFlick = false;
+
+            if (arrow != null)
+                arrow.gameObject.SetActive(false);
+
+            if (predictionLine != null)
+                predictionLine.enabled = false;
+
+            if (currentChargeEffect != null)
+            {
+                Destroy(currentChargeEffect);
+            }
+
+            return;
+        }
+
         if (Mouse.current == null) return;
 
         // クールタイム
