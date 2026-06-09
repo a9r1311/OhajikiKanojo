@@ -7,6 +7,7 @@ public class ScoreDirector : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;  //スコア表示用テキスト
     [SerializeField] private int score = 0;  //スコア
     public int chainCount = 0;  //連鎖数
+    public int playerKnockScore = 0;  //プレイヤーのノックバックによるスコア
 
     private const float maxSpeed = 110.2917f;  //プレイヤーの最大速度
     private float currentSpeed = 0f;  //現在の速度
@@ -47,13 +48,16 @@ public class ScoreDirector : MonoBehaviour
         int bonus = Mathf.RoundToInt(currentSpeed / maxSpeed * maxBonus);
         bonus = Mathf.Clamp(bonus, 0, maxBonus);
 
+        //プレイヤーのノックバックによるスコアを更新
+        playerKnockScore = 100 + bonus;
+
         //スコア加算
-        score += 100 + bonus;
+        score += playerKnockScore;
 
         //スコア表示更新
         ScoreTextUpdate();
 
-        return 100 + bonus;
+        return playerKnockScore;
     }
 
     //連鎖スコア加算

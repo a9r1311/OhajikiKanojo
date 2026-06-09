@@ -127,6 +127,7 @@ public class OhajikiFlick : MonoBehaviour
             {
                 isAttacking = false;  // 攻撃状態解除
                 scoreDirector.chainCount = 0;  // チェインリセット
+                scoreDirector.playerKnockScore = 0;  // ノックバックスコアリセット
                 attackTimer = 0f;
             }
         }

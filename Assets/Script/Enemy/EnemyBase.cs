@@ -226,7 +226,7 @@ public class EnemyBase : MonoBehaviour
                     if (knockScore <= 1)
                         knockScore = scoreDirector.AddScore();
                     else
-                        knockScore = scoreDirector.ChainScore(collision.gameObject.GetComponent<EnemyBase>().knockScore, scoreDirector.chainCount);
+                        knockScore = scoreDirector.ChainScore(scoreDirector.playerKnockScore, scoreDirector.chainCount);
                 }
             }
         }
