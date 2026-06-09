@@ -797,6 +797,7 @@ MonoBehaviour:
   scoreText: {fileID: 79678197}
   score: 0
   chainCount: 0
+  playerKnockScore: 0
 --- !u!114 &65456754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1828,7 +1829,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &151400163
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1877,7 +1878,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleUIAnimation
   title: {fileID: 1799529778}
   start: {fileID: 856512642}
-  config: {fileID: 1277517046}
   ranking: {fileID: 1139813302}
 --- !u!1 &170906305
 GameObject:
@@ -5314,6 +5314,7 @@ MonoBehaviour:
   scoreText: {fileID: 0}
   score: 0
   chainCount: 0
+  playerKnockScore: 0
 --- !u!1 &600213669
 GameObject:
   m_ObjectHideFlags: 0
@@ -8910,6 +8911,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182843722}
   m_CullTransparentMesh: 1
+--- !u!1001 &1195985978
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2803341099538037104, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_Center.y
+      value: 0.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 5773904596378431964, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.214179
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 33.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380342197116863231, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111659187339402544, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      propertyPath: m_Name
+      value: SideStepEnemyRight
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9111659187339402544, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1493707831}
+  m_SourcePrefab: {fileID: 100100000, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
 --- !u!1 &1201108349
 GameObject:
   m_ObjectHideFlags: 0
@@ -11732,6 +11801,34 @@ MonoBehaviour:
   resultManager: {fileID: 1492309603}
   gameStop: {fileID: 1492309602}
   gameFinish: 0
+--- !u!1 &1493707830 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9111659187339402544, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+  m_PrefabInstance: {fileID: 1195985978}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1493707831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493707830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e60ca82a2fc5fc8408fa83a358dbb4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JumpEnemy
+  spawnDirector: {fileID: 2081533042}
+  scoreDirector: {fileID: 65456753}
+  gameStop: {fileID: 1105876616}
+  moveState: 0
+  id: 0
+  speed: 6
+  maxHp: 1
+  power: 30
+  knockBackMultiplier: 1
+  target: {fileID: 1900666741}
+  isDead: 0
 --- !u!1 &1497398068
 GameObject:
   m_ObjectHideFlags: 0
@@ -13858,6 +13955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
+  isDragging: 0
   isAttacking: 0
   spawnPoint: {fileID: 0}
   arrow: {fileID: 300496702}
@@ -13872,7 +13970,11 @@ MonoBehaviour:
   cancelDistance: 0.2
   maxChargeTime: 2
   chargeMultiplier: 2
+  chargeEffectPrefab: {fileID: 0}
   modelRotationOffset: {x: -90, y: -180, z: 0}
+  predictionLine: {fileID: 0}
+  predictionPoints: 30
+  predictionStep: 0.1
 --- !u!54 &1738229700
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16112,6 +16214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
+  isDragging: 0
   isAttacking: 0
   spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
@@ -16126,7 +16229,11 @@ MonoBehaviour:
   cancelDistance: 0.2
   maxChargeTime: 2
   chargeMultiplier: 2
+  chargeEffectPrefab: {fileID: 0}
   modelRotationOffset: {x: -90, y: -180, z: 0}
+  predictionLine: {fileID: 0}
+  predictionPoints: 30
+  predictionStep: 0.1
 --- !u!54 &1988690824
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17410,3 +17517,4 @@ SceneRoots:
   - {fileID: 388659277}
   - {fileID: 2130839624}
   - {fileID: 804895800}
+  - {fileID: 1195985978}
