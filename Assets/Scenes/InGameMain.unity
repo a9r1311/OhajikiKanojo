@@ -7667,7 +7667,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &936246339
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16797,6 +16797,7 @@ MonoBehaviour:
   scoreText: {fileID: 2003084708}
   score: 0
   chainCount: 0
+  playerKnockScore: 0
 --- !u!114 &2043960530 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
