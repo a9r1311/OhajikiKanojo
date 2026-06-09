@@ -10679,6 +10679,10 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: resultUI
+      value: 
+      objectReference: {fileID: 1747233491}
+    - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: stopVelocity
       value: 30
       objectReference: {fileID: 0}
@@ -12630,6 +12634,7 @@ MonoBehaviour:
   chargeEffectPrefab: {fileID: 0}
   modelRotationOffset: {x: -90, y: -180, z: 0}
   predictionLine: {fileID: 0}
+  resultUI: {fileID: 0}
   predictionPoints: 30
   predictionStep: 0.1
 --- !u!1 &1454468449
