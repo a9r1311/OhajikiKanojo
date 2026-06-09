@@ -149,6 +149,8 @@ public class HitStopOnMaxSpeed : MonoBehaviour
             if (normalHitEffect != null &&
                 collision.contactCount > 0)
             {
+                AudioManager.Instance.PlaySE(0);
+
                 Vector3 hitPoint =
                     collision.contacts[0].point;
 
@@ -188,6 +190,8 @@ public class HitStopOnMaxSpeed : MonoBehaviour
         {
             Vector3 hitPoint =
                 collision.contacts[0].point;
+
+            AudioManager.Instance.PlaySE(1);
 
             // 0”Ô–Ú‚ÌPrefab
             if (hitEffectPrefabs[0] != null)
