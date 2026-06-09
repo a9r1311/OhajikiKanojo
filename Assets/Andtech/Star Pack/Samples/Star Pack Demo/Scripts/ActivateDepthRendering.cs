@@ -8,7 +8,7 @@ namespace Andtech.StarPack
 
 		private void Start()
 		{
-			Camera.main.depthTextureMode = DepthTextureMode.Depth;
-		}
+            UnityEngine.Camera.main.depthTextureMode = DepthTextureMode.Depth;
+        }
 	}
 }
