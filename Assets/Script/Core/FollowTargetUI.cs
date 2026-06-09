@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -27,6 +26,8 @@ namespace Ohajiki.Core
         [SerializeField] string fullText_Forth;
         [SerializeField] string fullText_Fifth;
         [SerializeField] string fullText_Sixth;
+
+        [SerializeField] OhajikiFlick flick;
 
         private string currentText = "";
 
@@ -57,6 +58,7 @@ namespace Ohajiki.Core
             if (Pointer.current != null && Pointer.current.press.isPressed)
             {
                 isClicked = true;
+                Debug.Log("Clicked");
             }
         }
 
@@ -70,7 +72,7 @@ namespace Ohajiki.Core
                 yield return new WaitForSeconds(indicateSpeed_First);
             }
 
-            while (!isClicked)
+            while (!flick.isDragging)
             {
                 yield return null;
             }
@@ -80,6 +82,7 @@ namespace Ohajiki.Core
             yield return new WaitForSeconds(5f);
 
             currentText = "";
+            Debug.Log("What");
 
             for (int i = 0; i <= fullText_Second.Length; i++)
             {
