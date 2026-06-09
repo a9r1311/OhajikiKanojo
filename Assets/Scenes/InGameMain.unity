@@ -7833,11 +7833,11 @@ PrefabInstance:
       objectReference: {fileID: 19891951}
     - target: {fileID: 7723510501156604611, guid: b15615a260652db41972952ba3e32902, type: 3}
       propertyPath: masterSEVolume
-      value: 1
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7723510501156604611, guid: b15615a260652db41972952ba3e32902, type: 3}
       propertyPath: masterBGMVolume
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8081895277493986476, guid: b15615a260652db41972952ba3e32902, type: 3}
       propertyPath: m_LocalPosition.x
