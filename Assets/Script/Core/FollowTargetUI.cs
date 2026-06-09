@@ -15,6 +15,7 @@ namespace Ohajiki.Core
 
         [SerializeField] private float indicateSpeed_First;    //  表示スピード
         [SerializeField] private float indicateSpeed_Second;    //  表示スピード
+        [SerializeField] private float indicateSpeed_HalfSecond;    //  表示スピード
         [SerializeField] private float indicateSpeed_Third;    //  表示スピード
         [SerializeField] private float indicateSpeed_Forth;    //  表示スピード
         [SerializeField] private float indicateSpeed_Fifth;    //  表示スピード
@@ -22,12 +23,14 @@ namespace Ohajiki.Core
         private TextMeshProUGUI textElement;
         [SerializeField] string fullText_First;
         [SerializeField] string fullText_Second;
+        [SerializeField] string fullText_HalfSecond;
         [SerializeField] string fullText_Third;
         [SerializeField] string fullText_Forth;
         [SerializeField] string fullText_Fifth;
         [SerializeField] string fullText_Sixth;
 
         [SerializeField] OhajikiFlick flick;
+        [SerializeField] EscortWarp warp;
 
         private string currentText = "";
 
@@ -93,6 +96,23 @@ namespace Ohajiki.Core
             }
 
             yield return new WaitForSeconds(4f);
+
+            currentText = "";
+
+            for (int i = 0; i <= fullText_HalfSecond.Length; i++)
+            {
+                currentText = fullText_HalfSecond.Substring(0, i);
+                textElement.text = currentText;
+
+                yield return new WaitForSeconds(indicateSpeed_HalfSecond);
+            }
+            
+            while (!warp.isWarped)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(3f);
 
             currentText = "";
 
