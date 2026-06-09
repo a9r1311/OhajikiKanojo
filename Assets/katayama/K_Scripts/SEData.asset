@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SEData
   m_EditorClassIdentifier: Assembly-CSharp::SEData
   clips:
-  - {fileID: 8300000, guid: 380e323a6b3e199449957989319de27b, type: 3}
   - {fileID: 8300000, guid: a479cbb21d2753f46abb9ab8fb97a139, type: 3}
+  - {fileID: 8300000, guid: e2f5a2ea224484545bd34dc7cf3dbdba, type: 3}
   volume: 1
