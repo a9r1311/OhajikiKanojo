@@ -14,6 +14,8 @@ public class EscortWarp : MonoBehaviour
 
     private Rigidbody rb;
 
+    public bool isWarped = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -27,6 +29,7 @@ public class EscortWarp : MonoBehaviour
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             WarpToEscort();
+            isWarped = true;
         }
     }
 
