@@ -6248,7 +6248,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TitleUIAnimation
   title: {fileID: 320432505}
   start: {fileID: 1685663603}
-  config: {fileID: 0}
   ranking: {fileID: 1292311242}
 --- !u!1 &945975065
 GameObject:
@@ -12267,10 +12266,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnDirector
   spawnEnemy:
-  - {fileID: 1227487842569811386, guid: 768255c99cf942d49b9d1c2dd63e3a22, type: 3}
   - {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
   - {fileID: 953586157583803240, guid: 87853f3063e190143a965e2933e32521, type: 3}
   - {fileID: 9111659187339402544, guid: 35a17425cb836f541ba32e23bbf0ab8c, type: 3}
+  - {fileID: 7192202233046801756, guid: 935ee12ccc78b614ebadff383c3a3a35, type: 3}
   target: {fileID: 625733061}
   gameStop: {fileID: 836601128}
   scoreDirector: {fileID: 2043960527}
