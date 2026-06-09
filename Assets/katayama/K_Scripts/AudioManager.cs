@@ -40,13 +40,13 @@ public class AudioManager : MonoBehaviour
         {
             Instance = this;
 
-            DontDestroyOnLoad(
-                gameObject
-            );
+            //DontDestroyOnLoad(
+            //    gameObject
+            //);
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
