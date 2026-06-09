@@ -171,7 +171,7 @@ public class EnemySpawnDirector : MonoBehaviour
             float x = Random.Range(targetPos.x - width / 2f, targetPos.x + width / 2f);
             float z = Random.Range(targetPos.z - height / 2f, targetPos.z + height / 2f) + 6f;
 
-            spawnPos = new Vector3(x, 1f, z);
+            spawnPos = new Vector3(x, 0.9f, z);
 
         } while (Vector3.Distance(spawnPos, targetPos + new Vector3(0f, 0f, 2f)) < targetRadius
                  || (id == 3 && spawnPos.z < targetPos.z));  //ターゲットから一定距離以上の位置かつ、id3はターゲットより前方なら通す
