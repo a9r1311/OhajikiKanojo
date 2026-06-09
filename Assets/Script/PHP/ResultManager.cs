@@ -25,13 +25,19 @@ public class ResultManager : MonoBehaviour
     }
 
     //リザルト+名前入力UI表示
-    public void ResultView()
+    public void ResultView(int hp)
     {
         //名前入力UIを表示
         resultInput.SetActive(true);
 
         //スコアを取得
         finalScore = scoreDirector.GetScore();
+
+        //HPが残っている場合はボーナスポイントを加算
+        if (hp >= 0)
+        {
+            finalScore += hp * 1000;
+        }
 
         //最終スコアをテキストに表示
         inputScoreResultText.text = $"Result:" + finalScore;

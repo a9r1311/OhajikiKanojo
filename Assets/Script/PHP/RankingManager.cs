@@ -82,8 +82,14 @@ public class RankingManager : MonoBehaviour
             StartCoroutine(GetRanking());
 
             //プレイヤーの順位を取得して表示
-            //string playerRank = GetPlayerRank(score);
-            playerRankText.text = result.rank + "位";
+            if (result.rank >= 100)
+            {
+                playerRankText.text = "圏外";
+            }
+            else
+            {
+                playerRankText.text = result.rank + "位";
+            }
         }
         else
         {
