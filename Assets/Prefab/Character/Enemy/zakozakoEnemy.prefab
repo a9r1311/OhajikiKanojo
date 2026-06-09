@@ -135,7 +135,7 @@ MonoBehaviour:
   gameStop: {fileID: 0}
   moveState: 0
   id: 0
-  speed: 6
+  speed: 7
   maxHp: 1
   power: 10
   knockBackMultiplier: 0.98
