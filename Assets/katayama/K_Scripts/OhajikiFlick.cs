@@ -48,6 +48,12 @@ public class OhajikiFlick : MonoBehaviour
     [SerializeField] float maxChargeTime = 2f;
     [SerializeField] float chargeMultiplier = 3f;
 
+    [Header("チャージエフェクト")]
+    [SerializeField]
+    GameObject chargeEffectPrefab;
+
+    GameObject currentChargeEffect;
+
     [Header("モデル向き補正")]
     [Tooltip("モデルが逆を向く場合は Y を 180 にする")]
     [SerializeField]
@@ -142,6 +148,17 @@ public class OhajikiFlick : MonoBehaviour
             {
                 arrow.gameObject.SetActive(true);
             }
+
+            if (chargeEffectPrefab != null)
+            {
+                currentChargeEffect =
+                    Instantiate(
+                        chargeEffectPrefab,
+                        transform.position,
+                        Quaternion.identity,
+                        transform
+                    );
+            }
         }
 
         // =========================
@@ -217,6 +234,7 @@ public class OhajikiFlick : MonoBehaviour
                 dir.magnitude <
                 cancelDistance;
 
+
             // 矢印表示
             if (arrow != null)
             {
@@ -278,7 +296,12 @@ public class OhajikiFlick : MonoBehaviour
                         0.5f;
                 }
 
-                
+                if (currentChargeEffect != null)
+                {
+                    currentChargeEffect.transform.position =
+                        transform.position;
+                }
+
             }
         }
 
@@ -327,6 +350,11 @@ public class OhajikiFlick : MonoBehaviour
                 {
                     arrow.gameObject
                         .SetActive(false);
+                }
+
+                if (currentChargeEffect != null)
+                {
+                    Destroy(currentChargeEffect);
                 }
 
                 return;
@@ -384,6 +412,11 @@ public class OhajikiFlick : MonoBehaviour
             if (arrow != null)
             {
                 arrow.gameObject.SetActive(false);
+            }
+
+            if (currentChargeEffect != null)
+            {
+                Destroy(currentChargeEffect);
             }
         }
     }
@@ -464,6 +497,11 @@ public class OhajikiFlick : MonoBehaviour
         if (arrow != null)
         {
             arrow.gameObject.SetActive(false);
+        }
+
+        if (currentChargeEffect != null)
+        {
+            Destroy(currentChargeEffect);
         }
 
         if (predictionLine != null)
