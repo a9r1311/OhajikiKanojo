@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class OhajikiFlick : MonoBehaviour
 {
@@ -485,58 +486,54 @@ public class OhajikiFlick : MonoBehaviour
 
     public void Retry()
     {
-        // 停止
-        rb.linearVelocity =
-            Vector3.zero;
+        // 一旦物理停止
+        rb.isKinematic = true;
 
-        rb.angularVelocity =
-            Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
 
-        // 位置を戻す
+        // リスポーン
         if (spawnPoint != null)
         {
-            transform.position =
-                spawnPoint.position;
-
-            transform.rotation =
-                spawnPoint.rotation;
+            transform.SetPositionAndRotation(
+                spawnPoint.position,
+                spawnPoint.rotation
+            );
         }
         else
         {
-            transform.position =
-                startPosition;
-
-            transform.rotation =
-                startRotation;
+            transform.SetPositionAndRotation(
+                startPosition,
+                startRotation
+            );
         }
 
         // 状態リセット
         currentFlickCount = 0;
-
         canFlick = true;
-
-        flickTimer =
-            flickCooldown;
-
+        flickTimer = flickCooldown;
         isDragging = false;
-
+        isAttacking = false;
         chargeTime = 0f;
 
-        // 矢印非表示
         if (arrow != null)
-        {
             arrow.gameObject.SetActive(false);
-        }
 
         if (currentChargeEffect != null)
-        {
             Destroy(currentChargeEffect);
-        }
 
         if (predictionLine != null)
-        {
             predictionLine.enabled = false;
-        }
+
+        // 次フレームで物理再開
+        StartCoroutine(EnablePhysicsNextFrame());
+    }
+
+    IEnumerator EnablePhysicsNextFrame()
+    {
+        yield return null;
+
+        rb.isKinematic = false;
     }
 
     void DrawPrediction(
