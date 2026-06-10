@@ -112,7 +112,6 @@ public class EnemyBase : MonoBehaviour
     {
         if (target != null)
         {
-        Debug.Log("okasii");
             transform.LookAt(target.transform);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
             rb.linearVelocity = transform.forward * speed;
@@ -148,7 +147,6 @@ public class EnemyBase : MonoBehaviour
     //hpが0未満になったときの死亡処理
     private IEnumerator DeadEnemy()
     {
-        Debug.Log(audioSource);
         //動物の鳴き声を再生
         audioSource.Play();
 

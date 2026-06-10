@@ -15,7 +15,7 @@ public class EnemySpawnDirector : MonoBehaviour
 
     private float initialSpawnInterval = 3.3f;  //スポーン間隔の初期値
     private float currentSpawnInterval;  //スポーン間隔
-    private float minSpawnInterval = 0.2f;  //スポーン間隔の最小値
+    private float minSpawnInterval = 0.25f;  //スポーン間隔の最小値
     private float spawnIntervalDecreaseRate = 0.05f;  //スポーン間隔の減少率
     private float spawnTimer = 0f;  //スポーンタイマー
 

@@ -6,6 +6,7 @@ public class OhajikiFlick : MonoBehaviour
 {
     Rigidbody rb;
     private ScoreDirector scoreDirector;  //スコアディレクターへの参照
+    [SerializeField] GameStop gameStop;
 
     Vector3 startPos;
     Vector3 currentPos;
@@ -111,29 +112,32 @@ public class OhajikiFlick : MonoBehaviour
 
     void Update()
     {
-        if (Mouse.current == null) return;
+        if (Mouse.current == null ) return;
 
         // ★リザルト中は完全停止
-        if (resultUI != null && resultUI.activeSelf)
+        if (gameStop != null)
         {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
-            isDragging = false;
-            canFlick = false;
-
-            if (arrow != null)
-                arrow.gameObject.SetActive(false);
-
-            if (predictionLine != null)
-                predictionLine.enabled = false;
-
-            if (currentChargeEffect != null)
+            if ((resultUI != null && resultUI.activeSelf) || gameStop.isGameStop)
             {
-                Destroy(currentChargeEffect);
-            }
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
 
-            return;
+                isDragging = false;
+                canFlick = false;
+
+                if (arrow != null)
+                    arrow.gameObject.SetActive(false);
+
+                if (predictionLine != null)
+                    predictionLine.enabled = false;
+
+                if (currentChargeEffect != null)
+                {
+                    Destroy(currentChargeEffect);
+                }
+
+                return;
+            }
         }
 
         if (Mouse.current == null) return;
