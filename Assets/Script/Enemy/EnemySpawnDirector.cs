@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawnDirector : MonoBehaviour
 {
     [SerializeField] private List<GameObject> spawnEnemy = new();  //スポーンする敵のリスト
     [SerializeField] private GameObject target;  //敵の追尾ターゲット
+    public GameObject target_forcat { get; set; }  //敵の追尾ターゲット
     [SerializeField] private GameStop gameStop;  //ゲームストップへの参照
     [SerializeField] private ScoreDirector scoreDirector;
 
@@ -49,15 +49,26 @@ public class EnemySpawnDirector : MonoBehaviour
             {
                 //敵をスポーン
                 GameObject enemy = Instantiate(spawnEnemy[i], waitingPos, Quaternion.identity);
+                
                 EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
-                //スポーンした敵に色々設定
-                enemyBase.target = target;
-                enemyBase.spawnDirector = this;
-                enemyBase.scoreDirector = scoreDirector;
-                enemyBase.gameStop = gameStop;
-                //敵を非アクティブにして待機キューに追加
-                waitingEnemies[enemyBase.id].Enqueue(enemy);
-                enemy.SetActive(false);
+                if (enemyBase != null)
+                {
+                    //スポーンした敵に色々設定
+                    enemyBase.target = target;
+                    enemyBase.spawnDirector = this;
+                    enemyBase.scoreDirector = scoreDirector;
+                    enemyBase.gameStop = gameStop;
+
+                    //敵を非アクティブにして待機キューに追加
+                    waitingEnemies[enemyBase.id].Enqueue(enemy);
+                    enemy.SetActive(false);
+                }
+                else
+                {
+                    EnemyContorllerBase contorllerBase = enemy.GetComponent<EnemyContorllerBase>();
+                    waitingEnemies[contorllerBase.ID].Enqueue(enemy);
+                    enemy.SetActive(false);
+                }
             }
         }
     }
@@ -81,7 +92,6 @@ public class EnemySpawnDirector : MonoBehaviour
             //スポーン間隔を徐々に短くする
             if ((currentSpawnInterval -= spawnIntervalDecreaseRate) < minSpawnInterval)
             {
-                Debug.Log(2);
                 currentSpawnInterval = minSpawnInterval;
             }
 
@@ -131,21 +141,36 @@ public class EnemySpawnDirector : MonoBehaviour
                 //敵を生成
                 GameObject enemy = Instantiate(spawnEnemy[index], spawnPos, Quaternion.identity);
                 EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
-
-                //スポーンした敵に色々設定
-                enemyBase.target = target;
-                enemyBase.spawnDirector = this;
-                enemyBase.scoreDirector = scoreDirector;
-                enemyBase.gameStop = gameStop;
-                activeEnemies.Add(enemy);  //スポーンした敵をアクティブな敵のリストに追加
+                if (enemyBase != null)
+                {
+                    //スポーンした敵に色々設定
+                    enemyBase.target = target;
+                    enemyBase.spawnDirector = this;
+                    enemyBase.scoreDirector = scoreDirector;
+                    enemyBase.gameStop = gameStop;
+                    activeEnemies.Add(enemy);  //スポーンした敵をアクティブな敵のリストに追加
+                }
+                else
+                {
+                    EnemyContorllerBase contorllerBase = enemy.GetComponent<EnemyContorllerBase>();
+                    activeEnemies.Add(enemy);  //スポーンした敵をアクティブな敵のリストに追加
+                }
             }
             else  //オブジェクトプールから敵を出してスポーン
             {
                 GameObject enemy = waitingEnemies[index].Dequeue();
                 enemy.transform.position = spawnPos;
                 enemy.SetActive(true);
-                enemy.GetComponent<EnemyBase>().moveState = EnemyBase.movePattern.Walk;  //行動パターンを歩きにする
-                activeEnemies.Add(enemy);  //スポーンした敵をアクティブな敵のリストに追加
+                EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
+                if (enemyBase != null)
+                {
+                    enemyBase.moveState = movePattern.Walk;  //行動パターンを歩きにする
+                    activeEnemies.Add(enemy);  //スポーンした敵をアクティブな敵のリストに追加
+                }
+                else
+                {
+                    activeEnemies.Add(enemy);  //スポーンした敵をアクティブな敵のリストに追加
+                }
             }
         }
     }
@@ -204,10 +229,17 @@ public class EnemySpawnDirector : MonoBehaviour
         {
             EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();  //敵のEnemyBaseコンポーネントを取得
 
-            enemyBase.ResetState();  //敵の状態をリセット
-            ReturnEnemyToPool(enemy, enemyBase.id);  //敵をオブジェクトプールに戻す
+            if (enemyBase != null)
+            {
+                enemyBase.ResetState();  //敵の状態をリセット
+                ReturnEnemyToPool(enemy, enemyBase.id);  //敵をオブジェクトプールに戻す
+            }
+            else
+            {
+                EnemyContorllerBase contorllerBase = enemy.GetComponent<EnemyContorllerBase>();
+                ReturnEnemyToPool(enemy, contorllerBase.ID);
+            }
         }
-
         activeEnemies.Clear();  //アクティブな敵のリストをクリア
     }
 }

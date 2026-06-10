@@ -12,7 +12,6 @@ public class EnemyBase : MonoBehaviour
     protected GameObject model;  //敵のモデル（見た目）への参照
     protected GameObject colliderObject;  //敵のコライダーへの参照
 
-    public enum movePattern { Idle, Walk, Knock, Hit };  //行動パターン
     public movePattern moveState = movePattern.Idle;  //現在の行動パターン
 
     public int id = 0;  //敵のID（種類を識別するためのもの）
@@ -35,6 +34,11 @@ public class EnemyBase : MonoBehaviour
         currentHp = maxHp;  //現在のHPを最大HPで初期化
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        if(audioSource == null)
+        {
+            audioSource = this.gameObject.GetComponent<AudioSource>();
+            Debug.Log(audioSource);
+        }
         model = transform.GetChild(0).gameObject;  //敵のモデルへの参照を取得
         colliderObject = transform.GetChild(1).gameObject;  //敵のコライダーへの参照を取得
 
@@ -108,6 +112,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (target != null)
         {
+        Debug.Log("okasii");
             transform.LookAt(target.transform);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
             rb.linearVelocity = transform.forward * speed;
@@ -143,6 +148,7 @@ public class EnemyBase : MonoBehaviour
     //hpが0未満になったときの死亡処理
     private IEnumerator DeadEnemy()
     {
+        Debug.Log(audioSource);
         //動物の鳴き声を再生
         audioSource.Play();
 
@@ -230,6 +236,7 @@ public class EnemyBase : MonoBehaviour
                 }
             }
         }
+
         else if (collision.gameObject.CompareTag("Enemy"))
         {
             EnemyBase enemy = collision.gameObject.GetComponent<EnemyBase>();
