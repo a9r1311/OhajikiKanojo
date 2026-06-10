@@ -6,6 +6,7 @@ public class ChangeGame : MonoBehaviour
     [SerializeField] TitleUIAnimation animeT;
     [SerializeField] InGameUIAnimation animeIG;
     [SerializeField] ResultUIAnimation animeR;
+    [SerializeField] GameOverUIAnimation animeGO;
     [SerializeField] CameraDirection direction;
     [SerializeField] UIChanger changeUI;
     [SerializeField] GameStop gs;
@@ -15,6 +16,7 @@ public class ChangeGame : MonoBehaviour
     public float animeTTime = 1.6f;
     public float animeIGTime = 1.0f;
     public float animeRTime = 1.2f;
+    public float animeGOTime = 1.2f;
 
     public float earlyTimer = 0.5f;
 
@@ -31,6 +33,11 @@ public class ChangeGame : MonoBehaviour
     public void GoResult()
     {
         StartCoroutine(GR());
+    }
+
+    public void GoGameOver()
+    {
+        StartCoroutine(GGo());
     }
 
     public void GoRetry()
@@ -94,6 +101,24 @@ public class ChangeGame : MonoBehaviour
         animeR.MoveResultInPosition(animeRTime);
 
         yield return new WaitForSeconds(animeRTime);
+    }
+
+    IEnumerator GGo()
+    {
+        gs.StopGame();
+
+        animeIG.MoveInGameOutPosition(animeIGTime);
+
+        yield return new WaitForSeconds(animeIGTime);
+
+        changeUI.HideAllUI();
+        animeIG.SetInGameInPosition();
+        animeGO.SetGameOverOutPosition();
+        changeUI.ActiveGameOverUI();
+        direction.GoGameOverCamera(cameraTime);
+        animeGO.MoveGameOverInPosition(animeGOTime);
+
+        yield return new WaitForSeconds(animeGOTime);
     }
 
     IEnumerator GRt()

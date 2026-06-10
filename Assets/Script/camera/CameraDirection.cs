@@ -9,6 +9,7 @@ public class CameraDirection : MonoBehaviour
     public CinemachineCamera titleCam;
     public CinemachineCamera gameCam;
     public CinemachineCamera resultCam;
+    public CinemachineCamera gameoverCam;
 
     private CinemachineBasicMultiChannelPerlin noise;
 
@@ -51,6 +52,7 @@ public class CameraDirection : MonoBehaviour
         titleCam.Priority = 10;
         gameCam.Priority = 0;
         resultCam.Priority = 0;
+        gameoverCam.Priority = 0;
     }
 
     public void GoGameCamera(float goGameTime)
@@ -60,6 +62,7 @@ public class CameraDirection : MonoBehaviour
         titleCam.Priority = 0;
         gameCam.Priority = 10;
         resultCam.Priority = 0;
+        gameoverCam.Priority = 0;
     }
 
     public void GoResultCamera(float goResultTime)
@@ -69,5 +72,16 @@ public class CameraDirection : MonoBehaviour
         titleCam.Priority = 0;
         gameCam.Priority = 0;
         resultCam.Priority = 10;
+        gameoverCam.Priority = 0;
+    }
+
+    public void GoGameOverCamera(float goGameOverTime)
+    {
+        brain.DefaultBlend.Time = goGameOverTime;
+
+        titleCam.Priority = 0;
+        gameCam.Priority = 0;
+        resultCam.Priority = 0;
+        gameoverCam.Priority= 0;
     }
 }
