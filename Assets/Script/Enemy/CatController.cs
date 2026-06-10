@@ -128,6 +128,6 @@ public class CatController : EnemyContorllerBase
         yield return new WaitForSeconds(1.0f);
 
         //‰Šú‰»
-        ResetState();
+        //ResetState();
     }
 }
