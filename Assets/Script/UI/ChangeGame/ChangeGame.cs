@@ -6,7 +6,6 @@ public class ChangeGame : MonoBehaviour
     [SerializeField] TitleUIAnimation animeT;
     [SerializeField] InGameUIAnimation animeIG;
     [SerializeField] ResultUIAnimation animeR;
-    [SerializeField] GameOverUIAnimation animeGO;
     [SerializeField] CameraDirection direction;
     [SerializeField] UIChanger changeUI;
     [SerializeField] GameStop gs;
