@@ -2378,6 +2378,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4889672832288898753, guid: 7252de1403932e0438bd865743926553, type: 3}
   m_PrefabInstance: {fileID: 973018465}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &488642790
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488642784}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.75
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.67, z: -0.46}
 --- !u!1 &495599950
 GameObject:
   m_ObjectHideFlags: 0
@@ -4996,6 +5019,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
       insertIndex: -1
       addedObject: {fileID: 488642787}
+    - targetCorrespondingSourceObject: {fileID: 5340408839247244196, guid: 7252de1403932e0438bd865743926553, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 488642790}
   m_SourcePrefab: {fileID: 100100000, guid: 7252de1403932e0438bd865743926553, type: 3}
 --- !u!1 &973018466 stripped
 GameObject:
@@ -6415,7 +6441,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 574829655951212171, guid: 44657da2c8469354588ad7eea0101402, type: 3}
       propertyPath: m_LocalScale.x
-      value: 11.52
+      value: 19.53
       objectReference: {fileID: 0}
     - target: {fileID: 574829655951212171, guid: 44657da2c8469354588ad7eea0101402, type: 3}
       propertyPath: m_LocalScale.y
@@ -6423,7 +6449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 574829655951212171, guid: 44657da2c8469354588ad7eea0101402, type: 3}
       propertyPath: m_LocalScale.z
-      value: 25.43
+      value: 37.3
       objectReference: {fileID: 0}
     - target: {fileID: 574829655951212171, guid: 44657da2c8469354588ad7eea0101402, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7756,12 +7782,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnDirector
   spawnEnemy:
-  - {fileID: 2413927969628079686, guid: 4e2de7c6205e3e34ead8b57817accd73, type: 3}
+  - {fileID: 6043406683979243284, guid: 69c5d0487335e2e408e5e50a6918d4cb, type: 3}
   target: {fileID: 488642784}
   gameStop: {fileID: 0}
   scoreDirector: {fileID: 0}
   isLongDistanceSpawn: 0
   spawnTypeCount: 1
+  canSpawn: 0
 --- !u!4 &1556474357
 Transform:
   m_ObjectHideFlags: 0
@@ -8776,6 +8803,7 @@ MonoBehaviour:
   fullText_Sixth: "\u59EB\u3092\u5B88\u308A\u306B\u884C\u304B\u306A\u304F\u3066\u306F..."
   flick: {fileID: 89319506}
   warp: {fileID: 89319500}
+  spawnDirector: {fileID: 1556474356}
   isAppearEnemyTimimig: 0
   explaind: 0
 --- !u!114 &1851967752

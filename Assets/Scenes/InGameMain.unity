@@ -7029,7 +7029,6 @@ MonoBehaviour:
   animeT: {fileID: 936246341}
   animeIG: {fileID: 1113710278}
   animeR: {fileID: 1747233493}
-  animeGO: {fileID: 0}
   direction: {fileID: 1993844053}
   changeUI: {fileID: 836601127}
   gs: {fileID: 836601128}
@@ -7740,6 +7739,37 @@ MonoBehaviour:
   title: {fileID: 892688582}
   start: {fileID: 1685663603}
   ranking: {fileID: 1292311242}
+--- !u!1 &940576443
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 940576444}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &940576444
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940576443}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.3303, y: 0.9, z: 466.9477}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &940695850
 GameObject:
   m_ObjectHideFlags: 0
@@ -12888,6 +12918,7 @@ MonoBehaviour:
   scoreDirector: {fileID: 2043960527}
   isLongDistanceSpawn: 1
   spawnTypeCount: 1
+  canSpawn: 1
 --- !u!4 &1822324202
 Transform:
   m_ObjectHideFlags: 0
@@ -15280,3 +15311,4 @@ SceneRoots:
   - {fileID: 9581509}
   - {fileID: 6967753497956353219}
   - {fileID: 7741764}
+  - {fileID: 940576444}

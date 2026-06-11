@@ -142,7 +142,7 @@ Transform:
   m_GameObject: {fileID: 6043406683979243284}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.806039, y: 0.99999976, z: -30.068748}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -168,7 +168,7 @@ MonoBehaviour:
   moveState: 0
   id: 0
   speed: 6
-  maxHp: 3
+  maxHp: 1
   power: 10
   knockBackMultiplier: 0.98
   target: {fileID: 0}
@@ -388,6 +388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b5604eddde8a4db62e0c3604a14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OhajikiFlick3D
+  gameStop: {fileID: 0}
+  isDragging: 0
   isAttacking: 0
   spawnPoint: {fileID: 0}
   arrow: {fileID: 0}
@@ -402,8 +404,10 @@ MonoBehaviour:
   cancelDistance: 0.2
   maxChargeTime: 2
   chargeMultiplier: 2
+  chargeEffectPrefab: {fileID: 0}
   modelRotationOffset: {x: -90, y: -180, z: 0}
   predictionLine: {fileID: 0}
+  resultUI: {fileID: 0}
   predictionPoints: 30
   predictionStep: 0.1
 --- !u!1001 &7220807843562873117
@@ -417,7 +421,7 @@ PrefabInstance:
     - target: {fileID: 2078123492261805348, guid: dba786f3b77d9ff48b19c17ac8e15f67, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 8a257d17ed6f150428ac49c6df5c5292, type: 2}
+      objectReference: {fileID: 2100000, guid: bff25845536803c48b9ea90f0b3fe4cb, type: 2}
     - target: {fileID: 7499163857705866509, guid: dba786f3b77d9ff48b19c17ac8e15f67, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
