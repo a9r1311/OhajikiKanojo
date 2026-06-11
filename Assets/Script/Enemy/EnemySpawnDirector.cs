@@ -24,6 +24,10 @@ public class EnemySpawnDirector : MonoBehaviour
     private float increaseSpawnTypeInterval = 5.7f;  //スポーンさせる敵の種類を増やす間隔
     private int spawnCounter = 0;  //スポーンカウンター
 
+    public bool canSpawn = true;  //スポーンするかしないか
+    private float castleWall = 460f;  //城の壁の座標
+    private bool delateLongSpawn = false;  //ロングスポーンを終わらせる
+
     void Start()
     {
         //ターゲット確認
@@ -75,6 +79,9 @@ public class EnemySpawnDirector : MonoBehaviour
 
     void Update()
     {
+        //スポーンさせない
+        if (!canSpawn) return;
+
         //ゲームストップ中はスポーンさせない
         if (gameStop == null)
         {
@@ -109,7 +116,7 @@ public class EnemySpawnDirector : MonoBehaviour
             SpawnEnemy(false);
 
             //遠距離スポーンの処理
-            if (isLongDistanceSpawn)
+            if (isLongDistanceSpawn && !delateLongSpawn)
             {
                 SpawnEnemy(true);
             }
@@ -184,6 +191,7 @@ public class EnemySpawnDirector : MonoBehaviour
         Vector3 targetPos = target.transform.position;  //ターゲットの位置
         Vector3 spawnPos = Vector3.zero;
 
+        //ロングスポーン時の湧き設定
         if (longDistance)
         {
             targetRadius = 20f;  //ターゲットを中心とした半径
@@ -191,6 +199,7 @@ public class EnemySpawnDirector : MonoBehaviour
             height = 35f;        //スポーン位置の奥行き
         }
 
+        //スポーン座標取得
         do
         {
             float x = Random.Range(targetPos.x - width / 2f, targetPos.x + width / 2f);
@@ -198,7 +207,14 @@ public class EnemySpawnDirector : MonoBehaviour
 
             spawnPos = new Vector3(x, 0.9f, z);
 
-        } while (Vector3.Distance(spawnPos, targetPos + new Vector3(0f, 0f, 2f)) < targetRadius || spawnPos.z > 460f
+            //城の壁を超えるスポーンを検出したらもうロングスポーンは湧かないように
+            if (longDistance && spawnPos.z > castleWall)
+            {
+                delateLongSpawn = true;
+                return Vector3.zero;
+            }
+
+        } while (Vector3.Distance(spawnPos, targetPos + new Vector3(0f, 0f, 2f)) < targetRadius || spawnPos.z > castleWall
                  || (id == 3 && spawnPos.z < targetPos.z));  //ターゲットから一定距離以上の位置かつ、ゴールの城より手前かつ、id3はターゲットより前方なら通す
 
         return spawnPos;
@@ -223,6 +239,7 @@ public class EnemySpawnDirector : MonoBehaviour
         currentSpawnInterval = initialSpawnInterval;
         spawnCounter = 0;
         spawnTypeCount = 1;
+        delateLongSpawn = false;
 
         //アクティブな敵をすべてオブジェクトプールに戻す
         foreach (var enemy in activeEnemies)

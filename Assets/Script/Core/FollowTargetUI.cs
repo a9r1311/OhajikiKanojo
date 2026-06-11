@@ -31,6 +31,7 @@ namespace Ohajiki.Core
 
         [SerializeField] OhajikiFlick flick;
         [SerializeField] EscortWarp warp;
+        [SerializeField] EnemySpawnDirector spawnDirector;
 
         private string currentText = "";
 
@@ -50,6 +51,7 @@ namespace Ohajiki.Core
             StartCoroutine(ShowText());
             rectTransform = GetComponent<RectTransform>();
             mainCamera = Camera.main;
+            spawnDirector.canSpawn = false;
         }
 
         void LateUpdate()
@@ -115,6 +117,8 @@ namespace Ohajiki.Core
             yield return new WaitForSeconds(3f);
 
             currentText = "";
+            //Ç±Ç±Ç©ÇÁÉXÉ|Å[ÉìÇ∑ÇÈÇÊÇ§Ç…
+            spawnDirector.canSpawn = true;
 
             for (int i = 0; i <= fullText_Third.Length; i++)
             {
