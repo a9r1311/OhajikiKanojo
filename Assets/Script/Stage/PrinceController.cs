@@ -54,7 +54,7 @@ public class PrinceController : MonoBehaviour
             hasChangedScene = true;
 
             //HP0時と同じ処理
-            resultManager.ResultView(currentHp);
+            resultManager.ResultView(currentHp, true);
             gameStop.StopGame();
             changeGame.GoResult();
         }
@@ -69,9 +69,9 @@ public class PrinceController : MonoBehaviour
         if ((currentHp -= damage) <= 0)
         {
             //リザルト表示
-            resultManager.ResultView(currentHp);
+            resultManager.ResultView(currentHp, false);
             gameStop.StopGame();  //ゲームストップ
-            changeGame.GoResult();  //リザルト移行
+            changeGame.GoGameOver();  //リザルト移行
         }
     }
 

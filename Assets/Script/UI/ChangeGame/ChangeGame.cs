@@ -113,10 +113,10 @@ public class ChangeGame : MonoBehaviour
 
         changeUI.HideAllUI();
         animeIG.SetInGameInPosition();
-        animeGO.SetGameOverOutPosition();
-        changeUI.ActiveGameOverUI();
+        animeR.SetResultOutPosition();
+        changeUI.ActiveResultUI();
         direction.GoGameOverCamera(cameraTime);
-        animeGO.MoveGameOverInPosition(animeGOTime);
+        animeR.MoveResultInPosition(animeRTime);
 
         yield return new WaitForSeconds(animeGOTime);
     }

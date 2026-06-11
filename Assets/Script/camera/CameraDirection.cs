@@ -82,6 +82,6 @@ public class CameraDirection : MonoBehaviour
         titleCam.Priority = 0;
         gameCam.Priority = 0;
         resultCam.Priority = 0;
-        gameoverCam.Priority= 0;
+        gameoverCam.Priority= 10;
     }
 }
