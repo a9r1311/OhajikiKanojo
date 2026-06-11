@@ -764,6 +764,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EscortWarp
   escortTarget: {fileID: 488642789}
   warpOffset: {x: 0, y: 0, z: -2}
+  warpEffectPrefab: {fileID: 0}
+  effectDestroyTime: 2
+  warpDelay: 0.5
   isWarped: 0
 --- !u!120 &89319501
 LineRenderer:
@@ -1327,7 +1330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &203321303
 MonoBehaviour:
   m_ObjectHideFlags: 0
