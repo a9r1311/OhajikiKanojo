@@ -17095,6 +17095,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EscortWarp
   escortTarget: {fileID: 63152343}
   warpOffset: {x: 0, y: 0, z: -2}
+  warpEffectPrefab: {fileID: 2967256781994096309, guid: 5761ffc49baf59b488f00c6b5882f9dd, type: 3}
+  effectDestroyTime: 2
+  warpDelay: 0.15
   isWarped: 0
 --- !u!1 &2061816333
 GameObject:
