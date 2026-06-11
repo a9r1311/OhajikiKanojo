@@ -7029,7 +7029,6 @@ MonoBehaviour:
   animeT: {fileID: 936246341}
   animeIG: {fileID: 1113710278}
   animeR: {fileID: 1747233493}
-  animeGO: {fileID: 0}
   direction: {fileID: 1993844053}
   changeUI: {fileID: 836601127}
   gs: {fileID: 836601128}
@@ -15014,8 +15013,20 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1294268177019904049, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2536557451405463234, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2663422409330038795, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2990934654091793094, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3014130895334015138, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
@@ -15058,8 +15069,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3791141446960422832, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3881712822126422530, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778264085921712070, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6093978561146863179, guid: 1fda491e727d94e4a867d7012ee55a00, type: 3}
