@@ -13,10 +13,10 @@ public class EnemySpawnDirector : MonoBehaviour
     private int poolCount = 4;  //とりあえずこの数ずつ用意しておく
     private List<GameObject> activeEnemies = new();  //現在アクティブな敵のリスト
 
-    private float initialSpawnInterval = 3.3f;  //スポーン間隔の初期値
+    private float initialSpawnInterval = 3.13f;  //スポーン間隔の初期値
     private float currentSpawnInterval;  //スポーン間隔
-    private float minSpawnInterval = 0.25f;  //スポーン間隔の最小値
-    private float spawnIntervalDecreaseRate = 0.05f;  //スポーン間隔の減少率
+    private float minSpawnInterval = 0.434f;  //スポーン間隔の最小値
+    private float spawnIntervalDecreaseRate = 0.048f;  //スポーン間隔の減少率
     private float spawnTimer = 0f;  //スポーンタイマー
 
     [SerializeField] private bool isLongDistanceSpawn = false;  //遠距離スポーンフラグ
