@@ -198,8 +198,8 @@ public class EnemySpawnDirector : MonoBehaviour
 
             spawnPos = new Vector3(x, 0.9f, z);
 
-        } while (Vector3.Distance(spawnPos, targetPos + new Vector3(0f, 0f, 2f)) < targetRadius
-                 || (id == 3 && spawnPos.z < targetPos.z));  //ターゲットから一定距離以上の位置かつ、id3はターゲットより前方なら通す
+        } while (Vector3.Distance(spawnPos, targetPos + new Vector3(0f, 0f, 2f)) < targetRadius || spawnPos.z > 460f
+                 || (id == 3 && spawnPos.z < targetPos.z));  //ターゲットから一定距離以上の位置かつ、ゴールの城より手前かつ、id3はターゲットより前方なら通す
 
         return spawnPos;
     }

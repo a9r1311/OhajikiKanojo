@@ -6,7 +6,6 @@ public class ChangeGame : MonoBehaviour
     [SerializeField] TitleUIAnimation animeT;
     [SerializeField] InGameUIAnimation animeIG;
     [SerializeField] ResultUIAnimation animeR;
-    [SerializeField] GameOverUIAnimation animeGO;
     [SerializeField] CameraDirection direction;
     [SerializeField] UIChanger changeUI;
     [SerializeField] GameStop gs;
@@ -113,10 +112,10 @@ public class ChangeGame : MonoBehaviour
 
         changeUI.HideAllUI();
         animeIG.SetInGameInPosition();
-        animeGO.SetGameOverOutPosition();
-        changeUI.ActiveGameOverUI();
+        animeR.SetResultOutPosition();
+        changeUI.ActiveResultUI();
         direction.GoGameOverCamera(cameraTime);
-        animeGO.MoveGameOverInPosition(animeGOTime);
+        animeR.MoveResultInPosition(animeRTime);
 
         yield return new WaitForSeconds(animeGOTime);
     }
