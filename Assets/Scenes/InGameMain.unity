@@ -10242,6 +10242,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: chargeEffectPrefab
+      value: 
+      objectReference: {fileID: 7079174645795128880, guid: 5ea089283f275fc4c91048923b957256, type: 3}
+    - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: modelRotationOffset.y
       value: 0
       objectReference: {fileID: 0}
