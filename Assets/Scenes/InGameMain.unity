@@ -2107,31 +2107,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 452
+      value: -140.8
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.4
+      value: 2.69
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 272.9
+      value: -13.12
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.89404285
+      value: 0.2657521
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.4478985
+      value: -0.0013289788
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0038618327
+      value: 0.96404034
       objectReference: {fileID: 0}
     - target: {fileID: 6162388527793528086, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0077085407
+      value: 0.0005501598
       objectReference: {fileID: 0}
     - target: {fileID: 6791371609766880671, guid: 943372e2966b32d43b4292ee1815e056, type: 3}
       propertyPath: brain
@@ -12872,7 +12872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
     Enabled: 1
-    m_Value: 100
+    m_Value: 0
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -14109,7 +14109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1875313003
 RectTransform:
   m_ObjectHideFlags: 0
