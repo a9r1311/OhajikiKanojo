@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,9 +13,21 @@ public class EscortWarp : MonoBehaviour
     private Vector3 warpOffset =
         new Vector3(0f, 0f, -2f);
 
+    [Header("ワープ前エフェクト")]
+    [SerializeField]
+    private GameObject warpEffectPrefab;
+
+    [SerializeField]
+    private float effectDestroyTime = 2f;
+
+    [Header("ワープまでの待機時間")]
+    [SerializeField]
+    private float warpDelay = 0.5f;
+
     private Rigidbody rb;
 
     public bool isWarped = false;
+    private bool isWarping = false;
 
     private void Awake()
     {
@@ -26,11 +39,37 @@ public class EscortWarp : MonoBehaviour
         if (Mouse.current == null)
             return;
 
-        if (Mouse.current.rightButton.wasPressedThisFrame)
+        if (Mouse.current.rightButton.wasPressedThisFrame &&
+            !isWarping)
         {
-            WarpToEscort();
-            isWarped = true;
+            StartCoroutine(WarpRoutine());
         }
+    }
+
+    private IEnumerator WarpRoutine()
+    {
+        isWarping = true;
+
+        // ワープ前エフェクト
+        if (warpEffectPrefab != null)
+        {
+            GameObject effect =
+                Instantiate(
+                    warpEffectPrefab,
+                    transform.position,
+                    Quaternion.identity
+                );
+
+            Destroy(effect, effectDestroyTime);
+        }
+
+        // 指定時間待つ
+        yield return new WaitForSeconds(warpDelay);
+
+        WarpToEscort();
+
+        isWarped = true;
+        isWarping = false;
     }
 
     private void WarpToEscort()
