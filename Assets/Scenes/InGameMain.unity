@@ -9049,6 +9049,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
+      propertyPath: chargeEffectPrefab
+      value: 
+      objectReference: {fileID: 7079174645795128880, guid: 5ea089283f275fc4c91048923b957256, type: 3}
+    - target: {fileID: 5629139930850201341, guid: 5f41e484e6f947e44b914f857b92fc87, type: 3}
       propertyPath: modelRotationOffset.y
       value: 0
       objectReference: {fileID: 0}
@@ -14432,6 +14436,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EscortWarp
   escortTarget: {fileID: 63152343}
   warpOffset: {x: 0, y: 0, z: -2}
+  warpEffectPrefab: {fileID: 2967256781994096309, guid: 5761ffc49baf59b488f00c6b5882f9dd, type: 3}
+  effectDestroyTime: 2
+  warpDelay: 0.15
   isWarped: 0
 --- !u!1 &2061816333
 GameObject:
